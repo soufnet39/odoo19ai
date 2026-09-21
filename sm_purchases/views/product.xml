@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vue formulaire produit héritée -->
+    <record id="sm_purchases_product_form" model="ir.ui.view">
+        <field name="name">sm.sales.product.form.inherit.purchases</field>
+        <field name="model">sm_sales.product</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_product_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Ajoute la référence fournisseur et le prix d'achat dans une nouvelle page "Achat" -->
+            <group id="sales_info" position="after">                 
+                    <group string="Achat">
+                        <field name="purchase_ok" string="Achetable"/>
+                        <field name="code_supplier" string="Réf. fournisseur"/>
+                        <field name="purchase_price" string="Prix d'achat"/>
+                    </group>
+            </group>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action du rapport -->
+    <record id="action_report_pos_receipt" model="ir.actions.report">
+        <field name="name">Reçu du point de vente</field>
+        <field name="model">sm_sales.order</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">sm_pos.report_pos_receipt</field>
+        <field name="report_file">sm_pos.report_pos_receipt</field>
+        <field name="print_report_name">'Reçu - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_sm_sales_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Modèle QWeb -->
+    <template id="report_pos_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="order">
+                <div class="page" style="max-width: 320px; margin: 0 auto; font-family: monospace;">
+                    <h3 class="text-center">Reçu</h3>
+                    <div class="text-center mb-2">
+                        <span t-field="order.name"/><br/>
+                        <span t-field="order.date"/><br/>
+                        <span t-if="order.partner_id" t-field="order.partner_id"/>
+                    </div>
+                    <hr/>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Article</th>
+                                <th class="text-end">Quantité</th>
+                                <th class="text-end">Prix</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="order.order_lines" t-as="line">
+                                <td><span t-field="line.name"/></td>
+                                <td class="text-end"><span t-field="line.qty"/></td>
+                                <td class="text-end"><span t-field="line.unit_price"/></td>
+                                <td class="text-end"><span t-field="line.price_total"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <div class="text-end">
+                        <div t-if="order.tva_enabled">
+                            <div>HT: <span t-field="order.amount_ht"/></div>
+                            <div>TVA: <span t-field="order.amount_tva"/></div>
+                        </div>
+                        <div class="fw-bold fs-5">Total: <span t-field="order.amount_ttc"/></div>
+                    </div>
+                    <hr/>
+                    <div class="text-center">
+                        <span>Merci !</span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

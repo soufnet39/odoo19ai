@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sm_pos.Numpad">
+        <div class="o_sm_pos_numpad row g-1">
+            <t t-foreach="keys" t-as="key" t-key="key">
+                <div class="col-4">
+                    <button class="btn btn-light w-100 py-2"
+                            t-on-click="() => key === 'backspace' ? props.onBackspace() : props.onInput(key)">
+                        <i t-if="key === 'backspace'" class="fa fa-delete-left"/>
+                        <t t-else="" t-esc="key"/>
+                    </button>
+                </div>
+            </t>
+            <div class="col-12 mt-1">
+                <button class="btn btn-outline-danger w-100 py-2" t-on-click="props.onClear">
+                    Clear
+                </button>
+            </div>
+        </div>
+    </t>
+
+</templates>

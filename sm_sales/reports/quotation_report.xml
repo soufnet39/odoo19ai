@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action du rapport -->
+    <record id="action_report_quotation" model="ir.actions.report">
+        <field name="name">Proforma client</field>
+        <field name="model">sm_sales.quotation</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">sm_sales.report_quotation</field>
+        <field name="report_file">sm_sales.report_quotation</field>
+        <field name="print_report_name">'Proforma - %s' % (object.name)</field>
+        <field name="binding_model_id" ref=""/>
+        <field name="binding_type">report</field>        
+    </record>
+
+    <!-- Modèle QWeb -->
+    <template id="report_quotation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="quotation">
+               <t t-call="sm_base.external_layout_sm">
+                    <t t-set="o" t-value="quotation"/>
+                    <div class="page">
+                        <!-- Informations d'en-tête -->
+                        <h2 class="text-center">Proforma</h2>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Proforma :</strong> <span t-field="quotation.name"/><br/>
+                                <strong>Date :</strong> <span t-field="quotation.date"/><br/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Client :</strong> <span t-field="quotation.partner_id"/><br/>
+                                <strong>Vendeur :</strong> <span t-field="quotation.user_id"/><br/>
+                                <strong>Mode de paiement :</strong> <span t-field="quotation.mode_paiement_id"/>
+                            </div>
+                        </div>
+
+                        <!-- Lignes de proforma -->
+                        <table class="table table-sm mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Désignation</th>
+                                    <th class="text-end">Quantité</th>
+                                    <th class="text-end">Prix unitaire</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="quotation.quotation_lines" t-as="line">
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-end"><span t-field="line.qty"/></td>
+                                    <td class="text-end"><span t-field="line.unit_price"/></td>
+                                    <td class="text-end"><span t-field="line.price_total"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Totaux -->
+                        <div class="row mt-4">
+                            <div class="col-6"/>
+                            <div class="col-6">
+                                <table class="table table-sm">
+                                    <tr t-if="quotation.remise_exist">
+                                        <td><strong>Avant remise :</strong></td>
+                                        <td class="text-end"><span t-field="quotation.amount_ht_before_remise"/></td>
+                                    </tr>
+                                    <tr t-if="quotation.remise_exist">
+                                        <td><strong>Remise :</strong></td>
+                                        <td class="text-end"><span t-field="quotation.remise_valeur"/></td>
+                                    </tr>
+                                    <tr t-if="quotation.tva_enabled">
+                                        <td><strong>Sous-total HT :</strong></td>
+                                        <td class="text-end"><span t-field="quotation.amount_ht"/></td>
+                                    </tr>
+                                    <tr t-if="quotation.tva_enabled">
+                                        <td><strong>TVA :</strong></td>
+                                        <td class="text-end"><span t-field="quotation.amount_tva"/></td>
+                                    </tr>
+                                    <tr class="fw-bold">
+                                        <td><strong>Total TTC:</strong></td>
+                                        <td class="text-end"><span t-field="quotation.amount_ttc"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Note -->
+                        <div t-if="quotation.note" class="mt-4">
+                            <strong>Notes :</strong>
+                            <div t-field="quotation.note"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

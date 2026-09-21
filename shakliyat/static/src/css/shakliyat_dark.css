@@ -1,0 +1,1201 @@
+/**
+ * Shakliyat — dark mode overrides for Odoo 19 backend.
+ *
+ * This stylesheet is loaded unconditionally into web.assets_backend,
+ * but all rules are gated behind [data-theme="dark"] on <body>.
+ *
+ * HOW IT WORKS:
+ *   - shakliyat_backend.css defines the light-mode look.
+ *   - shakliyat_dark.css overrides specific color properties for dark mode.
+ *   - The JS (dark_mode.js) adds/removes data-theme="dark" on <body>.
+ *
+ * HOW TO EXTEND:
+ *   - Find the selector you want to change in shakliyat_backend.css.
+ *   - Copy it here and change the color values.
+ *   - Use CSS variables where possible for consistency.
+ */
+
+/* ------------------------------------------------------------------ *
+ * CSS Custom Properties — Dark Mode Palette
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] {
+    /* Core backgrounds */
+    --shakliyat-dark-bg: #1a1a2e;
+    --shakliyat-dark-bg-secondary: #16213e;
+    --shakliyat-dark-bg-tertiary: #0f3460;
+    --shakliyat-dark-surface: #1f2937;
+
+    /* Text */
+    --shakliyat-dark-text: #e4e8eb;
+    --shakliyat-dark-text-muted: #9ca3af;
+    --shakliyat-dark-text-secondary: #d1d5db;
+
+    /* Borders */
+    --shakliyat-dark-border: #374151;
+    --shakliyat-dark-border-light: #4b5563;
+
+    /* Accent overrides */
+    --shakliyat-dark-accent: #7c3aed;
+    --shakliyat-dark-hover: #6d28d9;
+
+    /* Status colors */
+    --shakliyat-dark-success: #10b981;
+    --shakliyat-dark-warning: #f59e0b;
+    --shakliyat-dark-danger: #ef4444;
+    --shakliyat-dark-info: #3b82f6;
+
+    /* Navbar specific */
+    --shakliyat-dark-navbar-bg: #111827;
+    --shakliyat-dark-navbar-text: #f9fafb;
+}
+
+/* ------------------------------------------------------------------ *
+ * 1. Global / Body
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] body {
+    background-color: var(--shakliyat-dark-bg) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Navbar & App Chrome
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_main_navbar {
+    background-color: var(--shakliyat-dark-navbar-bg) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o_main_navbar a,
+[data-theme="dark"] .o_main_navbar .o_navbar-brand {
+    color: var(--shakliyat-dark-navbar-text) !important;
+}
+
+[data-theme="dark"] .o_menu_systray {
+    background-color: var(--shakliyat-dark-navbar-bg) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. App Menu (Left Rail)
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_app .o_menu_root {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+[data-theme="dark"] .o_main_navbar .o_menu_app {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+[data-theme="dark"] .o_nav_entry:hover,
+[data-theme="dark"] .o_app:hover {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. Content Area
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_content {
+    background-color: var(--shakliyat-dark-bg) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_form_view {
+    background-color: var(--shakliyat-dark-bg) !important;
+}
+
+[data-theme="dark"] .o_form_view .o_form_container {
+    background-color: var(--shakliyat-dark-bg) !important;
+}
+
+/* Form sheet (the white card around forms) */
+[data-theme="dark"] .o_form_view .o_form_sheet_bg {
+    background-color: var(--shakliyat-dark-bg) !important;
+}
+
+[data-theme="dark"] .o_form_view .o_form_sheet {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_form_view .o_form_sheet .o_group {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+/* Inner groups (form sections) */
+[data-theme="dark"] .o_form_view .o_inner_group {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+[data-theme="dark"] .o_form_view .o_inner_group.sm_group {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+/* Statusbar */
+[data-theme="dark"] .o_form_statusbar {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+/* Form sheet title */
+[data-theme="dark"] .o_form_view .oe_title {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Horizontal separators in forms */
+[data-theme="dark"] .o_horizontal_separator {
+    color: var(--shakliyat-dark-text-secondary) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 5. Groups & Cards
+ * ------------------------------------------------------------------ */
+
+/* All cells (label + input) inside form groups */
+[data-theme="dark"] .o_form_view .o_group .o_cell.o_wrap_label,
+[data-theme="dark"] .o_form_view .o_group .o_cell.o_wrap_input,
+[data-theme="dark"] .o_group .o_cell.o_wrap_label,
+[data-theme="dark"] .o_group .o_cell.o_wrap_input {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o_inner_group.oe_subtotal_footer {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+[data-theme="dark"] .o_inner_group.oe_subtotal_footer .o_cell.o_wrap_label,
+[data-theme="dark"] .o_inner_group.oe_subtotal_footer .o_cell.o_wrap_input {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .mb-0 .o_horizontal_separator {
+    border-top-color: var(--shakliyat-dark-border) !important;
+}
+
+/* Form labels (the "Client", "Date" text labels) */
+[data-theme="dark"] .o_form_view .o_form_label,
+[data-theme="dark"] .o_form_view .o_wrap_label .o_form_label,
+[data-theme="dark"] .o_form_view .o_cell.o_wrap_label {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text-secondary) !important;
+}
+
+/* Readonly label cells (slightly different bg in light mode) */
+[data-theme="dark"] .o_form_view .o_wrap_label .o_form_label_readonly {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 6. Notebooks / Tabs
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_notebook .nav-tabs {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o_notebook .nav-tabs .nav-item {
+    background-color: transparent !important;
+}
+
+[data-theme="dark"] .o_notebook .nav-tabs .nav-link {
+    color: var(--shakliyat-dark-text-muted) !important;
+    border: none !important;
+}
+
+[data-theme="dark"] .o_notebook .nav-tabs .nav-link:hover,
+[data-theme="dark"] .o_notebook .nav-tabs .nav-link.active {
+    color: var(--shakliyat-dark-text) !important;
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+[data-theme="dark"] .o_form_view .o_notebook > .tab-content {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 7. List View / Table
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_list_view,
+[data-theme="dark"] .o_field_x2many.o_field_x2many_list .o_list_view {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+/* x2many control panel (Add a line) */
+[data-theme="dark"] .o_x2m_control_panel {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+[data-theme="dark"] .o_field_x2many_list_row_add a {
+    color: var(--shakliyat-dark-accent) !important;
+}
+
+[data-theme="dark"] table.o_list_table {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Table headers (thead) */
+[data-theme="dark"] table.o_list_table > thead > tr > th,
+[data-theme="dark"] table.o_list_table thead tr th {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-bottom: 2px solid var(--shakliyat-dark-border) !important;
+}
+
+/* Table body cells — must override Bootstrap .table-striped */
+[data-theme="dark"] table.o_list_table > tbody > tr > td,
+[data-theme="dark"] table.o_list_table tbody tr td {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+/* Striped rows (Bootstrap override) */
+[data-theme="dark"] table.o_list_table > tbody > tr:nth-of-type(odd) > td,
+[data-theme="dark"] table.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] table.o_list_table > tbody > tr:nth-of-type(even) > td,
+[data-theme="dark"] table.table-striped > tbody > tr:nth-of-type(even) > * {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Row hover */
+[data-theme="dark"] table.o_list_table > tbody > tr:hover > td,
+[data-theme="dark"] table.o_list_table tbody tr:hover {
+    background-color: var(--shakliyat-dark-bg-tertiary) !important;
+}
+
+/* Selected row */
+[data-theme="dark"] table.o_list_table > tbody > tr.o_data_row.o_selected_row > td,
+[data-theme="dark"] table.o_list_table tr.o_selected_row td {
+    background-color: var(--shakliyat-dark-bg-tertiary) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Table footer (totals row) */
+[data-theme="dark"] table.o_list_table > tfoot > tr > td,
+[data-theme="dark"] table.o_list_table tfoot tr td {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-top: 2px solid var(--shakliyat-dark-border) !important;
+}
+
+/* Sortable icons in headers */
+[data-theme="dark"] table.o_list_table thead th .fa-sort {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* Field cells — make text readable */
+[data-theme="dark"] table.o_list_table .o_data_cell,
+[data-theme="dark"] table.o_list_table .o_field_cell {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Empty state */
+[data-theme="dark"] .o_list_view .o_view_nocontent {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* Optional columns dropdown */
+[data-theme="dark"] .o_list_actions_header {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 8. Buttons
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .btn-primary {
+    background-color: var(--shakliyat-dark-accent) !important;
+    border-color: var(--shakliyat-dark-accent) !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    background-color: var(--shakliyat-dark-hover) !important;
+    border-color: var(--shakliyat-dark-hover) !important;
+}
+
+[data-theme="dark"] .btn-secondary {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border-color: var(--shakliyat-dark-border-light) !important;
+}
+
+[data-theme="dark"] .btn-link {
+    color: var(--shakliyat-dark-accent) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 9. Form Fields / Inputs
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_field_widget input,
+[data-theme="dark"] .o_field_widget textarea,
+[data-theme="dark"] .o_field_widget select {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_field_widget input:focus,
+[data-theme="dark"] .o_field_widget textarea:focus,
+[data-theme="dark"] .o_field_widget select:focus {
+    border-color: var(--shakliyat-dark-accent) !important;
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+[data-theme="dark"] .o_field_widget input[readonly],
+[data-theme="dark"] .o_field_widget textarea[readonly] {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    color: var(--shakliyat-dark-text-muted) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o_field_date button {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 10. Control Panel
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_control_panel {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o_cp_action_menus {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+[data-theme="dark"] .o_searchview {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o_searchview .o_searchview_input {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_searchview .o_searchview_icon {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 11. Dropdowns / Menus
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .dropdown-menu .dropdown-item {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .dropdown-menu .dropdown-item:hover {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+[data-theme="dark"] .o-dropdown--menu {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 12. Badges / Status Indicators
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .badge {
+    background-color: var(--shakliyat-dark-bg-tertiary) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_statusbar_status {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 13. Dialogs / Modals
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .modal-content {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .modal-header {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .modal-header .modal-title {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .modal-footer {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border-top: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 14. Form Labels
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_form_view .o_group .o_wrap_label .o_form_label {
+    color: var(--shakliyat-dark-text-secondary) !important;
+}
+
+[data-theme="dark"] .oe_title .o_readonly_modifier {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 15. Readonly Fields (Shakliyat-specific)
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .sm_group .o_readonly_modifier {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 16. Landing Page (Shakliyat-specific)
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_shakliyat_landing_page {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
+}
+
+[data-theme="dark"] .o_app_card {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o_app_card:hover {
+    background-color: var(--shakliyat-dark-bg-tertiary) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .o_app_card .card-title {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_app_card .card-text {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 17. Breadcrumbs
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .breadcrumb {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+[data-theme="dark"] .breadcrumb-item a {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+[data-theme="dark"] .breadcrumb-item.active {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 18. Pagination
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .pagination .page-item .page-link {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border: 1px solid var(--shakliyat-dark-border) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .pagination .page-item.active .page-link {
+    background-color: var(--shakliyat-dark-accent) !important;
+    border-color: var(--shakliyat-dark-accent) !important;
+    color: #ffffff !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 19. Progress Bars
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .progress {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+[data-theme="dark"] .progress-bar {
+    background-color: var(--shakliyat-dark-accent) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 20. Alerts
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .alert-info {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .alert-success {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    border-color: var(--shakliyat-dark-success) !important;
+    color: var(--shakliyat-dark-success) !important;
+}
+
+[data-theme="dark"] .alert-warning {
+    background-color: rgba(245, 158, 11, 0.15) !important;
+    border-color: var(--shakliyat-dark-warning) !important;
+    color: var(--shakliyat-dark-warning) !important;
+}
+
+[data-theme="dark"] .alert-danger {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    border-color: var(--shakliyat-dark-danger) !important;
+    color: var(--shakliyat-dark-danger) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 21. WYSIWYG Editor (HTML fields)
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o-wysiwyg {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+[data-theme="dark"] .o-wysiwyg .note-editable,
+[data-theme="dark"] .odoo-editor-editable,
+[data-theme="dark"] .note-editable.odoo-editor-editable {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o-we-hint {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 22. Form view final overrides — catch-all for nested elements
+ * ------------------------------------------------------------------ */
+
+/* Tab content inside notebook */
+[data-theme="dark"] .o_form_view .tab-content,
+[data-theme="dark"] .o_form_view .tab-pane {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+/* x2many embedded form */
+[data-theme="dark"] .o_field_x2many .o_list_view {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+/* Statusbar fields */
+[data-theme="dark"] .o_statusbar_status .o_arrow_button {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o_statusbar_status .o_arrow_button.o_arrow_button_current {
+    background-color: var(--shakliyat-dark-accent) !important;
+    color: #ffffff !important;
+}
+
+/* Date picker button */
+[data-theme="dark"] .o_field_date .o_input {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* Many2one inputs */
+[data-theme="dark"] .o_field_many2one .o_input,
+[data-theme="dark"] .o_field_many2one .o-autocomplete--input {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* Readonly many2one display */
+[data-theme="dark"] .o_field_many2one > .o_many2one > span,
+[data-theme="dark"] .o_field_many2one .text-truncate {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Many2one dropdown caret button */
+[data-theme="dark"] .o_dropdown_button {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* Form view sheet padding/border cleanup for dark mode */
+[data-theme="dark"] .o_form_view .o_form_sheet {
+    border-radius: 8px !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 23. Settings page
+ * ------------------------------------------------------------------ */
+
+/* Main settings container (the big panel) */
+[data-theme="dark"] .o_base_settings_view .settings,
+[data-theme="dark"] .o_base_settings_view .o_setting_container .settings {
+    background-color: var(--shakliyat-dark-bg) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Settings tab sidebar (apps list on left) */
+[data-theme="dark"] .o_base_settings_view .settings_tab {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    --settings__tab-bg: var(--shakliyat-dark-bg-secondary);
+}
+
+/* Individual app tab links */
+[data-theme="dark"] .o_base_settings_view .settings_tab .tab {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_base_settings_view .settings_tab .tab.selected,
+[data-theme="dark"] .o_base_settings_view .settings_tab .tab:hover {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Settings sections (h2 headers, like "Users", "Languages") */
+[data-theme="dark"] .o_base_settings_view .settings h2 {
+    color: var(--shakliyat-dark-text) !important;
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* Setting boxes (individual setting rows) */
+[data-theme="dark"] .o_base_settings_view .o_setting_box {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_base_settings_view .o_setting_right_pane {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_base_settings_view .o_setting_left_pane {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+/* Setting box labels (titles like "Invite New Users") */
+[data-theme="dark"] .o_base_settings_view .o_form_label,
+[data-theme="dark"] .o_base_settings_view .o_setting_right_pane .o_form_label {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Muted text in settings descriptions */
+[data-theme="dark"] .o_base_settings_view .text-muted,
+[data-theme="dark"] .o_base_settings_view .text-muted span {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* Settings app section block (each app's settings block) */
+[data-theme="dark"] .o_base_settings_view .app_settings_block {
+    background-color: var(--shakliyat-dark-bg) !important;
+}
+
+/* Settings heading (h1 inside setting container) */
+[data-theme="dark"] .o_base_settings_view .o_setting_container h1 {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Dev tools link styling (the "Activate developer mode" links) */
+[data-theme="dark"] #developer_tool .d-block,
+[data-theme="dark"] .o_widget_res_config_dev_tool .d-block,
+[data-theme="dark"] .o_widget_res_config_dev_tool a {
+    background-color: transparent !important;
+    color: var(--shakliyat-dark-accent) !important;
+}
+
+[data-theme="dark"] .o_widget_res_config_dev_tool a:hover {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-hover) !important;
+}
+
+/* "About" section */
+[data-theme="dark"] .o_widget_res_config_edition .user-heading h3,
+[data-theme="dark"] .o_widget_res_config_edition small,
+[data-theme="dark"] .o_widget_res_config_edition a {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_widget_res_config_edition .o_setting_box {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+/* Settings search input */
+[data-theme="dark"] .o_base_settings_view .o_setting_search {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* App icon images in settings (preserve, don't override) */
+/* .o_base_settings_view .settings_tab .icon — leave background images intact */
+
+/* Sidebar border */
+[data-theme="dark"] .o_base_settings_view .settings_tab,
+[data-theme="dark"] .border-end {
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* Color picker field */
+[data-theme="dark"] .o_field_color {
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* Radio inputs in settings */
+[data-theme="dark"] .o_field_radio .form-check-label {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Checkboxes/labels in settings */
+[data-theme="dark"] .o_base_settings_view label.o_form_label {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* "Show Password" toggle, input buttons */
+[data-theme="dark"] .o_field_input_buttons button,
+[data-theme="dark"] .o_field_char .o_input,
+[data-theme="dark"] .o_field_char input {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 24. Kanban view (Apps page, etc.)
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_kanban_view,
+[data-theme="dark"] .o_kanban_renderer {
+    background-color: var(--shakliyat-dark-bg) !important;
+    --Kanban-background: var(--shakliyat-dark-bg);
+    --KanbanGroup-background: var(--shakliyat-dark-bg);
+    --KanbanColumn__highlight-background: var(--shakliyat-dark-bg-secondary);
+    --KanbanColumn__highlight-border: var(--shakliyat-dark-border);
+    --KanbanColumn__highlight-selected: var(--shakliyat-dark-bg-tertiary);
+    --KanbanColumn__highlight-selected-border: var(--shakliyat-dark-accent);
+}
+
+/* Kanban record card */
+[data-theme="dark"] .o_kanban_record {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .o_kanban_record:hover {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border-color: var(--shakliyat-dark-border-light) !important;
+}
+
+[data-theme="dark"] .o_kanban_record main,
+[data-theme="dark"] .o_kanban_record aside,
+[data-theme="dark"] .o_kanban_record footer {
+    background-color: transparent !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Kanban record title and description */
+[data-theme="dark"] .o_kanban_record .fw-bold,
+[data-theme="dark"] .o_kanban_record .fs-5 {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_kanban_record .text-muted,
+[data-theme="dark"] .o_kanban_record .text-muted span {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* Kanban group columns */
+[data-theme="dark"] .o_kanban_group {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+[data-theme="dark"] .o_kanban_group_header {
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+/* Dropdown toggle inside kanban card */
+[data-theme="dark"] .o_dropdown_kanban button {
+    background-color: transparent !important;
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+[data-theme="dark"] .o_dropdown_kanban button:hover {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 25. Search Panel (Apps sidebar, filters sidebar)
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_search_panel {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    border-right: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+/* bg-view utility (used on search panel, etc.) */
+[data-theme="dark"] .bg-view,
+[data-theme="dark"] .text-bg-view {
+    --background-color: var(--shakliyat-dark-bg-secondary);
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+/* Search panel section headers */
+[data-theme="dark"] .o_search_panel_section_header {
+    color: var(--shakliyat-dark-text-secondary) !important;
+}
+
+[data-theme="dark"] .o_search_panel_section_header .text-primary,
+[data-theme="dark"] .o_search_panel_section_icon {
+    color: var(--shakliyat-dark-accent) !important;
+}
+
+/* Search panel list items (categories) */
+[data-theme="dark"] .o_search_panel .list-group-item {
+    background-color: transparent !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: transparent !important;
+}
+
+[data-theme="dark"] .o_search_panel .list-group-item:hover {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Active/selected search panel item — override text-black */
+[data-theme="dark"] .o_search_panel .list-group-item.active,
+[data-theme="dark"] .o_search_panel .list-group-item-action.active {
+    background-color: var(--shakliyat-dark-bg-tertiary) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_search_panel .list-group-item-action.active.text-black,
+[data-theme="dark"] .o_search_panel .text-black {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Search panel counters */
+[data-theme="dark"] .o_search_panel_counter {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+[data-theme="dark"] .o_search_panel_counter.text-muted {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* Search panel toggle button (collapse/expand panel) */
+[data-theme="dark"] .o_search_panel > button.btn-light {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o_search_panel > button.btn-light:hover {
+    background-color: var(--shakliyat-dark-bg-tertiary) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 26. Generic Bootstrap overrides (catches remaining light bg cases)
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .bg-white {
+    background-color: var(--shakliyat-dark-surface) !important;
+}
+
+[data-theme="dark"] .bg-light {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+[data-theme="dark"] .text-black {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .btn-light {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .btn-light:hover {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border-light) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 27. Chatter (messages/activities sidebar on form views)
+ * ------------------------------------------------------------------ */
+
+/* Chatter container background (was #f8f9fa) */
+[data-theme="dark"] .o-mail-ChatterContainer,
+[data-theme="dark"] .o-mail-Form-chatter,
+[data-theme="dark"] .o-mail-Chatter {
+    background-color: var(--shakliyat-dark-bg) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* bg-inherit utility (chatter items inherit bg) */
+[data-theme="dark"] .bg-inherit {
+    background-color: var(--shakliyat-dark-bg) !important;
+}
+
+/* Chatter topbar (Send message / Log note / Activity buttons) */
+[data-theme="dark"] .o-mail-Chatter-top {
+    background-color: var(--shakliyat-dark-bg) !important;
+    border-bottom: 1px solid var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o-mail-Chatter-topbar {
+    background-color: var(--shakliyat-dark-bg) !important;
+}
+
+/* Chatter content area (messages list) */
+[data-theme="dark"] .o-mail-Chatter-content,
+[data-theme="dark"] .o-mail-Thread {
+    background-color: var(--shakliyat-dark-bg) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Message cards */
+[data-theme="dark"] .o-mail-Message {
+    background-color: var(--shakliyat-dark-bg) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o-mail-Message-body,
+[data-theme="dark"] .o-mail-Message-textContent,
+[data-theme="dark"] .o-mail-Message-content,
+[data-theme="dark"] .o-mail-Message-contentContainer,
+[data-theme="dark"] .o-mail-Message-header,
+[data-theme="dark"] .o-mail-Message-core,
+[data-theme="dark"] .o-mail-Message-sidebar,
+[data-theme="dark"] .o-mail-Message-avatarContainer {
+    background-color: transparent !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Message author/date/links */
+[data-theme="dark"] .o-mail-Message-author,
+[data-theme="dark"] .o-mail-Message-author strong {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o-mail-Message-date,
+[data-theme="dark"] .o-mail-Message-date.o-xsmaller {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+[data-theme="dark"] .o-mail-Message-body p,
+[data-theme="dark"] .o-mail-Message-body {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Self-authored message (current user's messages) */
+[data-theme="dark"] .o-mail-Message.o-selfAuthored {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+/* Date separators in chatter */
+[data-theme="dark"] .o-mail-DateSection {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+[data-theme="dark"] .o-discuss-separator {
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o-mail-DateSection .text-muted {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* Chatter composer (textarea for new message) */
+[data-theme="dark"] .o-mail-Composer,
+[data-theme="dark"] .o-mail-Composer-core {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o-mail-Composer textarea,
+[data-theme="dark"] .o-mail-Composer .note-editable,
+[data-theme="dark"] .o-mail-Composer .odoo-editor-editable {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Followers/Activity buttons (link buttons in topbar) */
+[data-theme="dark"] .o-mail-Followers-button,
+[data-theme="dark"] .o-mail-Chatter-attachFiles,
+[data-theme="dark"] .o-mail-Chatter .btn-link {
+    color: var(--shakliyat-dark-accent) !important;
+}
+
+[data-theme="dark"] .o-mail-Followers-button:hover,
+[data-theme="dark"] .o-mail-Chatter-attachFiles:hover {
+    color: var(--shakliyat-dark-hover) !important;
+}
+
+[data-theme="dark"] .o-mail-Followers-counter {
+    color: var(--shakliyat-dark-accent) !important;
+}
+
+/* Quick reaction / star buttons */
+[data-theme="dark"] .o-mail-ActionList-button.btn-secondary {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-text) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o-mail-ActionList-button.btn-secondary:hover {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+}
+
+/* System notification messages */
+[data-theme="dark"] .o-mail-Message[role="group"][aria-label="System notification"] {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* Activity list */
+[data-theme="dark"] .o-mail-ActivityList,
+[data-theme="dark"] .o-mail-Activity {
+    background-color: var(--shakliyat-dark-bg) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o-mail-Activity {
+    border-color: var(--shakliyat-dark-border) !important;
+}
+
+[data-theme="dark"] .o-mail-Activity-info,
+[data-theme="dark"] .o-mail-Activity-note,
+[data-theme="dark"] .o-mail-Activity-summary {
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o-mail-Activity-user,
+[data-theme="dark"] .o-mail-Activity-date {
+    color: var(--shakliyat-dark-text-muted) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 28. Navbar menu sections (Sales / Purchases / Boxes / etc.)
+ *
+ * Odoo 19 uses Bootstrap dropdown classes on these buttons, which gives
+ * them a purple primary look in light mode. In dark mode we want them
+ * to blend into the dark navbar.
+ * ------------------------------------------------------------------ */
+
+/* The navbar container holding section buttons */
+[data-theme="dark"] .o_menu_sections {
+    background-color: var(--shakliyat-dark-navbar-bg) !important;
+}
+
+/* Each section button (Sales, Purchases, Boxes, etc.) */
+[data-theme="dark"] .o_menu_sections .o-dropdown.dropdown-toggle.dropdown,
+[data-theme="dark"] .o_menu_sections button.o-dropdown,
+[data-theme="dark"] .o_main_navbar .o_menu_sections button {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: var(--shakliyat-dark-navbar-text) !important;
+    border-color: transparent !important;
+}
+
+[data-theme="dark"] .o_menu_sections .o-dropdown.dropdown-toggle.dropdown:hover,
+[data-theme="dark"] .o_menu_sections button.o-dropdown:hover,
+[data-theme="dark"] .o_main_navbar .o_menu_sections button:hover {
+    background-color: var(--shakliyat-dark-surface) !important;
+    color: var(--shakliyat-dark-navbar-text) !important;
+}
+
+[data-theme="dark"] .o_menu_sections .o-dropdown.dropdown-toggle.dropdown:focus,
+[data-theme="dark"] .o_menu_sections button.o-dropdown:focus,
+[data-theme="dark"] .o_menu_sections .dropdown-toggle.show {
+    background-color: var(--shakliyat-dark-bg-tertiary) !important;
+    color: var(--shakliyat-dark-navbar-text) !important;
+}
+
+/* Section text inside the button */
+[data-theme="dark"] .o_menu_sections button span[data-section],
+[data-theme="dark"] .o_menu_sections button span {
+    color: var(--shakliyat-dark-navbar-text) !important;
+}
+
+/* Active section (the one currently open) */
+[data-theme="dark"] .o_menu_sections .dropdown-toggle.active,
+[data-theme="dark"] .o_menu_sections button.active {
+    background-color: var(--shakliyat-dark-bg-tertiary) !important;
+    color: var(--shakliyat-dark-navbar-text) !important;
+}
+
+/* Open dropdown menu panels below the navbar */
+[data-theme="dark"] .o_menu_sections .dropdown-menu,
+[data-theme="dark"] .o_main_navbar .o-dropdown--menu {
+    background-color: var(--shakliyat-dark-surface) !important;
+    border-color: var(--shakliyat-dark-border) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_menu_sections .dropdown-menu .dropdown-item,
+[data-theme="dark"] .o_main_navbar .o-dropdown--menu .o-dropdown--menu-item {
+    background-color: transparent !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+[data-theme="dark"] .o_menu_sections .dropdown-menu .dropdown-item:hover,
+[data-theme="dark"] .o_main_navbar .o-dropdown--menu .o-dropdown--menu-item:hover {
+    background-color: var(--shakliyat-dark-bg-secondary) !important;
+    color: var(--shakliyat-dark-text) !important;
+}
+
+/* Navbar app switcher (Home icon) */
+[data-theme="dark"] .o_main_navbar .o_menu_brand,
+[data-theme="dark"] .o_main_navbar .o_menu_toggle,
+[data-theme="dark"] .o_main_navbar .o_navbar_apps_menu {
+    background-color: transparent !important;
+    color: var(--shakliyat-dark-navbar-text) !important;
+}
+
+[data-theme="dark"] .o_main_navbar .o_menu_brand:hover,
+[data-theme="dark"] .o_main_navbar .o_menu_toggle:hover {
+    background-color: var(--shakliyat-dark-surface) !important;
+}

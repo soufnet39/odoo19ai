@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_res_config_settings_shakliyat_form" model="ir.ui.view">
+        <field name="name">res.config.settings.shakliyat.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Shakliyat" string="Shakliyat" name="shakliyat" >
+
+                    <div id="shakliyat_settings">
+                        <block title="Shakliyat" name="shakliyat_setting_container">
+                            <setting id="hide_discuss_setting"
+                                    string="Masquer Discussions"
+                                    help="Masquer l'application Discussions et tous ses menus dans l'interface.">
+                                <field name="hide_discuss"/>
+                            </setting>
+                            <setting id="dark_mode_setting"
+                                    string="Mode Sombre"
+                                    help="Activer le mode sombre pour l'interface d'administration.">
+                                <field name="dark_mode"/>
+                            </setting>
+                        </block>
+                    </div>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

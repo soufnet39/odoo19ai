@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Hérite du formulaire standard des paramètres Odoo -->
+    <record id="res_config_settings_view_form_sm_purchases" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.sm_purchases</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Ajoute un nouvel onglet Achats SM dans le formulaire -->
+            <xpath expr="//form" position="inside">
+
+                <app data-string="Achats SM" string="Achats SM" name="sm_purchases" groups="sm_purchases.sm_purchases_manager">
+
+                    <!-- ======================== -->
+                    <!-- Paramètres généraux -->
+                    <!-- ======================== -->
+                    <block title="Paramètres généraux" name="sm_purchases_general">
+                        <setting id="sm_purchases_confirm_purchases" string="Confirmer les achats par défaut"
+                                 help="Confirmer automatiquement les achats lors de leur création.">
+                            <field name="confirm_purchase_by_default"/>
+                        </setting>
+                         <setting id="id_can_change_product_designation_on_purchases" 
+                                 string="Peut modifier la désignation du produit lors des achats"
+                                 help="Cette option s'applique par défaut. Vous pouvez la modifier à tout moment lors des achats.">
+                            <field name="can_change_product_designation_on_purchases"/>
+                        </setting>
+                    </block>
+
+                    <!-- ======================== -->
+                    <!-- Paramètres d'affichage -->
+                    <!-- ======================== -->
+                    <!-- <block title="Paramètres d'affichage" name="sm_purchases_display">
+                        <setting id="sm_purchases_show_line_numbers" string="Afficher les numéros de ligne"
+                                 help="Afficher les numéros de ligne sur les lignes de commande d'achat.">
+                            <field name="show_line_numbers"/>
+                        </setting>
+                        <setting id="sm_purchases_show_product_code" string="Afficher le code produit fournisseur"
+                                 help="Afficher le code produit fournisseur à côté du nom du produit.">
+                            <field name="show_product_code"/>
+                        </setting>
+                        <setting id="sm_purchases_editable_product_name" string="Nom du produit modifiable"
+                                 help="Permettre de modifier directement le nom du produit sur les lignes de commande d'achat.">
+                            <field name="editable_product_name"/>
+                        </setting>
+                    </block> -->
+
+                   
+
+                </app>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

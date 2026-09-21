@@ -1,0 +1,44 @@
+/**
+ * Shakliyat — frontend style overrides (Odoo 19)
+ * Loaded into `web.assets_frontend`, so this applies to:
+ *   - the website (if installed), and
+ *   - the /web/login page.
+ *
+ * After editing, hard-reload the browser or upgrade the module to rebuild
+ * the asset bundle.
+ */
+
+/* ------------------------------------------------------------------ *
+ * 1. Login page
+ * ------------------------------------------------------------------ */
+
+/* Login card background */
+/*
+.o_login_container .o_login_form {
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+*/
+
+/* Brand block on the login page (logo area) */
+/*
+.o_login_logo img {
+    max-height: 64px;
+}
+*/
+
+/* ------------------------------------------------------------------ *
+ * 2. Website header / footer (only if `website` module is installed)
+ * ------------------------------------------------------------------ */
+
+/*
+.o_website_header .container-fluid {
+    background: #1f2937;
+}
+*/
+
+/*
+.o_website_footer {
+    font-size: 0.85rem;
+}
+*/

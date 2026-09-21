@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sm_pos.ProductCard">
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card o_sm_pos_product_card shadow-sm" t-on-click="props.onClick"
+                 role="button">
+                <div class="card-body text-center p-2">
+                    <div class="o_sm_pos_product_img mb-1">
+                        <img t-if="props.product.image_128"
+                             t-att-src="'data:image/png;base64,' + props.product.image_128"
+                             class="img-fluid" style="max-height: 60px;"/>
+                        <i t-else="" class="fa fa-cube fa-2x text-muted"/>
+                    </div>
+                    <div class="fw-bold small" t-esc="props.product.name"/>
+                    <div class="text-muted small" t-esc="props.product.code"/>
+                    <div class="text-primary fw-bold" t-esc="props.product.price.toFixed(2)"/>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

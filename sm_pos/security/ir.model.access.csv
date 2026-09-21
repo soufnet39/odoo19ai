@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sm_pos_config_user,sm_pos.config.user,model_sm_pos_config,sm_pos_user,1,0,0,0
+access_sm_pos_config_manager,sm_pos.config.manager,model_sm_pos_config,sm_pos_manager,1,1,1,0
+access_sm_pos_config_admin,sm_pos.config.admin,model_sm_pos_config,sm_pos_admin,1,1,1,1
+
+access_sm_pos_session_user,sm_pos.session.user,model_sm_pos_session,sm_pos_user,1,0,0,0
+access_sm_pos_session_manager,sm_pos.session.manager,model_sm_pos_session,sm_pos_manager,1,1,1,0
+access_sm_pos_session_admin,sm_pos.session.admin,model_sm_pos_session,sm_pos_admin,1,1,1,1

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ======================== -->
+    <!-- MENU PRINCIPAL DES ACHATS -->
+    <!-- ======================== -->
+    <menuitem
+        id="menu_sm_purchases_root"
+        name="Achats"
+        parent="shakliyat.menu_landing_page"
+        sequence="20" />
+
+    <!-- =============================== -->
+    <!-- SOUS-MENUS DES ACHATS -->
+    <!-- =============================== -->
+    <menuitem
+        id="menu_sm_purchases_purchase"
+        name="Commandes d'achat"
+        parent="menu_sm_purchases_root"
+        action="action_sm_purchases_purchase"
+        sequence="10" />
+
+    <menuitem
+        id="menu_sm_purchases_supplier"
+        name="Fournisseurs"
+        parent="menu_sm_purchases_root"
+        action="action_sm_purchases_supplier"
+        sequence="20" />
+
+</odoo>

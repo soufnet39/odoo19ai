@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== -->
+    <!-- VUES DES VENTES CLIENTS -->
+    <!-- ==================== -->
+
+    <!-- Vue liste -->
+    <record id="sm_reports_customer_sales_view_list" model="ir.ui.view">
+        <field name="name">sm_reports.customer.sales.list</field>
+        <field name="model">sm_reports.customer.sales</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" decoration-bf="1">
+                <field name="name" string="Client"/>
+                <field name="order_count"/>
+                <field name="total_sales" sum="Total"/>
+                <field name="total_payment" sum="Total"/>
+                <field name="balance" sum="Total" />
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue formulaire -->
+    <record id="sm_reports_customer_sales_view_form" model="ir.ui.view">
+        <field name="name">sm_reports.customer.sales.form</field>
+        <field name="model">sm_reports.customer.sales</field>
+        <field name="arch" type="xml">
+            <form delete='0' create='0'>
+                <sheet class="mw-100">
+                  <group col="12">                     
+                    <group colspan="9">
+                         <div class="d-flex">
+                            <h1 class="mb-0 me-2 text-muted">Client:</h1>
+                            <h1><field name="name" /></h1>
+                        </div>
+                    </group>                    
+                    <group colspan="3" string="Filtre par dates" class='nahitop text-danger'>
+                      <group>
+                            <field name="date_from"  />
+                            <field name="date_to"  />
+                      </group>
+                      <group>
+                            <button name="reset_dates" type="object" string="Réinitialiser les dates" class="btn text-muted btn-outline-secondary w-100"/>
+                      </group>
+                    </group>
+                  </group>
+                  <hr/>
+                    <div class="sm_report_panels">
+                        <div class="sm_report_panel">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h3 class='text-danger mb-0'>Commandes</h3>
+                                <button name="action_print_orders" type="object" string="Imprimer les commandes" class="btn btn-secondary btn-sm"/>
+                            </div>
+                            <field name="order_ids" readonly="1" nolabel="1">
+                                <list decoration-bf="1">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="amount_ttc" sum="total"/>
+                                    <!-- <field name="state"/> -->
+                                </list>
+                            </field>
+                        </div>
+                        <div class="sm_report_panel">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h3 class='text-danger mb-0'>Paiements</h3>
+                                <button name="action_print_payments" type="object" string="Imprimer les paiements" class="btn btn-secondary btn-sm"/>
+                            </div>
+                            <field name="payment_ids" readonly="1" nolabel="1">
+                                <list decoration-bf="1">
+                                    <field name="name"/>
+                                    <field name="date" string="Date"/>
+                                    <field name="mode"/>
+                                    <field name="amount" sum="total" />
+                                </list>
+                            </field>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche -->
+    <record id="sm_reports_customer_sales_view_search" model="ir.ui.view">
+        <field name="name">sm_reports.customer.sales.search</field>
+        <field name="model">sm_reports.customer.sales</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <filter string="Réglés" name="settled" domain="[('balance', '=', 0)]"/>
+                <filter string="Non Réglés" name="unsettled" domain="[('balance', '!=', 0)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="sm_reports_customer_sales_action" model="ir.actions.act_window">
+        <field name="name">Récap Clients</field>
+        <field name="res_model">sm_reports.customer.sales</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="sm_reports_customer_sales_view_search"/>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_id': ref('sm_reports_customer_sales_view_list'), 'view_mode': 'list'}), (0, 0, {'view_id': ref('sm_reports_customer_sales_view_form'), 'view_mode': 'form'})]"/>
+    </record>
+
+</odoo>

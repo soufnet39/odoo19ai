@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="decimal_quantity" model="decimal.precision">
+        <field name="name">Quantité</field>
+        <field name="digits">0</field>
+    </record>
+    <!-- decimal_product_price existe déjà dans le module de base -->
+    <record id="decimal_discount_rate" model="decimal.precision">
+        <field name="name">Taux de remise</field>
+        <field name="digits">2</field>
+    </record>
+    <record id="decimal_discount_amount" model="decimal.precision">
+        <field name="name">Montant de la remise</field>
+        <field name="digits">2</field>
+    </record>
+    <record id="decimal_vat_rate" model="decimal.precision">
+        <field name="name">Taux de TVA</field>
+        <field name="digits">2</field>
+    </record>
+</odoo>

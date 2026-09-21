@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sm_pos.PosApp">
+        <div class="o_sm_pos_app h-100 d-flex flex-column">
+            <SessionScreen t-if="currentScreen === 'session'" onSessionOpened.bind="onSessionOpened"/>
+            <ProductScreen t-elif="currentScreen === 'product'" onPay.bind="onPay"
+                           onReadyToClose.bind="onReadyToClose"/>
+            <PaymentScreen t-elif="currentScreen === 'payment'"
+                           onPaymentDone.bind="onPaymentDone"
+                           onBack.bind="onBackToProduct"/>
+            <ClosingScreen t-elif="currentScreen === 'closing'"
+                           onClosingDone.bind="onClosingDone"
+                           onClosingBack.bind="onClosingBack"/>
+        </div>
+    </t>
+
+</templates>

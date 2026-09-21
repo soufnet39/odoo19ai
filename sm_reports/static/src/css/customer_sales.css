@@ -1,0 +1,28 @@
+/* Customer Sales report form: two side-by-side panels, each list takes 100% width */
+.sm_report_panels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.sm_report_panels .sm_report_panel {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.sm_report_panels .sm_report_panel h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #212529;
+}
+
+.sm_report_panels .sm_report_panel .o_field_widget.o_field_one2many,
+.sm_report_panels .sm_report_panel .o_list_view {
+    width: 100% !important;
+}
+.nahitop .o_horizontal_separator{
+   margin-top: 0!important;
+}
+

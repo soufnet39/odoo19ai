@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== -->
+    <!-- VUES DES DURÉES DE VALIDITÉ -->
+    <!-- ==================== -->
+
+    <!-- Vue liste -->
+    <record id="me_sales_offer_validity_list" model="ir.ui.view">
+        <field name="name">me_sales.offer.validity.list</field>
+        <field name="model">me_sales.offer.validity</field>
+        <field name="arch" type="xml">
+            <list decoration-bf="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="days"/>
+                <field name="is_default"/>
+                <field name="active" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue formulaire -->
+    <record id="me_sales_offer_validity_form" model="ir.ui.view">
+        <field name="name">me_sales.offer.validity.form</field>
+        <field name="model">me_sales.offer.validity</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom de la durée de validité"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="days"/>
+                        </group>
+                        <group>
+                            <field name="is_default"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche -->
+    <record id="me_sales_offer_validity_search" model="ir.ui.view">
+        <field name="name">me_sales.offer.validity.search</field>
+        <field name="model">me_sales.offer.validity</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="filter_active" string="Actif" domain="[('active','=',True)]"/>
+                <filter name="filter_inactive" string="Inactif" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_me_sales_offer_validity" model="ir.actions.act_window">
+        <field name="name">Durées de validité des offres</field>
+        <field name="res_model">me_sales.offer.validity</field>
+        <field name="view_mode">list,form</field>
+        <field name="path">offer_validities</field>
+        <field name="search_view_id" ref="me_sales_offer_validity_search"/>
+        <field name="context">{'search_default_filter_active': 1}</field>
+    </record>
+
+</odoo>

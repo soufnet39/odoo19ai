@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!--
+        Shakliyat — replace the gear icon button in the CogMenu / context menu
+        with a solid silver "Actions" button.
+
+        Unlike t-inherit-mode="extension" (which only patches the base template
+        and is invisible to templates that inherit from it in Odoo 19's asset
+        loader), these are t-inherit-mode="primary" templates: each one is a
+        standalone new template that inherits from web.CogMenu (or from the
+        shakliyat variant) and applies xpath patches on top. The corresponding
+        JS (cog_menu.js) then points every CogMenu component at the shakliyat
+        variant, so the change appears in forms, lists, kanbans, graphs and pivots.
+    -->
+
+    <!-- shakliyat.CogMenu: base override of web.CogMenu -->
+    <t t-inherit="web.CogMenu" t-name="shakliyat.CogMenu">
+        <!-- Replace the <i class="fa fa-fw fa-cog"/> icon with a text label. -->
+        <xpath expr="//button[hasclass('d-print-none')]/i[hasclass('fa-cog')]" position="replace">
+            <span>Actions</span>
+        </xpath>
+
+        <!-- The original button switches between a borderless desktop variant
+             and btn-secondary on mobile. We always want a solid silver button,
+             so we set a fixed class and remove the dynamic t-att-class. -->
+        <xpath expr="//button[hasclass('d-print-none')]" position="attributes">
+            <attribute name="class">d-print-none btn btn-secondary o_shakliyat_action_button</attribute>
+            <attribute name="t-att-class"></attribute>
+        </xpath>
+    </t>
+
+    <!--
+        shakliyat.FormCogMenu: inherits from shakliyat.CogMenu (NOT web.CogMenu)
+        so our icon replacement is preserved, then re-applies the FormCogMenu-
+        specific patches that Odoo's web.FormCogMenu normally adds.
+    -->
+    <t t-inherit="shakliyat.CogMenu" t-name="shakliyat.FormCogMenu">
+        <!-- On desktop, only show the cog menu when there are items (or on
+             small screens). The base template uses t-if="hasItems" only. -->
+        <xpath expr="//div[hasclass('o_cp_action_menus')]" position="attributes">
+            <attribute name="t-if">env.isSmall or hasItems</attribute>
+        </xpath>
+
+        <!-- Separator before the Print dropdown (matches web.FormCogMenu). -->
+        <xpath expr="//t[@t-if='state.printItems.length']/Dropdown" position="before">
+            <div role="separator" class="dropdown-divider"/>
+        </xpath>
+    </t>
+
+    <!-- shakliyat.ListCogMenu: same patches as web.ListCogMenu -->
+    <t t-inherit="shakliyat.CogMenu" t-name="shakliyat.ListCogMenu">
+        <xpath expr="//t[@t-if='state.printItems.length']/Dropdown" position="before">
+            <div role="separator" class="dropdown-divider"/>
+        </xpath>
+    </t>
+
+    <!-- shakliyat.KanbanCogMenu: same patches as web.KanbanCogMenu -->
+    <t t-inherit="shakliyat.CogMenu" t-name="shakliyat.KanbanCogMenu">
+        <xpath expr="//t[@t-if='state.printItems.length']/Dropdown" position="before">
+            <div role="separator" class="dropdown-divider"/>
+        </xpath>
+    </t>
+
+    <!--
+        shakliyat.FormView: moves the <CogMenu> (silver "Actions" button) from
+        the control-panel-additional-actions slot to the control-panel-
+        status-indicator slot, so it renders as a sibling of the Save / Cancel
+        buttons inside the breadcrumbs status indicator area.
+    -->
+    <t t-inherit="web.FormView" t-name="shakliyat.FormView">
+        <!-- Remove CogMenu from the additional-actions slot (keep only the
+             button box template for small screens). -->
+        <xpath expr="//t[@t-set-slot='control-panel-additional-actions']/CogMenu" position="replace">
+        </xpath>
+
+        <!-- Insert CogMenu into the status-indicator slot, before the
+             FormStatusIndicator (Save / Cancel buttons). -->
+        <xpath expr="//t[@t-set-slot='control-panel-status-indicator']" position="inside">
+            <CogMenu t-props="this.cogMenuProps" />
+        </xpath>
+    </t>
+
+</templates>

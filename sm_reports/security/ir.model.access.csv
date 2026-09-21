@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sm_reports_customer_sales_user,sm.reports.customer.sales.user,model_sm_reports_customer_sales,sm_sales.sm_sales_user,1,0,0,0
+access_sm_reports_customer_sales_manager,sm.reports.customer.sales.manager,model_sm_reports_customer_sales,sm_sales.sm_sales_manager,1,1,1,0
+access_sm_reports_customer_sales_admin,sm.reports.customer.sales.admin,model_sm_reports_customer_sales,sm_sales.sm_sales_admin,1,1,1,1
+access_sm_reports_supplier_purchase_user,sm.reports.supplier.purchase.user,model_sm_reports_supplier_purchase,sm_purchases.sm_purchases_user,1,0,0,0
+access_sm_reports_supplier_purchase_manager,sm.reports.supplier.purchase.manager,model_sm_reports_supplier_purchase,sm_purchases.sm_purchases_manager,1,1,1,0
+access_sm_reports_supplier_purchase_admin,sm.reports.supplier.purchase.admin,model_sm_reports_supplier_purchase,sm_purchases.sm_purchases_admin,1,1,1,1

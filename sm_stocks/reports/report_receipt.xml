@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Report Action -->
+    <record id="action_report_receipt" model="ir.actions.report">
+        <field name="name">Bon de Réception</field>
+        <field name="model">sm_sales.order</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">sm_stocks.report_receipt</field>
+        <field name="report_file">sm_stocks.report_receipt</field>
+        <field name="print_report_name">'Bon de Réception - %s' % (object.name)</field>
+        <field name="binding_model_id" ref=""/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_us"/>
+    </record>
+
+    <!-- QWeb Template -->
+    <template id="report_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="order">
+                <t t-call="sm_base.external_layout_sm">
+                    <t t-set="o" t-value="order"/>
+                    <div class="page">
+                        <!-- Header -->
+                        <h2 class="text-center">Bon de Réception</h2>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Commande:</strong> <span t-field="order.name"/><br/>
+                                <strong>Date:</strong> <span t-field="order.date"/><br/>
+                                <strong>État:</strong> <span t-field="order.stock_state"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Fournisseur:</strong> <span t-field="order.partner_id"/><br/>
+                                <strong>Acheteur:</strong> <span t-field="order.user_id"/><br/>
+                                <strong>Stock:</strong> <span t-field="order.stock_id"/>
+                            </div>
+                        </div>
+
+                        <!-- Lines Table -->
+                        <table class="table table-sm mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Désignation</th>
+                                    <th class="text-end">Qte.</th>                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="order.order_lines" t-as="line">
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-end"><span t-field="line.qty"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                       
+
+                        <!-- Notes -->
+                        <div t-if="order.note_stock" class="mt-4">
+                            <strong>Notes:</strong>
+                            <div t-field="order.note_stock"/>
+                        </div>
+
+                        <!-- Signature -->
+                        <div class="row mt-5">
+                            <div class="col-6 text-center">
+                                <strong>Signature du magasinier</strong>
+                                <div class="mt-4 border-top pt-2" style="height: 60px;"/>
+                            </div>
+                            <div class="col-6 text-center">
+                                <strong>Signature du fournisseur</strong>
+                                <div class="mt-4 border-top pt-2" style="height: 60px;"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

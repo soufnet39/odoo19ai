@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Règles d'accès : accès multi-sociétés pour les caisses -->
+        <record id="sm_boxes_boxes_rule_company" model="ir.rule">
+            <field name="name">Caisses SM : multi-sociétés</field>
+            <field name="model_id" ref="model_sm_boxes_boxes"/>
+            <field name="domain_force">['|', ('company_id','=',False),('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('sm_boxes_user'))]"/>
+        </record>      
+</odoo>

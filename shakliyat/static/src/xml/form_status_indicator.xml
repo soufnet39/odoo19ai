@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!--
+        Shakliyat override of web.FormStatusIndicator.
+
+        Same structure and behavior as the core template (the component's JS
+        relies on t-ref="save" and on the indicatorMode/displayButtons getters),
+        but with normal, translatable text buttons instead of bare icons:
+        "Save" and "Cancel".
+
+        Static strings in Owl templates are passed through Odoo's translation
+        function at render time, so these labels follow the user's language.
+    -->
+    <t t-name="shakliyat.FormStatusIndicator">
+        <div class="o_form_status_indicator d-md-flex align-items-center align-self-md-end me-auto" t-att-class="{ o_form_status_indicator_new_record: props.model.root.isNew }">
+            <div class="o_form_status_indicator_buttons d-flex gap-2" t-att-class="{ invisible: !(props.model.root.isNew or displayButtons) }">
+                <button
+                    type="button"
+                    class="btn btn-primary o_form_button_save"
+                    data-hotkey="s"
+                    t-on-click.stop="save"
+                    t-ref="save">
+                    Save
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary o_form_button_cancel"
+                    data-hotkey="j"
+                    t-on-click.stop="discard">
+                    Cancel
+                </button>
+            </div>
+            <span
+                t-if="!props.model.root.isNew and indicatorMode === 'invalid'"
+                class="text-danger small ms-2"
+                data-tooltip="Unable to save. Correct the issue or discard all changes">
+                <i class="fa fa-warning" />
+            </span>
+        </div>
+    </t>
+
+</templates>

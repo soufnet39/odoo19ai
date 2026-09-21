@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action du rapport -->
+    <record id="action_report_purchase" model="ir.actions.report">
+        <field name="name">Commande d'achat</field>
+        <field name="model">sm_sales.order</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">sm_purchases.report_purchase</field>
+        <field name="report_file">sm_purchases.report_purchase</field>
+        <field name="print_report_name">'Achat - %s' % (object.name)</field>
+        <field name="binding_model_id" ref=""/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Modèle QWeb -->
+    <template id="report_purchase">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="purchase">
+                <t t-call="sm_base.external_layout_sm">
+                    <t t-set="o" t-value="purchase"/>
+                    <div class="page">
+                        <!-- Informations d'en-tête -->
+                        <h2 class="text-center">Commande d'achat</h2>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Commande :</strong> <span t-field="purchase.name"/><br/>
+                                <strong>Date :</strong> <span t-field="purchase.date"/><br/>
+                                <strong>État :</strong> <span t-field="purchase.state"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Fournisseur :</strong> <span t-field="purchase.partner_id"/><br/>
+                                <strong>Acheteur :</strong> <span t-field="purchase.user_id"/><br/>
+                                <strong>Mode de paiement :</strong> <span t-field="purchase.mode_paiement_id"/>
+                            </div>
+                        </div>
+
+                        <!-- Lignes d'achat -->
+                        <table class="table table-sm mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Désignation</th>
+                                    <th class="text-end">Quantité</th>
+                                    <th class="text-end">Prix unitaire</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="purchase.order_lines" t-as="line">
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-end"><span t-field="line.qty"/></td>
+                                    <td class="text-end"><span t-field="line.unit_price"/></td>
+                                    <td class="text-end"><span t-field="line.price_total"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Totaux -->
+                        <div class="row mt-4">
+                            <div class="col-6"/>
+                            <div class="col-6">
+                                <table class="table table-sm">
+                                    <tr t-if="purchase.remise_exist">
+                                        <td><strong>Avant remise :</strong></td>
+                                        <td class="text-end"><span t-field="purchase.amount_ht_before_remise"/></td>
+                                    </tr>
+                                    <tr t-if="purchase.remise_exist">
+                                        <td><strong>Remise :</strong></td>
+                                        <td class="text-end"><span t-field="purchase.remise_valeur"/></td>
+                                    </tr>
+                                    <tr t-if="purchase.tva_enabled">
+                                        <td><strong>Sous-total HT :</strong></td>
+                                        <td class="text-end"><span t-field="purchase.amount_ht"/></td>
+                                    </tr>
+                                    <tr t-if="purchase.tva_enabled">
+                                        <td><strong>TVA :</strong></td>
+                                        <td class="text-end"><span t-field="purchase.amount_tva"/></td>
+                                    </tr>
+                                    <tr class="fw-bold">
+                                        <td><strong>Total TTC:</strong></td>
+                                        <td class="text-end"><span t-field="purchase.amount_ttc"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Note -->
+                        <div t-if="purchase.note" class="mt-4">
+                            <strong>Notes :</strong>
+                            <div t-field="purchase.note"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

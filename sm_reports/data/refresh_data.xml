@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Auto-populate the customer sales recap on module install -->
+    <function model="sm_reports.customer.sales" name="action_refresh" eval="[[]]"/>
+
+    <!-- Auto-populate the supplier purchase recap on module install -->
+    <function model="sm_reports.supplier.purchase" name="action_refresh" eval="[[]]"/>
+
+</odoo>

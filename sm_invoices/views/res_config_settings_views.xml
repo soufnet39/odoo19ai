@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Hérite du formulaire standard des paramètres Odoo -->
+    <record id="res_config_settings_view_form_sm_invoices" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.sm_invoices</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Ajoute un nouvel onglet Factures dans le formulaire des paramètres -->
+            <xpath expr="//form" position="inside">
+
+                <app data-string="Factures" string="Factures" name="sm_invoices" groups="sm_invoices.sm_invoices_manager">
+
+                    <!-- ======================== -->
+                    <!-- Paramètres des produits -->
+                    <!-- ======================== -->
+                    <block title="Paramètres des produits" name="sm_invoices_products">
+                        <setting id="sm_invoices_can_change_product_designation"
+                                 string="Peut modifier la désignation du produit lors des factures"
+                                 help="Permet de modifier la désignation du produit sur les lignes de facture.">
+                            <field name="can_change_product_designation_on_invoices"/>
+                        </setting>
+                    </block>
+
+                    <!-- ======================== -->
+                    <!-- Paramètres de TVA -->
+                    <!-- ======================== -->
+                    <block title="Paramètres de TVA pour les factures" name="sm_invoices_vat">
+                        <setting id="sm_invoices_tva_enabled" string="Activer la TVA"
+                                 help="Activer le calcul de la TVA sur les factures clients.">
+                            <field name="tva_enabled"/>
+                        </setting>
+                        <setting id="sm_invoices_tva_taux" string="Taux de TVA par défaut"
+                                 help="Taux de TVA par défaut appliqué aux nouvelles factures."
+                                 invisible="not tva_enabled">
+                            <div class="row mt8">
+                                <field name="tva_taux" class="oe_inline"/>
+                                <span class="ml8">%</span>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <!-- ======================== -->
+                    <!-- Paramètres de remise -->
+                    <!-- ======================== -->
+                    <block title="Paramètres de remise pour les factures" name="sm_invoices_discount">
+                        <setting id="sm_invoices_discount_enabled" string="Activer les remises"
+                                 help="Activer les champs de remise sur les factures clients.">
+                            <field name="remise_exist"/>
+                        </setting>
+                        <setting id="sm_invoices_discount_method" string="Méthode de remise par défaut"
+                                 help="Choisir la méthode de remise par défaut pour les nouvelles factures."
+                                 invisible="not remise_exist">
+                            <field name="remise_methode"/>
+                        </setting>
+                        <setting id="sm_invoices_discount_taux" string="Taux de remise par défaut"
+                                 help="Taux de remise par défaut appliqué aux nouvelles factures."
+                                 invisible="not remise_exist or remise_methode != 'taux'">
+                            <div class="row mt8">
+                                <field name="remise_default_taux" class="oe_inline"/>
+                                <span class="ml8">%</span>
+                            </div>
+                        </setting>
+                        <setting id="sm_invoices_discount_amount" string="Montant de remise par défaut"
+                                 help="Montant fixe de remise par défaut."
+                                 invisible="not remise_exist or remise_methode != 'mta'">
+                            <field name="remise_default_mta" class="oe_inline"/>
+                        </setting>
+                    </block>
+
+                </app>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

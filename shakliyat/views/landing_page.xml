@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action client qui ouvre la page d'accueil -->
+    <record id="action_landing_page" model="ir.actions.client">
+        <field name="name">Tableau de bord</field>
+        <field name="tag">shakliyat.landing_page</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Bienvenue ! Votre tableau de bord est en cours de configuration.
+            </p>
+        </field>
+    </record>
+
+    <!-- Élément de menu racine de la page d'accueil -->
+    <menuitem id="menu_landing_page"
+              name="Mizan"
+              action="action_landing_page"
+              sequence="1"
+              web_icon="shakliyat,static/description/icon.png"/>
+
+</odoo>

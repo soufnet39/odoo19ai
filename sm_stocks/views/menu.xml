@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ======================== -->
+    <!-- STOCKS TOP-LEVEL MENU    -->
+    <!-- ======================== -->
+    <menuitem id="sm_stocks_menu_root"
+              name="Stocks"
+              parent="shakliyat.menu_landing_page"
+              sequence="40"/>
+
+    <!-- Menu Action -->
+    <menuitem id="sm_stocks_menu_action"
+              name="Liste des Stocks"
+              parent="sm_stocks_menu_root"
+              action="sm_stocks_stock_action"
+              groups="sm_stocks_admin"
+              sequence="100"/>
+
+    <!-- Stock Movements -->
+    <menuitem id="sm_stocks_menu_movement_action"
+              name="Mouvements de Stocks"
+              parent="sm_stocks_menu_root"
+              action="sm_stocks_stock_movement_action"
+              groups="sm_stocks_manager"
+              sequence="20"/>
+
+    <!-- Stock Receipts -->
+    <menuitem id="sm_stocks_menu_receipt_action"
+              name="Bons de réception"
+              parent="sm_stocks_menu_root"
+              action="sm_stocks_receipt_action"
+              groups="sm_stocks_manager"
+              sequence="30"/>
+
+    <!-- Stock Deliveries -->
+    <menuitem id="sm_stocks_menu_delivery_action"
+              name="Bons de livraison"
+              parent="sm_stocks_menu_root"
+              action="sm_stocks_delivery_action"
+              groups="sm_stocks_manager"
+              sequence="40"/>
+
+</odoo>

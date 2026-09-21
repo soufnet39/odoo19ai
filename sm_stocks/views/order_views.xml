@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- EXTEND SM_SALES ORDER LIST VIEW                              -->
+    <!-- Adds stock_id column to sales orders list                    -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_view_sm_sales_order_list" model="ir.ui.view">
+        <field name="name">sm_stocks.sm_sales.order.list</field>
+        <field name="model">sm_sales.order</field>
+        <field name="inherit_id" ref="sm_sales.view_sm_sales_order_list"/>
+        <field name="arch" type="xml">
+            <field name="amount_ttc" position="before">
+                <field name="stock_id" />
+            </field>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- EXTEND SM_SALES ORDER FORM VIEW                              -->
+    <!-- Adds stock_id field to sales order form                     -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_view_sm_sales_order_form" model="ir.ui.view">
+        <field name="name">sm_stocks.sm_sales.order.form</field>
+        <field name="model">sm_sales.order</field>
+        <field name="inherit_id" ref="sm_sales.view_sm_sales_order_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="go_deliver" string="Livraison" type="object"
+                                class="btn btn-secondary rosy" invisible="'_&lt;' in name"/>
+            </header>
+            <field name="user_id" position="after">
+                <field name="order_lines_count" invisible="1"/>
+                <field name="stock_id" force_save='1' options="{'no_open': True}" readonly="order_lines_count>0"/>
+            </field>
+            
+            <!-- Show remaining stock under the product in the order line form -->
+            <field name="product_id" position="after">
+                <field name="product_type" invisible='1' />
+                <field invisible="product_type=='service'" name="rest_in_stock" readonly="1"/>
+                <div invisible="product_type!='service'" class="o_cell o_wrap_label text-break text-900"></div>
+                <div invisible="product_type!='service'" class="o_cell o_wrap_input text-break mb-3 mb-sm-0" >Service</div>
+            </field>
+            <group id='add_article' position="after">
+              <div  invisible="parent.stock_id" class="text-center text-danger p-4">
+                    Il faut choisir un stock source d'abord!..
+              </div>
+            </group>
+            <group id='add_article' position="attributes">
+               <attribute name="invisible">not (parent.stock_id or False)</attribute>
+            </group>
+           
+
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- EXTEND SM_SALES ORDER SEARCH VIEW                             -->
+    <!-- Adds stock_id filter                                          -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_view_sm_sales_order_search" model="ir.ui.view">
+        <field name="name">sm_stocks.sm_sales.order.search</field>
+        <field name="model">sm_sales.order</field>
+        <field name="inherit_id" ref="sm_sales.view_sm_sales_order_search"/>
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <field name="stock_id"/>
+            </field>
+            <filter name="group_date" position="after">
+                <filter string="Stock" name="group_stock" context="{'group_by': 'stock_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- INHERIT SM_SALES ORDER ACTION                                 -->
+    <!-- Adds default_operation_type and default_document_type context -->
+    <!-- ============================================================ -->
+    
+    <record id="sm_sales.action_sm_sales_order" model="ir.actions.act_window">
+        <field name="context">
+            {
+                "default_operation_type": "order",
+                "default_document_type": "livraison"
+            }
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- INHERIT SM_PURCHASES PURCHASE ACTION                           -->
+    <!-- Adds default_operation_type and default_document_type context  -->
+    <!-- ============================================================ -->
+    
+    <record id="sm_purchases.action_sm_purchases_purchase" model="ir.actions.act_window">
+        <field name="context">
+            {
+                "default_operation_type": "purchase",
+                "default_document_type": "reception"
+            }
+        </field>
+    </record>
+</odoo>

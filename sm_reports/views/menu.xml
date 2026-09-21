@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ======================== -->
+    <!-- MENU DES RAPPORTS (sous Ventes) -->
+    <!-- ======================== -->
+    <menuitem id="menu_sm_reports_customer_sales"
+              name="Récap Clients"
+              parent="sm_sales.menu_sm_sales_root"
+              action="sm_reports_customer_sales_action"
+              sequence="40"/>
+
+    <!-- ============================ -->
+    <!-- MENU DES RAPPORTS (sous Achats) -->
+    <!-- ============================ -->
+   
+    <menuitem id="menu_sm_reports_supplier_purchase" 
+              name="Récap Fournisseurs"
+              parent="sm_purchases.menu_sm_purchases_root"
+              action="sm_reports_supplier_purchase_action"             
+              sequence="30"/>
+
+</odoo>

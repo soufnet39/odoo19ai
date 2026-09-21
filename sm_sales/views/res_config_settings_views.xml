@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Hérite du formulaire standard des paramètres Odoo -->
+    <record id="res_config_settings_view_form_sm_sales" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.sm_sales</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Ajoute un nouvel onglet Ventes SM dans le formulaire -->
+            <xpath expr="//form" position="inside">
+
+                <app data-string="Ventes SM" string="Ventes SM" name="sm_sales" groups="sm_sales.sm_sales_manager">
+
+                    <!-- ======================== -->
+                    <!-- Paramètres généraux -->
+                    <!-- ======================== -->
+                    <block title="Paramètres généraux" name="sm_sales_general">
+                        <setting id="sm_sales_confirm_orders" 
+                                 string="Confirmer les commandes par défaut"
+                                 help="Confirmer automatiquement les commandes lors de leur création.">
+                            <field name="confirm_orders_by_default"/>
+                        </setting>
+                        <setting id="id_can_change_product_designation_on_sales" 
+                                 string="Peut modifier la désignation du produit lors des ventes"
+                                 help="Cette option s'applique par défaut. Vous pouvez la modifier à tout moment lors des ventes.">
+                            <field name="can_change_product_designation_on_sales"/>
+                        </setting>
+                       
+                    </block>
+
+                    <!-- ======================== -->
+                    <!-- Paramètres d'affichage des commandes et des achats -->
+                    <!-- ======================== -->
+                    <block title="Paramètres d'affichage des commandes et des achats" name="sm_sales_display">
+                        <setting id="sm_sales_show_line_numbers" 
+                                 string="Afficher les numéros de ligne"
+                                 help="Afficher les numéros de ligne sur les lignes de commande.">
+                            <field name="show_line_numbers"/>
+                        </setting>
+                        <setting id="sm_sales_show_product_code" string="Afficher le code produit"
+                                 help="Afficher le code produit à côté du nom du produit.">
+                            <field name="show_product_code"/>
+                        </setting>
+                        <setting id="sm_sales_editable_product_name" string="Nom du produit modifiable"
+                                 help="Permettre de modifier directement le nom du produit sur les lignes de commande.">
+                            <field name="editable_product_name"/>
+                        </setting>
+                    </block>
+
+                    <!-- ======================== -->
+                    <!-- Paramètres de TVA -->
+                    <!-- ======================== -->
+                    <block title="Paramètres de TVA pour les commandes et les achats" name="sm_sales_vat">
+                        <setting id="sm_sales_tva_enabled" string="Activer la TVA"
+                                 help="Activer le calcul de la TVA sur les commandes de vente et les achats.">
+                            <field name="tva_enabled"/>
+                        </setting>
+                        <setting id="sm_sales_tva_taux" string="Taux de TVA par défaut"
+                                 help="Taux de TVA par défaut appliqué aux nouvelles commandes et aux nouveaux achats."
+                                 invisible="not tva_enabled">
+                            <div class="row mt8">
+                                <field name="tva_taux" class="oe_inline"/>
+                                <span class="ml8">%</span>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <!-- ======================== -->
+                    <!-- Paramètres de remise pour les commandes et les achats -->
+                    <!-- ======================== -->
+                    <block title="Paramètres de remise pour les commandes et les achats" name="sm_sales_discount">
+                        <setting id="sm_sales_discount_enabled" string="Activer les remises"
+                                 help="Activer les champs de remise sur les commandes de vente.">
+                            <field name="discount_enabled"/>
+                        </setting>
+                        <setting id="sm_sales_discount_method" string="Méthode de remise par défaut"
+                                 help="Choisir la méthode de remise par défaut."
+                                 invisible="not discount_enabled">
+                            <field name="discount_method"/>
+                        </setting>
+                       
+                        <setting id="sm_sales_discount_taux" string="Taux de remise par défaut"
+                                 help="Taux de remise par défaut appliqué aux nouvelles commandes."
+                                 invisible="not discount_enabled or discount_method != 'taux'">
+                            <div class="row mt8">
+                                <field name="discount_taux" class="oe_inline"/>
+                                <span class="ml8">%</span>
+                            </div>
+                        </setting>
+                        <setting id="sm_sales_discount_amount" string="Montant de remise par défaut"
+                                 help="Montant fixe de remise par défaut."
+                                 invisible="not discount_enabled or discount_method != 'amount'">
+                            <field name="discount_amount" class="oe_inline"/>
+                        </setting>
+                    </block>
+
+                   
+
+                </app>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

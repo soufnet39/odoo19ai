@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sm_invoices_invoice_user,sm_invoices.invoice.user,model_sm_invoices_invoice,sm_invoices_user,1,0,0,0
+access_sm_invoices_invoice_manager,sm_invoices.invoice.manager,model_sm_invoices_invoice,sm_invoices_manager,1,1,1,0
+access_sm_invoices_invoice_admin,sm_invoices.invoice.admin,model_sm_invoices_invoice,sm_invoices_admin,1,1,1,1
+
+access_sm_invoices_invoice_line_user,sm_invoices.invoice.line.user,model_sm_invoices_invoice_line,sm_invoices_user,1,0,0,0
+access_sm_invoices_invoice_line_manager,sm_invoices.invoice.line.manager,model_sm_invoices_invoice_line,sm_invoices_manager,1,1,1,0
+access_sm_invoices_invoice_line_admin,sm_invoices.invoice.line.admin,model_sm_invoices_invoice_line,sm_invoices_admin,1,1,1,1

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action du rapport -->
+    <record id="action_report_invoice" model="ir.actions.report">
+        <field name="name">Facture client</field>
+        <field name="model">sm_invoices.invoice</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">sm_invoices.report_invoice</field>
+        <field name="report_file">sm_invoices.report_invoice</field>
+        <field name="print_report_name">'Facture - %s' % (object.name)</field>
+        <field name="binding_model_id" ref=""/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Modèle QWeb -->
+    <template id="report_invoice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="invoice">
+                <t t-call="sm_base.external_layout_sm">
+                    <t t-set="o" t-value="invoice"/>
+                    <div class="page">
+                        <!-- Informations d'en-tête -->
+                        <h2 class="text-center">Facture client</h2>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Facture :</strong> <span t-field="invoice.name"/><br/>
+                                <strong>Date :</strong> <span t-field="invoice.date"/><br/>
+                                <strong>État :</strong> <span t-field="invoice.state"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Client :</strong> <span t-field="invoice.partner_id"/><br/>
+                                <strong>Vendeur :</strong> <span t-field="invoice.user_id"/><br/>
+                                <strong>Mode de paiement :</strong> <span t-field="invoice.mode_paiement_id"/>
+                            </div>
+                        </div>
+
+                        <!-- Commandes liées -->
+                        <div t-if="invoice.sale_order_ids" class="row mt-3">
+                            <div class="col-12">
+                                <strong>Commandes liées :</strong>
+                                <t t-foreach="invoice.sale_order_ids" t-as="so">
+                                    <span t-field="so.name"/>
+                                    <t t-if="not so_last">, </t>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Lignes de facture -->
+                        <table class="table table-sm mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Désignation</th>
+                                    <th class="text-end">Quantité</th>
+                                    <th class="text-end">Prix unitaire</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="invoice.invoice_lines" t-as="line">
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-end"><span t-field="line.qty"/></td>
+                                    <td class="text-end"><span t-field="line.unit_price"/></td>
+                                    <td class="text-end"><span t-field="line.price_total"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Totaux -->
+                        <div class="row mt-4">
+                            <div class="col-6"/>
+                            <div class="col-6">
+                                <table class="table table-sm">
+                                    <tr t-if="invoice.remise_exist">
+                                        <td><strong>Avant remise :</strong></td>
+                                        <td class="text-end"><span t-field="invoice.amount_ht_before_remise"/></td>
+                                    </tr>
+                                    <tr t-if="invoice.remise_exist">
+                                        <td><strong>Remise :</strong></td>
+                                        <td class="text-end"><span t-field="invoice.remise_valeur"/></td>
+                                    </tr>
+                                    <tr t-if="invoice.tva_enabled">
+                                        <td><strong>Sous-total HT :</strong></td>
+                                        <td class="text-end"><span t-field="invoice.amount_ht"/></td>
+                                    </tr>
+                                    <tr t-if="invoice.tva_enabled">
+                                        <td><strong>TVA :</strong></td>
+                                        <td class="text-end"><span t-field="invoice.amount_tva"/></td>
+                                    </tr>
+                                    <tr class="fw-bold">
+                                        <td><strong>Total TTC :</strong></td>
+                                        <td class="text-end"><span t-field="invoice.amount_ttc"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Note -->
+                        <div t-if="invoice.note" class="mt-4">
+                            <strong>Notes :</strong>
+                            <div t-field="invoice.note"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

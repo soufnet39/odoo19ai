@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sales Quotation Sequence -->
+        <record id="seq_sm_sales_quotation" model="ir.sequence">
+            <field name="name">Vente Proformas</field>
+            <field name="code">sm_sales.quotation</field>
+            <field name="prefix">PRF/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+      
+        <!-- Sales Order Sequence -->
+        <record id="seq_sm_sales_order" model="ir.sequence">
+            <field name="name">Commandes de Vente</field>
+            <field name="code">sm_sales.order</field>
+            <field name="prefix">BC/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Purchase Order Sequence -->
+        <record id="seq_sm_sales_order_purchase" model="ir.sequence">
+            <field name="name">Commandes d'achat</field>
+            <field name="code">sm_sales.order.purchase</field>
+            <field name="prefix">ACH/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sm_pos.SessionScreen">
+        <div class="o_sm_pos_session d-flex align-items-center justify-content-center h-100">
+            <div class="card shadow" style="width: 420px;">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">Ouvrir une session de point de vente</h3>
+                    <div class="mb-3">
+                        <label class="form-label">Point de vente</label>
+                        <select class="form-select" t-model="state.selectedConfigId">
+                            <t t-foreach="state.configs" t-as="config" t-key="config.id">
+                                <option t-att-value="config.id" t-esc="config.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Solde initial</label>
+                        <input type="number" class="form-control" t-model="state.openingCash"/>
+                    </div>
+                    <div t-if="state.error" class="alert alert-danger py-2" t-esc="state.error"/>
+                    <button class="btn btn-primary w-100" t-on-click="openSession"
+                            t-att-disabled="state.loading">
+                        <i class="fa fa-play me-1"/> Ouvrir la session
+                    </button>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

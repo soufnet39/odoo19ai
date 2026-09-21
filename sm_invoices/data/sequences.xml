@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Séquence des factures client -->
+        <record id="seq_sm_invoices_invoice" model="ir.sequence">
+            <field name="name">Factures client</field>
+            <field name="code">sm_invoices.invoice</field>
+            <field name="prefix">FACT/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sm_boxes_box_user,sm.boxes.boxes.user,model_sm_boxes_boxes,sm_boxes_user,1,0,0,0
+access_sm_boxes_box_manager,sm.boxes.boxes.manager,model_sm_boxes_boxes,sm_boxes_manager,1,1,1,0
+access_sm_boxes_box_admin,sm.boxes.boxes.administrator,model_sm_boxes_boxes,sm_boxes_admin,1,1,1,1
+
+access_sm_boxes_operations_user,sm.boxes.operations.user,model_sm_boxes_operations,sm_boxes_user,1,0,0,0
+access_sm_boxes_operations_manager,sm.boxes.operations.manager,model_sm_boxes_operations,sm_boxes_manager,1,1,1,0
+access_sm_boxes_operations_admin,sm.boxes.operations.administrator,model_sm_boxes_operations,sm_boxes_admin,1,1,1,1
+

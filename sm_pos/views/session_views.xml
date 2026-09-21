@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================== -->
+    <!-- VUES DES SESSIONS DU POINT DE VENTE -->
+    <!-- ===================== -->
+
+    <!-- Vue liste -->
+    <record id="sm_pos_session_view_list" model="ir.ui.view">
+        <field name="name">sm_pos.session.list</field>
+        <field name="model">sm_pos.session</field>
+        <field name="arch" type="xml">
+            <list string="Sessions du point de vente" create="False"  decoration-bf="1"
+                  decoration-info="state == 'opening_control'"
+                  decoration-success="state == 'opened'"
+                  decoration-warning="state == 'closing_control'">
+                <field name="name"/>
+                <field name="config_id"/>
+                <field name="state" widget="badge"/>
+                <field name="user_id"/>
+                <field name="start_at"/>
+                <field name="stop_at"/>
+                <field name="order_count"/>
+                <field name="cash_register_balance_start"/>
+                <field name="cash_register_balance_end"/>
+                <field name="cash_register_difference"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue formulaire -->
+    <record id="sm_pos_session_view_form" model="ir.ui.view">
+        <field name="name">sm_pos.session.form</field>
+        <field name="model">sm_pos.session</field>
+        <field name="arch" type="xml">
+            <form string="Session du point de vente">
+                <header>
+                    <button name="action_pos_session_open" string="Ouvrir la session" type="object"
+                            class="btn-primary" invisible="state != 'opening_control'"/>
+                    <button name="action_pos_session_closing_control" string="Démarrer le contrôle de fermeture" type="object"
+                            invisible="state != 'opened'"/>
+                    <button name="action_pos_session_close" string="Fermer la session" type="object"
+                            class="btn-primary" invisible="state != 'closing_control'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="opening_control,opened,closing_control,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group class="o_sm_pos_session_groups">
+                        <group>
+                            <field name="config_id"/>
+                            <field name="user_id"/>
+                            <field name="start_at"/>
+                            <field name="stop_at"/>
+                        </group>
+                        <group string="Caisse" class="o_sm_pos_cash_register">
+                            <field name="cash_register_balance_start"/>
+                            <field name="cash_register_balance_end"/>
+                            <field name="cash_register_balance_end_real"/>
+                            <field name="cash_register_difference"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <group>
+                            <field name="opening_notes"/>
+                        </group>
+                        <group>
+                            <field name="closing_notes"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Commandes">
+                            <field name="order_ids">
+                                <list  decoration-bf="1">
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="amount_ttc"/>
+                                    <field name="state"/>
+                                    <field name="date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Paiements">
+                            <field name="payment_ids">
+                                <list decoration-bf="1">
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="order_id"/>
+                                    <field name="mode"/>
+                                    <field name="amount"/>
+                                    <field name="sens"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche -->
+    <record id="sm_pos_session_view_search" model="ir.ui.view">
+        <field name="name">sm_pos.session.search</field>
+        <field name="model">sm_pos.session</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="config_id"/>
+                <field name="user_id"/>
+                <filter string="Ouvertes" name="open"
+                        domain="[('state', 'in', ('opening_control', 'opened', 'closing_control'))]"/>
+                <filter string="Fermées" name="closed" domain="[('state', '=', 'closed')]"/>
+                <filter string="Point de vente" name="group_config" context="{'group_by': 'config_id'}"/>
+                <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_sm_pos_session" model="ir.actions.act_window">
+        <field name="name">Sessions du point de vente</field>
+        <field name="res_model">sm_pos.session</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="sm_pos_session_view_search"/>
+    </record>
+
+</odoo>

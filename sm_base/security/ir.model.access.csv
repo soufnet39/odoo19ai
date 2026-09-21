@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sm_base_wilayates_user,sm_base.wilayates.user,model_sm_base_wilayates,sm_base.sm_base_admin,1,0,0,0
+access_sm_base_wilayates_manager,sm_base.wilayates.manager,model_sm_base_wilayates,sm_base.sm_base_admin,1,1,1,1

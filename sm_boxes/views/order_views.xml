@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_order_list_inherit_sm_boxes" model="ir.ui.view">
+		<field name="name">sale.order.list.sm.boxes</field>
+		<field name="model">sm_sales.order</field>
+		<field name="inherit_id" ref="sm_sales.view_sm_sales_order_list"/>
+		<field name="arch" type="xml">
+			<xpath expr="//list/field[@name='amount_ttc']" position="after">
+				<field name="amount_rest" sum="amount_rest" optional="show"/>
+			</xpath>
+		</field>
+	</record>
+
+	<record id="view_order_form_inherit_sm_boxes" model="ir.ui.view">
+		<field name="name">sale.order.form.sm.boxes</field>
+		<field name="model">sm_sales.order</field>
+		<field name="inherit_id" ref="sm_sales.view_sm_sales_order_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//sheet/notebook" position="inside">
+                <page string="Paiements" name="Payements" >
+					<field name="payment_ids"  
+					       context="{'default_name':'Commande n: '+name,
+                                     'default_partner_id':partner_id,
+                                     'default_sens':'credit',
+                                     'default_operation':'recette',
+                                     'default_amount':amount_rest,
+                                     'default_user_id':user_id,
+									 'default_order_id': id
+                                     }">
+						<list string="Lignes de paiement"  decoration-bf="1">
+						        <control>
+                                    <create string="Ajouter un paiement"/>
+                                </control>
+							<field name="boxe_id"/>
+							<field name="date"/>
+							<field name="amount"/>
+						</list>
+						<form strong="Paiement de commande">
+                                <sheet>
+                                    <field name="sens" invisible="1"/>
+                                    <field name="operation" invisible="1"/>
+                                    <field name="partner_id" invisible="1"/>
+                                    <field name="user_id" invisible="1"/>
+                                    <br/>
+                                    <div class="text-center mb-4">
+                                        <h1 class="text-danger">
+                                            Paiement de la Commande
+                                        </h1>
+
+                                    </div>
+                                    <field name="name" invisible="1"/>
+                                    <div class="row form-group">
+                                        <div class="col-md-2 offset-md-1 ">
+                                            <label class="title1" for="boxe_id" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <field class="my-form-control w-100" name="boxe_id" options="{'no_open': True}"/>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <!-- <button name="sold_boxe_function" type="object" class="btn btn-block text-center oe_stat_button">
+                                                <field name="sold_boxe"/>
+                                            </button> -->
+                                        </div>
+                                    </div>
+
+                                    <div id="mode" class="row form-group">
+                                        <div class="col-md-2 offset-md-1 ">
+                                            <label class="title1" for="mode"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <field class="my-form-control  w-100" name="mode"/>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group" invisible="mode=='sold'">
+                                        <div class="col-md-2 offset-md-1">
+                                            <label class="title1" for="reference"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <field class="my-form-control  w-100" name="reference"/>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group" invisible="mode=='sold'">
+                                        <div class="col-md-2 offset-md-1">
+                                            <label class="title1" for="date"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <field class="my-form-control " name="date"/>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-2 offset-md-1">
+                                            <label class="title1" for="amount"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <field class="my-form-control  w-100" name="amount"/>
+                                        </div>
+                                    </div>
+
+                                </sheet>
+
+                            </form>
+					</field>
+				</page>
+			</xpath>
+			<xpath expr="//sheet/group/group[@id='totaux']" position="inside">	
+                    <field name='show_client_payment' invisible='1' />			 
+					<field invisible="not show_client_payment" name="total_reglement" class="text-end" />
+					<field invisible="not show_client_payment" name="amount_rest" class="text-end" />
+			</xpath>	
+   			<xpath expr="//sheet/notebook/page[@id='options']" position="inside">	
+                <group>
+                  <field name="show_client_payment" />
+                </group>
+                  <hr/>
+            </xpath>
+ 
+		</field>
+	</record>
+</odoo>

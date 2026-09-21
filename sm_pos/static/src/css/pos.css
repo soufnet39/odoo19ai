@@ -1,0 +1,54 @@
+.o_sm_pos_app {
+    background: #f5f6f8;
+}
+
+.o_sm_pos_product_card {
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.o_sm_pos_product_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+}
+
+.o_sm_pos_product_img {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.o_sm_pos_order_line {
+    cursor: pointer;
+}
+
+.o_sm_pos_order_line:hover {
+    background: #f8f9fa;
+}
+
+.o_sm_pos_numpad .btn {
+    font-size: 1.2rem;
+}
+
+/* POS Session form: Cash Register group */
+.o_form_view .o_inner_group.o_sm_pos_cash_register {
+    grid-template-columns: fit-content(240px) minmax(0, 1fr);
+}
+
+.o_sm_pos_cash_register .o_cell.o_wrap_input {
+    text-align: right;
+}
+
+.o_sm_pos_cash_register .o_cell.o_wrap_input .o_input,
+.o_sm_pos_cash_register .o_cell.o_wrap_input .o_field_widget {
+    text-align: right;
+}
+
+/* POS Session form: keep the two info groups side by side (two columns) */
+@media (min-width: 768px) {
+    .o_form_view .o_sm_pos_session_groups > .o_inner_group {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== -->
+    <!-- VUES DE CONFIGURATION DU POINT DE VENTE -->
+    <!-- ==================== -->
+
+    <!-- Vue liste -->
+    <record id="sm_pos_config_view_list" model="ir.ui.view">
+        <field name="name">sm_pos.config.list</field>
+        <field name="model">sm_pos.config</field>
+        <field name="arch" type="xml">
+            <list string="Point de vente"  decoration-bf="1">
+                <field name="name"/>
+                <field name="stock_id"/>
+                <field name="pricelist_id"/>
+                <field name="boxe_id"/>
+                <field name="current_session_id"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue formulaire -->
+    <record id="sm_pos_config_view_form" model="ir.ui.view">
+        <field name="name">sm_pos.config.form</field>
+        <field name="model">sm_pos.config</field>
+        <field name="arch" type="xml">
+            <form string="Point de vente">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du point de vente"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="stock_id"/>
+                            <field name="pricelist_id"/>
+                            <field name="boxe_id"/>
+                        </group>
+                        <group>
+                            <field name="payment_mode_ids" widget="many2many_tags"/>
+                            <field name="user_ids" widget="many2many_tags"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sessions">
+                            <field name="session_ids">
+                                <list  decoration-bf="1">
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                    <field name="user_id"/>
+                                    <field name="start_at"/>
+                                    <field name="stop_at"/>
+                                    <field name="order_count"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche -->
+    <record id="sm_pos_config_view_search" model="ir.ui.view">
+        <field name="name">sm_pos.config.search</field>
+        <field name="model">sm_pos.config</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="stock_id"/>
+                <filter string="Actif" name="active" domain="[('active', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_sm_pos_config" model="ir.actions.act_window">
+        <field name="name">Configurations des points de vente</field>
+        <field name="res_model">sm_pos.config</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="sm_pos_config_view_search"/>
+    </record>
+
+</odoo>

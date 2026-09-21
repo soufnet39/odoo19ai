@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_sm_stocks" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.sm_stocks</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//form" position="inside">
+
+                <app data-string="Stocks" string="Stocks" name="sm_stocks" groups="sm_stocks.sm_stocks_manager">
+
+                    <block title="Général" name="sm_stocks_general">
+                        <setting id="sm_stocks_delivery_confirmed_by_default"
+                                 string="Livraison automatique à la commande"
+                                 help="Confirmer automatiquement la livraison lors de la confirmation de la commande.">
+                            <field name="delivery_confirmed_by_default"/>
+                        </setting>
+                        <setting id="sm_stocks_reception_confirmed_by_default"
+                                 string="Réception automatique à l'achat"
+                                 help="Confirmer automatiquement la réception lors de la confirmation de l'achat.">
+                            <field name="reception_confirmed_by_default"/>
+                        </setting>
+                    </block>
+
+                </app>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

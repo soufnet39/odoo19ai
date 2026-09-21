@@ -1,0 +1,30 @@
+/* Sheet State Colors */
+
+.o_form_sheet.sheet-state-draft {
+    border-top: 4px solid #d9534f !important;
+    background-color: #fcf5f5 !important;
+}
+
+.o_form_sheet.sheet-state-confirmed {
+    border-top: 4px solid #5cb85c !important;
+    background-color: #f5fcf8 !important;
+}
+
+.o_form_sheet.sheet-state-canceled {
+    border-top: 4px solid #f0ad4e  !important;
+    background-color: #fef9f5 !important;
+}
+
+/* Let textareas grow with their content instead of being capped at 80px */
+.o_form_view textarea.o_input {
+    max-height: none;
+    overflow-y: visible;
+}
+
+/* Let the grid row expand when a textarea grows, so it pushes the next field
+   down instead of overlapping it (the field widget's height doesn't contribute
+   to the grid cell by default) */
+.o_form_view .o_inner_group .o_cell.o_wrap_input:has(textarea.o_input) {
+    height: auto;
+}
+

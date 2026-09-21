@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   
+
+    <!-- ============================================================ -->
+    <!-- DELIVERY LIST VIEW (document_type == 'livraison')             -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_delivery_list" model="ir.ui.view">
+        <field name="name">sm_stocks.delivery.list</field>
+        <field name="model">sm_sales.order</field>
+        <field name="arch" type="xml">
+            <list create='0' delete='0' string="Bons de Livraison" decoration-warning="state == 'draft'" decoration-success="state == 'confirmed'" decoration-danger="state == 'canceled'" decoration-bf="1">
+                <field name="name" string="Bon de livraison"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="stock_id"/>
+                <field name="user_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- DELIVERY FORM VIEW                                           -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_delivery_form" model="ir.ui.view">
+        <field name="name">sm_stocks.delivery.form</field>
+        <field name="model">sm_sales.order</field>
+        <field name="arch" type="xml">
+            <form create='0' delete='0' string="Bon de Livraison">
+                  <header>
+                    <button name="action_delivered" string="Livrer" type="object"
+                            class="btn btn-success" invisible="stock_state not in ['pending','returned']"/>
+                   <button name="action_print_deliver" string="Imprimer BL" type="object"
+                            class="btn btn-primary" />
+                    <button name="go_commande" string="Commande" type="object"
+                                class="btn btn-secondary" invisible="0"/>   
+                    
+                    <field name="stock_state" widget="statusbar"
+                           statusbar_visible="pending,delivered,returned"/>
+                </header>
+                <sheet class="silver">
+                 <widget name="web_ribbon" title="En attente" bg_color="bg-warning" invisible="stock_state != 'pending'"  />        
+                 <widget name="web_ribbon" title="Livré" bg_color="bg-success" invisible="stock_state != 'delivered'"  />        
+                 <widget name="web_ribbon" title="Retourné" bg_color="bg-danger" invisible="stock_state != 'returned'"  />        
+                    <h1>
+                        Bon de Livraison: (<field name="name" readonly="1" class="d-inline"/>)
+                    </h1>
+                    <group col="12">
+                        <group colspan="4">
+                        </group>
+                        <group colspan="3">
+                            <field name="partner_id" readonly="1" options="{'no_open': True}"/>
+                            <field name="stock_id" readonly="1"  options="{'no_open': True}"/>
+                        </group>
+                        <group colspan="3">
+                            <field name="date_stk_in_out" string="Date Liv."/>
+                            <field name="user_id" readonly="1"  options="{'no_open': True}"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <notebook>
+                    
+                        <page string="Lignes" name="lines">
+                            <field name="order_lines">
+                               <list editable="bottom" create="0" delete="0"  decoration-bf="1">
+                                <field name="name" string="Désignation" readonly='1' />
+                                <field name="display_name" string="Nom choisi" readonly='1' optional="hide" />
+                                <field name="qty" string="Qte. Demandée" readonly='1'/>
+                               </list>
+                            </field>
+                        </page>
+                        <page string="Opérations" >
+                              <button name="action_delivered_returned" string="Retour" type="object"
+                            class="btn btn-danger m-3" invisible="stock_state != 'delivered'" groups='sm_stocks.sm_stocks_manager'/>
+                    
+                        </page>
+
+                    </notebook>
+                    <group>
+                       <field name="note_stock" placeholder="Note sur cette opération"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- DELIVERY SEARCH VIEW                                          -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_delivery_search" model="ir.ui.view">
+        <field name="name">sm_stocks.delivery.search</field>
+        <field name="model">sm_sales.order</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Bon de Livraison">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="stock_id"/>
+                <field name="user_id"/>
+                <separator/>
+                <filter string="Brouillon" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmées" name="filter_confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Annulées" name="filter_canceled" domain="[('state', '=', 'canceled')]"/>
+                <separator/>
+                <filter string="Non livrées" name="filter_not_delivered" domain="[('order_lines.is_not_delivered', '=', True)]"/>
+                <separator/>
+                <filter string="Stock" name="group_stock" context="{'group_by': 'stock_id'}"/>
+                <filter string="Partenaire" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                <filter string="Vendeur" name="group_user" context="{'group_by': 'user_id'}"/>
+                <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- DELIVERY ACTION                                               -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_delivery_action" model="ir.actions.act_window">
+        <field name="name">Bons de Livraison</field>
+        <field name="res_model">sm_sales.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="sm_stocks_delivery_search"/>
+        <field name="domain">[('operation_type', '=', 'order')]</field>
+        <field name="view_ids" eval="[(5, 0, 0), 
+        (0, 0, {'view_id': ref('sm_stocks_delivery_list'), 'view_mode': 'list'}), 
+        (0, 0, {'view_id': ref('sm_stocks_delivery_form'), 'view_mode': 'form'})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucun bon de livraison pour le moment.
+            </p>
+            <p>Cliquez ci-dessus pour créer un nouveau bon de livraison.</p>
+        </field>
+    </record>
+
+</odoo>

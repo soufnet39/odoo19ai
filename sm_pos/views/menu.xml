@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ======================== -->
+    <!-- MENU DU POINT DE VENTE -->
+    <!-- ======================== -->
+
+    <!-- Action client qui ouvre l'écran de caisse -->
+    <record id="action_sm_pos" model="ir.actions.client">
+        <field name="name">Point de vente</field>
+        <field name="tag">sm_pos.pos_app</field>
+    </record>
+
+    <!-- Menu principal sous la page d'accueil -->
+    <menuitem
+        id="menu_sm_pos_root"
+        name="Comptoire"
+        parent="shakliyat.menu_landing_page"
+        groups="sm_pos_user"
+        sequence="40" />
+
+    <menuitem
+        id="menu_sm_pos_open"
+        name="Ouvrir le point de vente"
+        parent="menu_sm_pos_root"
+        action="action_sm_pos"
+        groups="sm_pos_manager"
+        sequence="10" />
+
+    <menuitem
+        id="menu_sm_pos_config"
+        name="Configurations"
+        parent="menu_sm_pos_root"
+        action="action_sm_pos_config"
+        groups="sm_pos_admin"
+        sequence="20" />
+
+    <menuitem
+        id="menu_sm_pos_session"
+        name="Sessions"
+        parent="menu_sm_pos_root"
+        action="action_sm_pos_session"
+        groups="sm_pos_admin"
+        sequence="30" />
+
+    <menuitem
+        id="menu_sm_pos_order"
+        name="Commandes du point de vente"
+        parent="menu_sm_pos_root"
+        action="action_sm_pos_order"
+        groups="sm_pos_admin"
+        sequence="35" />
+
+</odoo>

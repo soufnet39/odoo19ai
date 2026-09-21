@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- VUE RECHERCHE                                                 -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_stock_search" model="ir.ui.view">
+        <field name="name">sm_stocks.stock.search</field>
+        <field name="model">sm_stocks.stock</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher des stocks">
+                <field name="name"/>
+                <field name="wilaya_id"/>
+                <field name="user_ids"/>
+                <separator/>
+                <filter string="Fixe" name="fix" domain="[('nature', '=', 'fix')]"/>
+                <filter string="Mobile" name="mobil" domain="[('nature', '=', 'mobil')]"/>
+                <filter string="Virtuel" name="virtual" domain="[('nature', '=', 'virtual')]"/>
+                <separator/>
+                <filter string="Nature" name="group_nature" context="{'group_by': 'nature'}"/>
+                <filter string="Wilaya" name="group_wilaya" context="{'group_by': 'wilaya_id'}"/>
+                <filter string="Société" name="group_company" context="{'group_by': 'company_id'}"/>
+
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- VUE LISTE                                                     -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_stock_list" model="ir.ui.view">
+        <field name="name">sm_stocks.stock.list</field>
+        <field name="model">sm_stocks.stock</field>
+        <field name="arch" type="xml">
+            <list string="Liste des stocks" decoration-bf="1">
+                <field name="name"/>
+                <field name="nature"/>
+                <field name="wilaya_id"/>
+                <field name="can_be_negatif"/>
+                <field name="user_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- VUE FORMULAIRE                                                -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_stock_form" model="ir.ui.view">
+        <field name="name">sm_stocks.stock.form</field>
+        <field name="model">sm_stocks.stock</field>
+        <field name="arch" type="xml">
+            <form string="Stock">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Stock Principal"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="nature"/>
+                            <field name="wilaya_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="can_be_negatif"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="description" placeholder="Description du stock..."/>
+                        </group>
+                    </group>
+                    <hr/>
+                    <group>
+                        <field name="user_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- ACTIONS                                                       -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_stock_action" model="ir.actions.act_window">
+        <field name="name">Liste des Stocks</field>
+        <field name="res_model">sm_stocks.stock</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="sm_stocks_stock_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier stock
+            </p>
+            <p>
+                Définissez vos stocks pour gérer les opérations d'inventaire.
+            </p>
+        </field>
+    </record>
+
+
+
+</odoo>

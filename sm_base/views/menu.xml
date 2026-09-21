@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+ 
+    <!-- ======================== -->
+    <!-- MENU PARENT DES CONFIGURATIONS -->
+    <!-- ======================== -->
+    <menuitem
+        id="menu_sm_base_configurations"
+        name="Configurations"
+        parent="shakliyat.menu_landing_page"
+        sequence="50" />
+
+    <!-- =============================== -->
+    <!-- WILAYAS -->
+    <!-- =============================== -->
+    <menuitem
+        id="menu_sm_base_wilayates"
+        name="Wilayas"
+        parent="menu_sm_base_configurations"
+        action="sm_base_wilayates_action"
+        groups="sm_base_admin"
+        sequence="70" />
+
+    <!-- =============================== -->
+    <!-- PARAMÈTRES (regroupés) -->
+    <!-- =============================== -->
+    <menuitem 
+        id="menu_sm_base_settings"
+        name="Paramètres"
+        parent="menu_sm_base_configurations"
+        action="base_setup.action_general_configuration"
+        sequence="80" />
+
+</odoo>

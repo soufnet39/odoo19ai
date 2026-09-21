@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sm_pos.ClosingScreen">
+        <div class="o_sm_pos_closing d-flex align-items-center justify-content-center h-100">
+            <div class="card shadow" style="width: 460px;">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-1">Contrôle de fermeture</h3>
+                    <div t-if="session" class="text-center text-muted mb-4" t-esc="session.name"/>
+                    <div t-if="state.error" class="alert alert-danger py-2" t-esc="state.error"/>
+                    <div t-if="state.loading" class="text-center py-5">
+                        <i class="fa fa-spinner fa-spin fa-2x text-muted"/>
+                    </div>
+                    <div t-else="">
+                        <table class="table table-sm mb-3">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted">Solde initial</td>
+                                    <td class="text-end fw-bold"
+                                        t-esc="session.cash_register_balance_start.toFixed(2)"/>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Solde théorique</td>
+                                    <td class="text-end fw-bold"
+                                        t-esc="session.cash_register_balance_end.toFixed(2)"/>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Commandes</td>
+                                    <td class="text-end" t-esc="session.order_count"/>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Paiements</td>
+                                    <td class="text-end" t-esc="session.payment_count"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mb-3">
+                            <label class="form-label">Espèces comptées (réelles)</label>
+                            <input type="number" step="0.01" class="form-control"
+                                   t-model="state.countedCash"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Différence</label>
+                            <div t-attf-class="fw-bold fs-5 #{difference &lt; 0 ? 'text-danger' : (difference > 0 ? 'text-success' : 'text-muted')}"
+                                 t-esc="difference.toFixed(2)"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Notes</label>
+                            <textarea class="form-control" rows="2" t-model="state.notes"/>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-secondary flex-grow-1" t-on-click="back">
+                                <i class="fa fa-arrow-left me-1"/> Retour
+                            </button>
+                            <button class="btn btn-primary flex-grow-1" t-on-click="closeSession"
+                                    t-att-disabled="state.loading">
+                                <i class="fa fa-check me-1"/> Fermer la session
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

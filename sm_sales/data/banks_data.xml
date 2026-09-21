@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Banques -->
+    <record id="bank_bdl" model="sm_sales.bank">
+        <field name="name">BDL</field>
+    </record>
+    <record id="bank_al_baraka" model="sm_sales.bank">
+        <field name="name">AL-BARAKA</field>
+    </record>
+    <record id="bank_bea" model="sm_sales.bank">
+        <field name="name">BEA</field>
+    </record>
+    <record id="bank_bna" model="sm_sales.bank">
+        <field name="name">BNA</field>
+    </record>
+    <record id="bank_cpa" model="sm_sales.bank">
+        <field name="name">CPA</field>
+    </record>
+    <record id="bank_algerie_poste" model="sm_sales.bank">
+        <field name="name">ALGERIE POSTE</field>
+    </record>
+    <record id="bank_bnp_paribas" model="sm_sales.bank">
+        <field name="name">BNP Paribas El Djazair</field>
+    </record>
+    <record id="bank_cnep" model="sm_sales.bank">
+        <field name="name">C N E P</field>
+    </record>
+    <record id="bank_fransabank" model="sm_sales.bank">
+        <field name="name">Fransabank El Djazair SPA</field>
+    </record>
+    <record id="bank_badr" model="sm_sales.bank">
+        <field name="name">BADR</field>
+    </record>
+    <record id="bank_sga_societe_generale" model="sm_sales.bank">
+        <field name="name">SOCIETE GÉNÉRALE ALGÉRIE</field>
+    </record>
+    <record id="bank_agb" model="sm_sales.bank">
+        <field name="name">AGB</field>
+    </record>
+    <record id="bank_al_salam" model="sm_sales.bank">
+        <field name="name">AL SALAM BANK</field>
+    </record>
+    <record id="bank_trust_bank" model="sm_sales.bank">
+        <field name="name">TRUST BANK ALGERIA</field>
+    </record>
+    <record id="bank_natixis" model="sm_sales.bank">
+        <field name="name">NATIXIS</field>
+    </record>
+    <record id="bank_housing_bank" model="sm_sales.bank">
+        <field name="name">HOUSING BANK</field>
+    </record>
+    <record id="bank_citibank" model="sm_sales.bank">
+        <field name="name">CITIBANK</field>
+    </record>
+    <record id="bank_arab_bank" model="sm_sales.bank">
+        <field name="name">ARAB BANK</field>
+    </record>
+    <record id="bank_abc" model="sm_sales.bank">
+        <field name="name">BANK ABC</field>
+    </record>
+    <record id="bank_sga" model="sm_sales.bank">
+        <field name="name">SGA</field>
+    </record>
+</odoo>

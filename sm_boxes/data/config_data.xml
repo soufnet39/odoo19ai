@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+      <!-- this initialization is needed because default values is 'True'
+      If it was 'False' it will be not needed at all -->
+        <function model="ir.config_parameter" name="set_param">
+            <value eval="'sm_boxes.show_client_payment'"/>
+            <value eval="'True'"/>
+        </function>
+
+        <function model="ir.config_parameter" name="set_param">
+            <value eval="'sm_boxes.show_supplier_payment'"/>
+            <value eval="'True'"/>
+        </function>
+    </data>
+</odoo>

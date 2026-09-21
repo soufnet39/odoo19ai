@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!-- ============================================================ -->
+    <!-- EXTEND SM_SALES QUOTATION FORM VIEW                              -->
+    <!-- Adds stock control field to sales quotaion form                     -->
+    <!-- ============================================================ -->
+    <record id="sm_stocks_view_sm_sales_quotaion_form" model="ir.ui.view">
+        <field name="name">sm_stocks.sm_sales.quotaion.form</field>
+        <field name="model">sm_sales.quotation</field>
+        <field name="inherit_id" ref="sm_sales.view_sm_sales_quotation_form"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="quotation_lines_count" invisible="1"/>
+                <field name="stock_id" force_save='1' options="{'no_open': True}" readonly="quotation_lines_count>0"/>
+            </field>
+            <!-- Show remaining stock under the product in the order line form -->
+            <field name="product_id" position="after">
+                <field name="product_type" invisible='1' />
+                <field invisible="product_type=='service'" name="rest_in_stock" readonly="1"/>
+                <div invisible="product_type!='service'" class="o_cell o_wrap_label text-break text-900"></div>
+                <div invisible="product_type!='service'" class="o_cell o_wrap_input text-break mb-3 mb-sm-0" >Service</div>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

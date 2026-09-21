@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ======================== -->
+    <!-- MENU PRINCIPAL DES CAISSES -->
+    <!-- ======================== -->
+    <menuitem id="sm_boxes_menu_root"
+              name="Finances"
+              parent="shakliyat.menu_landing_page"
+              sequence="30"/>
+
+    <!-- Action du menu -->
+    <menuitem id="sm_boxes_menu_action"
+              name="Liste des Comptes"
+              parent="sm_boxes_menu_root"
+              action="sm_boxes_action"
+              sequence="100"/>
+
+</odoo>

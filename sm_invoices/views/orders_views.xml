@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Smart-button "Factures" + bouton "Créer facture" sur sm_sales.order -->
+    <record id="view_sm_invoices_sales_order_form_inherit" model="ir.ui.view">
+        <field name="name">sm_sales.order.form.inherit.sm_invoices</field>
+        <field name="model">sm_sales.order</field>
+        <field name="inherit_id" ref="sm_sales.view_sm_sales_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Bouton dans le header : créer la facture depuis la commande.
+                 Caché si la commande n'est pas confirmée OU si au moins une
+                 facture a déjà été créée (utiliser alors le bouton smart
+                 "Factures" pour la consulter). -->
+            <header position="inside">
+               
+            </header>
+
+            <!-- Smart-button "Factures" : ouvre la liste des factures liées -->
+
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button invisible="invoice_count==0" name="action_view_invoices" type="object"
+                        class="oe_stat_button" icon="fa-file-text-o">
+                    Factures [<field name="invoice_count" class="d-inline"/>]
+                           
+                </button>
+            </xpath>
+            <notebook position="inside">
+                <page invisible="invoice_count==0" string="Factures liées">
+                            <field name="invoice_ids"
+                                   domain="[('partner_id', '=', partner_id)]">
+                                <list string="Factures" decoration-bf="1">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="amount_ttc" sum="Total TTC"/>
+                                </list>
+                            </field>
+                </page>
+            </notebook>
+            <div id="dcm42" position="inside">
+              <button name="action_create_invoice" string="Convertir en facture" type="object"
+                        class="btn btn-primary"
+                        invisible="state != 'confirmed' or invoice_count &gt; 0"
+                        icon="fa-file-text"/>
+            </div>
+
+        </field>
+    </record>
+
+</odoo>

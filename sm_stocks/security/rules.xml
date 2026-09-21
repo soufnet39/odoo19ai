@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Record Rules: Multi-company access for Stocks  -->
+        <record id="sm_stocks_stock_rule_company" model="ir.rule">
+            <field name="name">SM Stocks: multi-company</field>
+            <field name="model_id" ref="model_sm_stocks_stock"/>
+            <field name="domain_force">['|', ('company_id','=',False),('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('sm_stocks_user'))]"/>
+        </record>      
+</odoo>

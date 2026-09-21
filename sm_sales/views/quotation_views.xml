@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =============================== -->
+    <!-- VUE LISTE DES PROFORMA         -->
+    <!-- =============================== -->
+    <record id="view_sm_sales_quotation_list" model="ir.ui.view">
+        <field name="name">sm_sales.quotation.list</field>
+        <field name="model">sm_sales.quotation</field>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <list string="Proformas"  decoration-bf="1">
+                <field name="name" string="Commande"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="amount_ttc" sum="Total TTC"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- =============================== -->
+    <!-- VUE FORMULAIRE DES PROFORMA    -->
+    <!-- =============================== -->
+    <record id="view_sm_sales_quotation_form" model="ir.ui.view">
+        <field name="name">sm_sales.quotation.form</field>
+        <field name="model">sm_sales.quotation</field>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <form string="Commande">
+                <header>
+                   <button name="print_quotation" string="Imprimer la proforma" type="object"
+                            class="btn btn-info" invisible="'_&lt;' in name or amount_ttc==0" icon="fa-print"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sale_orders" type="object"
+                                class="oe_stat_button" icon="fa-list-alt"
+                                invisible="sales_order_count == 0">
+                            Commandes [<field name="sales_order_count" class="d-inline"/>]
+                        </button>
+                    </div>
+                    <group>
+                        <group >
+                           <!-- <div class="oe_title">  -->
+                                 <h1>
+                                    Facture Proforma: (<field name="name" readonly="not name_updatable" class="text-purple d-inline"/>)
+                                </h1>                             
+                            <!-- </div> -->
+                        </group>
+                        <group string="Informations de la commande" class='sm_group mb-0' >
+                         <field name="partner_id" required="1"  domain="[('is_customer', '=', True)]" context="{'default_is_customer': True}"/>
+                         <field name="date"/>
+                         <field name="user_id" readonly="1" options="{'no_open': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lignes">
+                            <field name="can_change_product_designation_on_sales" invisible="1" />
+                            <field name="quotation_lines">
+                                <list id="detail_list" string="Lignes de commande"  decoration-bf="1">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_code" optional="hide"/>
+                                    <field name="name"/>
+                                    <field name="qty"/>
+                                    <field name="unit_price"/>
+                                    <field name="price_total" />
+                                    <control>
+                                       <create string="Ajouter un article"/>
+                                   </control>
+                                </list>
+                                <form>
+                                    <group id='add_article' col="12">
+                                    <group colspan='8' class="sm_group">
+                                        <field name="product_id" domain="[('sale_ok', '=', True)]"/>
+                                        <field name="name" invisible="not parent.can_change_product_designation_on_sales" class="over-y"/>
+                                        <field name="qty"/>
+                                        <field name="price_list_price_id" invisible="not use_price_list" widget="selection"/>
+                                        <field name="unit_price"/>
+                                        <field name="price_total"/>
+                                    </group>
+                                    <group colspan='4'>
+                                            <field name="image_128" widget='image' nolabel="1"/>
+                                    </group>
+                                </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page id='options' string="Options">
+                            <group>                               
+                                <field name="tva_enabled"/>
+                                <field name="tva_taux" invisible="not tva_enabled"/>
+                            </group>
+                            <hr/>
+                            <group>
+                                <field name="remise_exist"/>
+                                <field name="remise_methode" invisible="not remise_exist"/>
+                                <field name="remise_taux"
+                                    invisible="not remise_exist or remise_methode != 'taux'"/>
+                                <field name="remise_mta"
+                                    invisible="not remise_exist or remise_methode != 'mta'"/>
+                            </group>
+                            <hr/>
+                            <group>
+                                   <field name="can_change_product_designation_on_sales"/>
+                            </group>
+                            <hr/>
+                            <group>
+                             <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </page>
+                        <page invisible="sales_order_count==0" string="Commandes liées">
+                            <field name="sale_order_ids"
+                                   domain="[('operation_type', '=', 'order'), ('partner_id', '=', partner_id)]">
+                                <list string="Commandes" decoration-bf="1">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="amount_ttc" sum="Total TTC"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Opérations">
+                            <group >
+                              <field name="sales_order_count" invisible="1"  />
+                                <button name="action_convert_to_order"
+                                 invisible="sales_order_count>0  or amount_ttc==0"
+                                 string="Convertir en commande" type="object"
+                                 class="btn btn-primary" icon="fa-shopping-cart"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group>
+                        <group>
+                            <field name="mode_paiement_id"/>
+                            <field name="note" widget="html" placeholder="Notes..."/>
+                        </group>    
+                        <group id='totaux' class="oe_subtotal_footer me-4">
+                            <field name="amount_ht_before_remise" class="text-end" invisible="not remise_exist or not tva_enabled"/>
+                            <field name="amount_ht_before_remise" class="text-end" string="Montant avant remise" invisible="not remise_exist or tva_enabled"/>
+                            <field name="remise_valeur" string="Remise" class="text-end" invisible="not remise_exist"/>
+                            <field name="amount_ht" class="text-end" invisible="not tva_enabled"/>
+                            <field name="amount_tva" class="text-end" invisible="not tva_enabled"/>
+                            <field name="amount_ttc" class="text-end" invisible="not tva_enabled"/>
+                            <field name="amount_ttc" class="text-end" string="Total" invisible="tva_enabled"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- =============================== -->
+    <!-- VUE RECHERCHE DES PROFORMA    -->
+    <!-- =============================== -->
+    <record id="view_sm_sales_quotation_search" model="ir.ui.view">
+        <field name="name">sm_sales.quotation.search</field>
+        <field name="model">sm_sales.quotation</field>
+        <field name="arch" type="xml">
+            <search string="Proformas">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>               
+                    <filter name="group_partner" string="Client"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_user" string="Vendeur"
+                            context="{'group_by': 'user_id'}"/>
+                    <filter name="group_date" string="Date"
+                            context="{'group_by': 'date'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- =============================== -->
+    <!-- ACTION FENÊTRE DES PROFORMA    -->
+    <!-- =============================== -->
+    <!-- modifiée dans sm_pos -->
+    <!-- =============================== -->
+    <record id="action_sm_sales_quotation" model="ir.actions.act_window">
+        <field name="name">Proformas</field>
+        <field name="res_model">sm_sales.quotation</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_sm_sales_quotation_search"/>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_id': ref('view_sm_sales_quotation_list'), 'view_mode': 'list'}), (0, 0, {'view_id': ref('view_sm_sales_quotation_form'), 'view_mode': 'form'})]"/>
+    </record>
+
+</odoo>

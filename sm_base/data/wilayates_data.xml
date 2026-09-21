@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- <record model="sm_base.wilayates" id="wilaya_01"><field name="code">01</field><field name="name">Adrar</field><field name="sequence">1</field></record> -->
+        <record model="sm_base.wilayates" id="wilaya_02"><field name="code">02</field><field name="name">Chlef</field><field name="sequence">2</field></record>
+        <record model="sm_base.wilayates" id="wilaya_03"><field name="code">03</field><field name="name">Laghouat</field><field name="sequence">3</field></record>
+        <record model="sm_base.wilayates" id="wilaya_04"><field name="code">04</field><field name="name">Oum El Bouaghi</field><field name="sequence">4</field></record>
+        <record model="sm_base.wilayates" id="wilaya_05"><field name="code">05</field><field name="name">Batna</field><field name="sequence">5</field></record>
+        <record model="sm_base.wilayates" id="wilaya_06"><field name="code">06</field><field name="name">Béjaïa</field><field name="sequence">6</field></record>
+        <record model="sm_base.wilayates" id="wilaya_07"><field name="code">07</field><field name="name">Biskra</field><field name="sequence">7</field></record>
+        <record model="sm_base.wilayates" id="wilaya_08"><field name="code">08</field><field name="name">Béchar</field><field name="sequence">8</field></record>
+        <record model="sm_base.wilayates" id="wilaya_09"><field name="code">09</field><field name="name">Blida</field><field name="sequence">9</field></record>
+        <record model="sm_base.wilayates" id="wilaya_10"><field name="code">10</field><field name="name">Bouira</field><field name="sequence">10</field></record>
+        <record model="sm_base.wilayates" id="wilaya_11"><field name="code">11</field><field name="name">Tamanrasset</field><field name="sequence">11</field></record>
+        <record model="sm_base.wilayates" id="wilaya_12"><field name="code">12</field><field name="name">Tébessa</field><field name="sequence">12</field></record>
+        <record model="sm_base.wilayates" id="wilaya_13"><field name="code">13</field><field name="name">Tlemcen</field><field name="sequence">13</field></record>
+        <record model="sm_base.wilayates" id="wilaya_14"><field name="code">14</field><field name="name">Tiaret</field><field name="sequence">14</field></record>
+        <record model="sm_base.wilayates" id="wilaya_15"><field name="code">15</field><field name="name">Tizi Ouzou</field><field name="sequence">15</field></record>
+        <record model="sm_base.wilayates" id="wilaya_16"><field name="code">16</field><field name="name">Alger</field><field name="sequence">16</field></record>
+        <record model="sm_base.wilayates" id="wilaya_17"><field name="code">17</field><field name="name">Djelfa</field><field name="sequence">17</field></record>
+        <record model="sm_base.wilayates" id="wilaya_18"><field name="code">18</field><field name="name">Jijel</field><field name="sequence">18</field></record>
+        <record model="sm_base.wilayates" id="wilaya_19"><field name="code">19</field><field name="name">Sétif</field><field name="sequence">19</field></record>
+        <record model="sm_base.wilayates" id="wilaya_20"><field name="code">20</field><field name="name">Saïda</field><field name="sequence">20</field></record>
+        <record model="sm_base.wilayates" id="wilaya_21"><field name="code">21</field><field name="name">Skikda</field><field name="sequence">21</field></record>
+        <record model="sm_base.wilayates" id="wilaya_22"><field name="code">22</field><field name="name">Sidi Bel Abbès</field><field name="sequence">22</field></record>
+        <record model="sm_base.wilayates" id="wilaya_23"><field name="code">23</field><field name="name">Annaba</field><field name="sequence">23</field></record>
+        <record model="sm_base.wilayates" id="wilaya_24"><field name="code">24</field><field name="name">Guelma</field><field name="sequence">24</field></record>
+        <record model="sm_base.wilayates" id="wilaya_25"><field name="code">25</field><field name="name">Constantine</field><field name="sequence">25</field></record>
+        <record model="sm_base.wilayates" id="wilaya_26"><field name="code">26</field><field name="name">Médéa</field><field name="sequence">26</field></record>
+        <record model="sm_base.wilayates" id="wilaya_27"><field name="code">27</field><field name="name">Mostaganem</field><field name="sequence">27</field></record>
+        <record model="sm_base.wilayates" id="wilaya_28"><field name="code">28</field><field name="name">M'Sila</field><field name="sequence">28</field></record>
+        <record model="sm_base.wilayates" id="wilaya_29"><field name="code">29</field><field name="name">Mascara</field><field name="sequence">29</field></record>
+        <record model="sm_base.wilayates" id="wilaya_30"><field name="code">30</field><field name="name">Ouargla</field><field name="sequence">30</field></record>
+        <record model="sm_base.wilayates" id="wilaya_31"><field name="code">31</field><field name="name">Oran</field><field name="sequence">31</field></record>
+        <record model="sm_base.wilayates" id="wilaya_32"><field name="code">32</field><field name="name">El Bayadh</field><field name="sequence">32</field></record>
+        <record model="sm_base.wilayates" id="wilaya_33"><field name="code">33</field><field name="name">Illizi</field><field name="sequence">33</field></record>
+        <record model="sm_base.wilayates" id="wilaya_34"><field name="code">34</field><field name="name">Bordj Bou Arréridj</field><field name="sequence">34</field></record>
+        <record model="sm_base.wilayates" id="wilaya_35"><field name="code">35</field><field name="name">Boumerdès</field><field name="sequence">35</field></record>
+        <record model="sm_base.wilayates" id="wilaya_36"><field name="code">36</field><field name="name">El Tarf</field><field name="sequence">36</field></record>
+        <record model="sm_base.wilayates" id="wilaya_37"><field name="code">37</field><field name="name">Tindouf</field><field name="sequence">37</field></record>
+        <record model="sm_base.wilayates" id="wilaya_38"><field name="code">38</field><field name="name">Tissemsilt</field><field name="sequence">38</field></record>
+        <record model="sm_base.wilayates" id="wilaya_39"><field name="code">39</field><field name="name">El Oued</field><field name="sequence">39</field></record>
+        <record model="sm_base.wilayates" id="wilaya_40"><field name="code">40</field><field name="name">Khenchela</field><field name="sequence">40</field></record>
+        <record model="sm_base.wilayates" id="wilaya_41"><field name="code">41</field><field name="name">Souk Ahras</field><field name="sequence">41</field></record>
+        <record model="sm_base.wilayates" id="wilaya_42"><field name="code">42</field><field name="name">Tipaza</field><field name="sequence">42</field></record>
+        <record model="sm_base.wilayates" id="wilaya_43"><field name="code">43</field><field name="name">Mila</field><field name="sequence">43</field></record>
+        <record model="sm_base.wilayates" id="wilaya_44"><field name="code">44</field><field name="name">Aïn Defla</field><field name="sequence">44</field></record>
+        <record model="sm_base.wilayates" id="wilaya_45"><field name="code">45</field><field name="name">Naâma</field><field name="sequence">45</field></record>
+        <record model="sm_base.wilayates" id="wilaya_46"><field name="code">46</field><field name="name">Aïn Témouchent</field><field name="sequence">46</field></record>
+        <record model="sm_base.wilayates" id="wilaya_47"><field name="code">47</field><field name="name">Ghardaïa</field><field name="sequence">47</field></record>
+        <record model="sm_base.wilayates" id="wilaya_48"><field name="code">48</field><field name="name">Relizane</field><field name="sequence">48</field></record>
+        <record model="sm_base.wilayates" id="wilaya_49"><field name="code">49</field><field name="name">El M'Ghair</field><field name="sequence">49</field></record>
+        <record model="sm_base.wilayates" id="wilaya_50"><field name="code">50</field><field name="name">El Meniaa</field><field name="sequence">50</field></record>
+        <record model="sm_base.wilayates" id="wilaya_51"><field name="code">51</field><field name="name">Ouled Djellal</field><field name="sequence">51</field></record>
+        <record model="sm_base.wilayates" id="wilaya_52"><field name="code">52</field><field name="name">Bordj Badji Mokhtar</field><field name="sequence">52</field></record>
+        <record model="sm_base.wilayates" id="wilaya_53"><field name="code">53</field><field name="name">Béni Abbès</field><field name="sequence">53</field></record>
+        <record model="sm_base.wilayates" id="wilaya_54"><field name="code">54</field><field name="name">Timimoun</field><field name="sequence">54</field></record>
+        <record model="sm_base.wilayates" id="wilaya_55"><field name="code">55</field><field name="name">Touggourt</field><field name="sequence">55</field></record>
+        <record model="sm_base.wilayates" id="wilaya_56"><field name="code">56</field><field name="name">Djanet</field><field name="sequence">56</field></record>
+        <record model="sm_base.wilayates" id="wilaya_57"><field name="code">57</field><field name="name">In Salah</field><field name="sequence">57</field></record>
+        <record model="sm_base.wilayates" id="wilaya_58"><field name="code">58</field><field name="name">In Guezzam</field><field name="sequence">58</field></record>
+
+    </data>
+</odoo>

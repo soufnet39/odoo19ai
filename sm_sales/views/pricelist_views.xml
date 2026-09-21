@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ======================== -->
+    <!-- VUES DES LISTES DE PRIX -->
+    <!-- ======================== -->
+
+    <!-- Vue liste -->
+    <record id="sm_sales_pricelist_list" model="ir.ui.view">
+        <field name="name">sm_sales.pricelist.list</field>
+        <field name="model">sm_sales.pricelist</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" decoration-bf="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="user_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="sm_sales_pricelist_search" model="ir.ui.view">
+        <field name="name">sm_sales.pricelist.search</field>
+        <field name="model">sm_sales.pricelist</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="filter_inactive" string="Inactif" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_sm_sales_pricelist" model="ir.actions.act_window">
+        <field name="name">Listes de prix</field>
+        <field name="res_model">sm_sales.pricelist</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="sm_sales_pricelist_search"/>
+        <field name="context">{'search_default_filter_active': 1}</field>
+    </record>
+
+</odoo>

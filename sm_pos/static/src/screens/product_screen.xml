@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sm_pos.ProductScreen">
+        <div class="o_sm_pos_product_screen d-flex h-100">
+            <!-- Gauche : grille des produits -->
+            <div class="o_sm_pos_products flex-grow-1 d-flex flex-column p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <div class="fw-bold" t-esc="pos.session.name"/>
+                        <div class="text-muted small">Session en cours</div>
+                    </div>
+                    <button class="btn btn-warning" t-on-click="readyToClose">
+                        <i class="fa fa-flag-checkered me-1"/> Prêt à fermer
+                    </button>
+                </div>
+                <div class="d-flex gap-2 mb-3">
+                    <input type="text" class="form-control" placeholder="Rechercher des produits..."
+                           t-model="state.searchTerm"/>
+                    <button class="btn btn-outline-secondary" t-on-click="() => this.state.searchTerm = ''">
+                        <i class="fa fa-times"/>
+                    </button>
+                </div>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <button t-attf-class="btn #{state.selectedCategoryId === false ? 'btn-primary' : 'btn-outline-primary'} btn-sm"
+                            t-on-click="() => this.selectCategory(false)">
+                        <i class="fa fa-th-large me-1"/>
+                        Tous
+                    </button>
+                    <button t-foreach="categories" t-as="cat" t-key="cat.id"
+                            t-attf-class="btn #{state.selectedCategoryId === cat.id ? 'btn-primary' : 'btn-outline-primary'} btn-sm"
+                            t-on-click="() => this.selectCategory(cat.id)">
+                        <t t-esc="cat.name"/>
+                    </button>
+                </div>
+                <div class="o_sm_pos_product_grid row g-2 overflow-auto flex-grow-1">
+                    <ProductCard t-foreach="products" t-as="product" t-key="product.id"
+                                 product="product"
+                                 onClick="() => this.pos.addProduct(product)"/>
+                </div>
+            </div>
+            <!-- Droite : commande actuelle -->
+            <div class="o_sm_pos_order_panel d-flex flex-column"
+                 style="width: 380px; border-left: 1px solid #dee2e6;">
+                <div class="p-3 border-bottom">
+                    <h5 class="mb-0">Commande actuelle</h5>
+                </div>
+                <div class="flex-grow-1 overflow-auto p-2">
+                    <OrderLine t-foreach="order.lines" t-as="line" t-key="line.product_id" line="line"/>
+                    <div t-if="order.lines.length === 0" class="text-center text-muted py-5">
+                        <i class="fa fa-shopping-cart fa-3x mb-2 d-block"/>
+                        Aucun produit pour le moment
+                    </div>
+                </div>
+                <div class="p-3 border-top">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Total</span>
+                        <span class="fs-4 fw-bold" t-esc="orderTotal.toFixed(2)"/>
+                    </div>
+                    <button class="btn btn-success w-100" t-on-click="pay"
+                            t-att-disabled="order.lines.length === 0">
+                        <i class="fa fa-credit-card me-1"/> Payer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

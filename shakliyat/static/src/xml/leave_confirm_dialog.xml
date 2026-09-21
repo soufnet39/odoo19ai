@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="shakliyat.LeaveConfirmDialog">
+        <Dialog size="'md'" title="props.title" modalRef="modalRef">
+            <p t-out="props.body" class="text-prewrap"/>
+            <t t-set-slot="footer">
+                <button type="button"
+                        class="btn btn-primary"
+                        data-hotkey="s"
+                        t-on-click="onPressSave"
+                        t-esc="props.saveLabel"/>
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-hotkey="d"
+                        t-on-click="onPressDiscard"
+                        t-esc="props.discardLabel"/>
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-hotkey="c"
+                        t-on-click="onPressCancel"
+                        t-esc="props.cancelLabel"/>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

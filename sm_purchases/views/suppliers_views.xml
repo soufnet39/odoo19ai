@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ========================= -->
+    <!-- VUES DES PARTENAIRES FOURNISSEURS -->
+    <!-- ========================= -->
+
+    <!-- Vue liste -->
+    <record id="sm_purchases_supplier_list" model="ir.ui.view">
+        <field name="name">sm_purchases.supplier.list</field>
+        <field name="model">sm_sales.partner</field>
+        <field name="arch" type="xml">
+            <list decoration-bf="1">
+                <field name="name"/>
+                <field name="ref"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="city"/>
+                <field name="wilaya_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue kanban -->
+    <record id="sm_purchases_supplier_kanban" model="ir.ui.view">
+        <field name="name">sm_purchases.supplier.kanban</field>
+        <field name="model">sm_sales.partner</field>
+        <field name="arch" type="xml">
+            <kanban sample="1" default_order="name">
+                <field name="name"/>
+                <field name="ref"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="city"/>
+                <field name="wilaya_id"/>
+                <templates>
+                    <t t-name="card" class="row g-0">
+                        <main class="col-10 pe-2">
+                            <div class="d-flex mb-1 h5">
+                                <field name="name"/>
+                            </div>
+                            <span t-if="record.ref.value">
+                                [<field name="ref"/>]
+                            </span>
+                            <div>
+                                <field name="city"/>
+                                <field name="wilaya_id"/>
+                            </div>
+                            <div>
+                                <field name="phone"/>
+                            </div>
+                            <div>
+                                <field name="email"/>
+                            </div>
+                        </main>
+                        <aside class="col-2">
+                            <field name="image_512" widget="image"
+                                   options="{'img_class': 'o_image_64_contain mw-100'}" alt="Fournisseur"/>
+                        </aside>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue formulaire -->
+    <record id="sm_purchases_supplier_form" model="ir.ui.view">
+        <field name="name">sm_purchases.supplier.form</field>
+        <field name="model">sm_sales.partner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="bg-warning"
+                            invisible="active"/>
+
+                    <group col='12'>
+                        <group colspan='8'>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" placeholder="Nom du fournisseur"/>
+                                </h1>
+                                <h3>
+                                    <field name="ref" placeholder="Code fournisseur"/>
+                                </h3>
+                            </div>  
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="is_supplier" force_save="1" invisible="1"/>
+                        </group>
+                        <group colspan='4'>
+                            <field name="image_512" widget="image" nolabel="1"
+                                   class="oe_avatar" options="{'preview_image': 'image_512'}"/>
+                        </group>
+                    
+                    </group>
+
+                    <notebook>
+                        <page string="Coordonnées">
+                            <group>
+                                <group>
+                                    <field name="address"/>
+                                    <field name="city"/>
+                                    <field name="wilaya_id"/>
+                                </group>
+                                <group>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                    <field name="mobile"/>
+                                    <field name="website"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Informations commerciales">
+                            <group>
+                                <group>
+                                    <field name="reg_com"/>
+                                    <field name="art_imp"/>
+                                </group>
+                                <group>
+                                    <field name="mat_fisc"/>
+                                    <field name="nis"/>
+                                </group>
+                            </group>
+                            <group string="Responsables achats">
+                                <field name="user_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                        <page string="Contacts">
+                            <field name="contact_ids">
+                                <list string="Contacts" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="function"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche -->
+    <record id="sm_purchases_supplier_search" model="ir.ui.view">
+        <field name="name">sm_purchases.supplier.search</field>
+        <field name="model">sm_sales.partner</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="ref"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="city"/>
+                <field name="wilaya_id"/>
+               
+                <filter name="filter_inactive" string="Archivé"
+                        domain="[('active','=',False)]"/>
+                <separator/>
+                <filter name="group_by_wilaya" string="Wilaya"
+                        context="{'group_by': 'wilaya_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_sm_purchases_supplier" model="ir.actions.act_window">
+        <field name="name">Fournisseurs</field>
+        <field name="res_model">sm_sales.partner</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="path">suppliers</field>
+        <field name="domain">[('is_supplier','=',True)]</field>
+        <field name="search_view_id" ref="sm_purchases_supplier_search"/>
+        <field name="context">{ 'default_is_supplier': True}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_id': ref('sm_purchases_supplier_list'), 'view_mode': 'list'}), (0, 0, {'view_id': ref('sm_purchases_supplier_form'), 'view_mode': 'form'}), (0, 0, {'view_id': ref('sm_purchases_supplier_kanban'), 'view_mode': 'kanban'})]"/>
+    </record>
+
+</odoo>

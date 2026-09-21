@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================= -->
+    <!-- VUES DES PRODUITS -->
+    <!-- ================= -->
+
+    <!-- Vue liste -->
+    <record id="sm_sales_product_list" model="ir.ui.view">
+        <field name="name">sm_sales.product.list</field>
+        <field name="model">sm_sales.product</field>
+        <field name="arch" type="xml">
+            <list decoration-bf="1">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="categ_id"/>
+                <field name="product_type" optional="hide"/>
+                <field name="display_price" string="Prix" class="text-end"/>
+                <field name="sale_ok" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue kanban -->
+    <record id="sm_sales_product_kanban" model="ir.ui.view">
+        <field name="name">sm_sales.product.kanban</field>
+        <field name="model">sm_sales.product</field>
+        <field name="arch" type="xml">
+            <kanban sample="1" default_order="name">
+                <field name="name"/>
+                <field name="code"/>                
+                <field name="display_price"/>
+                <field name="categ_id"/>
+                <field name="product_type"/>
+                <field name="sale_ok"/>
+                <field name="active"/>
+                <field name="image_128"/>
+                <templates>
+                    <t t-name="card" class="row g-0">
+                        <main class="col-10 pe-2">
+                            <div class="d-flex mb-1 h5">
+                                <field name="name"/>
+                            </div>
+                            <span t-if="record.code.value">
+                                [<field name="code"/>]
+                            </span>
+                            <div>
+                                <field name="categ_id"/>
+                            </div>
+                            <div>
+                                <field name="product_type"/>
+                            </div>
+                            
+                            <div>
+                                Prix :  <field name="display_price"/>
+                            </div>
+                        </main>
+                        <aside class="col-2">
+                            <field name="image_128" widget="image"
+                                   options="{'img_class': 'o_image_64_contain mw-100'}"/>
+                        </aside>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue formulaire -->
+    <record id="sm_sales_product_form" model="ir.ui.view">
+        <field name="name">sm_sales.product.form</field>
+        <field name="model">sm_sales.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                   
+                     <widget name="web_ribbon" title="Archivé" bg_color="bg-warning" invisible="active"/>
+                    
+                    <group col='12'>
+                        <group colspan='8'>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" placeholder="Nom du produit"/>
+                                </h1>
+                                <h3>
+                                    <field name="code" placeholder="Référence"/>
+                                </h3>
+                            </div>                              
+                        </group>
+                        <group colspan='4'>                            
+                                    <field name="image_512" widget="image" nolabel='1'
+                                   class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                        </group>                    
+                    </group>
+                    <hr/>
+                    <group id="sales_info">                                          
+                        <field name="categ_id" widget="selection" options="{'no_open': True}"/>
+                       
+                        <field name="default_price" invisible="use_price_list" string="Prix de vente"/>
+                        <field name="display_price" invisible="not use_price_list"/>
+                    </group>
+                    <hr/>
+                    <group col='12'>
+                        <group colspan="6" string="Divers">
+                            <field name="sale_ok"/>
+                            <field name="product_type" />
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group colspan="6"> 
+                         <field name="use_price_list"/>
+                            <field name="price_list_price_ids"  invisible="not use_price_list" string="Utiliser une Liste de prix">
+                                <list editable="bottom">
+                                    <field name="pricelist_id" widget="selection"/>
+                                    <field name="price"/>
+                                </list>
+                            </field>
+                        </group>
+                    </group>    
+                    <hr/>
+                    <group>
+                            <field name="description" placeholder="Description..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche -->
+    <record id="sm_sales_product_search" model="ir.ui.view">
+        <field name="name">sm_sales.product.search</field>
+        <field name="model">sm_sales.product</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="categ_id" />
+                <filter name="filter_saleable" string="Vendable" domain="[('sale_ok','=',True)]"/>
+                <filter name="filter_consumable" string="Consommable" domain="[('product_type','=','consu')]"/>
+                <filter name="filter_service" string="Service" domain="[('product_type','=','service')]"/>
+                <filter name="filter_inactive" string="Inactif" domain="[('active','=',False)]"/>
+                
+                <filter name="group_categ" string="Catégorie" context="{'group_by': 'categ_id'}"/>
+                <filter name="group_type" string="Type de produit" context="{'group_by': 'product_type'}"/>
+                
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_sm_sales_product" model="ir.actions.act_window">
+        <field name="name">Produits</field>
+        <field name="res_model">sm_sales.product</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="path">products</field>
+        <field name="search_view_id" ref="sm_sales_product_search"/>
+    </record>
+
+</odoo>

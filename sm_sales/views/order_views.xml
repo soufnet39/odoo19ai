@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =============================== -->
+    <!-- VUE LISTE DES COMMANDES         -->
+    <!-- =============================== -->
+    <record id="view_sm_sales_order_list" model="ir.ui.view">
+        <field name="name">sm_sales.order.list</field>
+        <field name="model">sm_sales.order</field>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <list string="Commandes"  decoration-warning="state == 'draft'" decoration-success="state == 'confirmed'" decoration-danger="state == 'canceled'" decoration-bf="1">
+                <field name="name" string="Commande"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="state" widget="badge"/>
+                <field name="amount_ttc" sum="Total TTC"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- =============================== -->
+    <!-- VUE FORMULAIRE DES COMMANDES    -->
+    <!-- =============================== -->
+    <record id="view_sm_sales_order_form" model="ir.ui.view">
+        <field name="name">sm_sales.order.form</field>
+        <field name="model">sm_sales.order</field>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <form string="Commande">
+                <header>
+                    <button name="action_confirm" string="Confirmer la commande" type="object"
+                            class="btn btn-success" invisible="(state != 'draft') or ('_&lt;' in name)"/>
+                    <button name="print_order" string="Imprimer la commande" type="object"
+                            class="btn btn-info" invisible="create_date == write_date" icon="fa-print"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,canceled"/>
+                </header>
+                <sheet>
+                    <field name="operation_type" force_save="1" invisible="1"/>
+                    <widget name="web_ribbon" title="Annulée" bg_color="bg-warning"
+                            invisible="state != 'canceled'"  />
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_quotations" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o"
+                                invisible="quotation_count == 0">
+                            Proformas [<field name="quotation_count" class="d-inline"/>]
+                        </button>
+                    </div>
+                    <group>
+                        <group >
+                           <!-- <div class="oe_title">                                -->
+                                 <h1>
+                                    Bon de Commande: (<field name="name" readonly="not name_updatable" class="text-purple d-inline"/>)
+                                </h1> 
+                            <!-- </div> -->
+                        </group>
+                        <group string="Informations de la commande" class='sm_group mb-0' >
+                         <field name="partner_id" required="1"  domain="[('is_customer', '=', True)]" context="{'default_is_customer': True}"/>
+                         <field name="date"/>
+                         <field name="user_id" readonly="1" options="{'no_open': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lignes">
+                            <field name="can_change_product_designation_on_sales" invisible="1" />
+                            <field name="order_lines">
+                                <list id="detail_list" string="Lignes de commande"  decoration-bf="1">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_code" optional="hide"/>
+                                    <field name="name"/>
+                                    <field name="qty"/>
+                                    <field name="unit_price"/>
+                                    <field name="price_total" />
+                                    <control>
+                                       <create string="Ajouter un article"/>
+                                   </control>
+                                </list>
+                                <form>
+                                    <group id='add_article' col="12">
+                                    <group colspan='8' class="sm_group">
+                                        <field name="product_id" domain="[('sale_ok', '=', True)]"/>
+                                        <field name="name" invisible="not parent.can_change_product_designation_on_sales" class="over-y"/>
+                                        <field name="qty"/>
+                                        <field name="price_list_price_id" invisible="not use_price_list" widget="selection"/>
+                                        <field name="unit_price"/>
+                                        <field name="price_total"/>
+                                    </group>
+                                    <group colspan='4'>
+                                            <field name="image_128" widget='image' nolabel="1"/>
+                                    </group>
+                                </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page id='options' string="Options">
+                            <group>                               
+                                <field name="tva_enabled"/>
+                                <field name="tva_taux" invisible="not tva_enabled"/>
+                            </group>
+                            <hr/>
+                            <group>
+                                <field name="remise_exist"/>
+                                <field name="remise_methode" invisible="not remise_exist"/>
+                                <field name="remise_taux"
+                                    invisible="not remise_exist or remise_methode != 'taux'"/>
+                                <field name="remise_mta"
+                                    invisible="not remise_exist or remise_methode != 'mta'"/>
+                            </group>
+                            <hr/>
+                            <group>
+                                   <field name="can_change_product_designation_on_sales"/>
+                            </group>
+                            <hr/>
+                            <group>
+                             <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </page>
+                        <page string="Opérations">
+                           <div class="row">
+                                <div class="col-md-4 text-center"> 
+                                    <button name="action_cancel" class="btn btn-warning" string="Annuler la commande" type="object" invisible="state != 'confirmed'" />
+                                    <button name="action_draft" class="btn btn-danger" string="Remettre en brouillon" type="object" invisible="state != 'canceled'" />
+                                </div>
+                                <div id="dcm42" class="col-md-4 text-center"> 
+                                </div>
+                                <div id="dcm43" class="col-md-4 text-center"> 
+                                </div>
+                            </div>
+                        </page>
+                        <page invisible="quotation_count==0" string="Proformas liées">
+                            <field name="quotation_ids"
+                                   domain="[('partner_id', '=', partner_id)]">
+                                <list string="Proformas" decoration-bf="1">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="amount_ttc" sum="Total TTC"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <group>
+                            <field name="mode_paiement_id"/>
+                            <field name="note" widget="html" placeholder="Notes..."/>
+                        </group>    
+                        <group id='totaux' class="oe_subtotal_footer me-4">
+                            <field name="amount_ht_before_remise" class="text-end" invisible="not remise_exist or not tva_enabled"/>
+                            <field name="amount_ht_before_remise" class="text-end" string="Montant avant remise" invisible="not remise_exist or tva_enabled"/>
+                            <field name="remise_valeur" string="Remise" class="text-end" invisible="not remise_exist"/>
+                            <field name="amount_ht" class="text-end" invisible="not tva_enabled"/>
+                            <field name="amount_tva" class="text-end" invisible="not tva_enabled"/>
+                            <field name="amount_ttc" class="text-end" invisible="not tva_enabled"/>
+                            <field name="amount_ttc" class="text-end" string="Total" invisible="tva_enabled"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- =============================== -->
+    <!-- VUE RECHERCHE DES COMMANDES    -->
+    <!-- =============================== -->
+    <record id="view_sm_sales_order_search" model="ir.ui.view">
+        <field name="name">sm_sales.order.search</field>
+        <field name="model">sm_sales.order</field>
+        <field name="arch" type="xml">
+            <search string="Commandes">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="state"/>
+                <filter name="filter_draft" string="Brouillon"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_confirmed" string="Confirmées"
+                        domain="[('state', '=', 'confirmed')]"/>
+                <filter name="filter_canceled" string="Annulées"
+                        domain="[('state', '=', 'canceled')]"/>
+                
+                    <filter name="group_state" string="Etat"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_partner" string="Client"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_user" string="Vendeur"
+                            context="{'group_by': 'user_id'}"/>
+                    <filter name="group_date" string="Date"
+                            context="{'group_by': 'date'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- =============================== -->
+    <!-- ACTION FENÊTRE DES COMMANDES    -->
+    <!-- =============================== -->
+    <!-- modifiée dans sm_pos -->
+    <!-- =============================== -->
+    <record id="action_sm_sales_order" model="ir.actions.act_window">
+        <field name="name">Commandes</field>
+        <field name="res_model">sm_sales.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_sm_sales_order_search"/>
+        <field name="context">{'default_operation_type': 'order'}</field>
+        <field name="domain">[('operation_type','=','order')]</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_id': ref('view_sm_sales_order_list'), 'view_mode': 'list'}), (0, 0, {'view_id': ref('view_sm_sales_order_form'), 'view_mode': 'form'})]"/>
+    </record>
+
+</odoo>

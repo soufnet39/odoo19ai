@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== -->
+    <!-- VUES DES CONDITIONS DE VENTE -->
+    <!-- ==================== -->
+
+    <!-- Vue liste -->
+    <record id="me_sales_sale_condition_list" model="ir.ui.view">
+        <field name="name">me_sales.sale.condition.list</field>
+        <field name="model">me_sales.sale.condition</field>
+        <field name="arch" type="xml">
+            <list decoration-bf="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="is_default"/>
+                <field name="active" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="me_sales_sale_condition_form" model="ir.ui.view">
+        <field name="name">me_sales.sale.condition.form</field>
+        <field name="model">me_sales.sale.condition</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom de la condition de vente"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="is_default"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue recherche -->
+    <record id="me_sales_sale_condition_search" model="ir.ui.view">
+        <field name="name">me_sales.sale.condition.search</field>
+        <field name="model">me_sales.sale.condition</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="filter_active" string="Actif" domain="[('active','=',True)]"/>
+                <filter name="filter_inactive" string="Inactif" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_me_sales_sale_condition" model="ir.actions.act_window">
+        <field name="name">Conditions de vente</field>
+        <field name="res_model">me_sales.sale.condition</field>
+        <field name="view_mode">list,form</field>
+        <field name="path">sales_conditions</field>
+        <field name="search_view_id" ref="me_sales_sale_condition_search"/>
+        <field name="context">{'search_default_filter_active': 1}</field>
+    </record>
+
+</odoo>
