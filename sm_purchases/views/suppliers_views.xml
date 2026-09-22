@@ -116,7 +116,7 @@
                                     <field name="art_imp"/>
                                 </group>
                                 <group>
-                                    <field name="mat_fisc"/>
+                                    <field name="nif"/>
                                     <field name="nis"/>
                                 </group>
                             </group>
