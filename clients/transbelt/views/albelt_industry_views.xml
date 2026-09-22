@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Industry List View -->
+    <record id="view_albelt_industry_tree" model="ir.ui.view">
+        <field name="name">albelt.industry.list</field>
+        <field name="model">albelt.industry</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="fullname"/>
+                <field name="archive"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Industry Form View -->
+    <record id="view_albelt_industry_form" model="ir.ui.view">
+        <field name="name">albelt.industry.form</field>
+        <field name="model">albelt.industry</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="fullname"/>
+                        </group>
+                        <group>
+                            <field name="archive"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Industry Search View -->
+    <record id="view_albelt_industry_search" model="ir.ui.view">
+        <field name="name">albelt.industry.search</field>
+        <field name="model">albelt.industry</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="fullname"/>
+                <filter string="Archivé" name="archived" domain="[('archive', '=', True)]"/>
+                <filter string="Actif" name="active" domain="[('archive', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Industry Action -->
+    <record id="action_albelt_industry" model="ir.actions.act_window">
+        <field name="name">Industries</field>
+        <field name="res_model">albelt.industry</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+   
+</odoo>

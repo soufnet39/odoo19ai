@@ -22,7 +22,7 @@ class SMSalesPartner(models.Model):
     city = fields.Char(string='Ville')
     email = fields.Char(string='E-mail')
     phone = fields.Char(string='Téléphone')
-    mobile = fields.Char(string='Téléphone mobile')
+    mobile = fields.Char(string='Mobile')
     website = fields.Char(string='Site web')
 
     # Informations commerciales
@@ -30,9 +30,9 @@ class SMSalesPartner(models.Model):
     user_ids = fields.Many2many('res.users', string='Commerciaux')
 
     # Informations fiscales
-    reg_com = fields.Char(string='Registre de commerce')
-    art_imp = fields.Char(string='Article fiscal')
-    mat_fisc = fields.Char(string='Identifiant fiscal')
+    reg_com = fields.Char(string='Reg. Com.')
+    art_imp = fields.Char(string='Art. Imp.')
+    nif = fields.Char(string='N.I.F.')
     nis = fields.Char(string='N.I.S.')
 
     # Enregistrements associés

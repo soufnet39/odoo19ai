@@ -103,10 +103,10 @@
                                 <field name="mobile"/>
                                 <field name="website"/>                             
                         </group>
-                         <group colspan='6' string="Information fiscals">
+                         <group id='fiscality' colspan='6' string="Information fiscals">
                                 <field name="reg_com"/>
                                 <field name="art_imp"/>
-                                <field name="mat_fisc"/>
+                                <field name="nif"/>
                                 <field name="nis"/>
                          </group>
                     </group>

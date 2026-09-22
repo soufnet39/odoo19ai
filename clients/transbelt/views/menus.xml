@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Industry Menu -->
+        <menuitem id="menu_albelt_industry"
+              name="Industries"
+              parent="sm_base.menu_sm_base_configurations"
+              action="action_albelt_industry"
+              sequence="10"/>
+     <!-- Raison Socio Menu -->
+        <menuitem id="menu_albelt_raison_socio"
+              name="Raisons Social"
+              parent="sm_base.menu_sm_base_configurations"
+              action="action_albelt_raison_socio"
+              sequence="11"/>
+</odoo>

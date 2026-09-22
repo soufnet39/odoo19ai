@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <!-- list view  -->
+    <record id="view_transbelt_customer_list" model="ir.ui.view">
+        <field name="name">transbelt.customer.list</field>
+        <field name="model">sm_sales.partner</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_customer_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[1]" position="before" >
+                <field name="raison_social_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- form view -->
+    <record id="view_transbelt_customer_form" model="ir.ui.view">
+        <field name="name">transbelt.customer.form</field>
+        <field name="model">sm_sales.partner</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_customer_form"/>
+        <field name="arch" type="xml">
+            <group id='fiscality' position="inside">
+                     <field name="raison_social_id"/>
+                    <field name="industry_id"/>
+             </group>
+        </field>
+    </record>
+
+</odoo>

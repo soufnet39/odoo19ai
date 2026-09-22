@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_albelt_industry_user,albelt.industry.user,model_albelt_industry,,1,1,1,1
+access_albelt_raison_socio_user,albelt.raison_socio.user,model_albelt_raison_socio,,1,1,1,1
