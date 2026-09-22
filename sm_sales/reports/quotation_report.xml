@@ -18,25 +18,79 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="quotation">
                <t t-call="sm_base.external_layout_sm">
-                    <t t-set="o" t-value="quotation"/>
+                    <t t-set="doc" t-value="quotation"/>
+                    <link rel="stylesheet" type="text/css" href="/sm_sales/static/src/css/doc.css"/>
                     <div class="page">
                         <!-- Informations d'en-tête -->
-                        <h2 class="text-center">Proforma</h2>
-
+                        
                         <div class="row mt-4">
-                            <div class="col-6">
-                                <strong>Proforma :</strong> <span t-field="quotation.name"/><br/>
-                                <strong>Date :</strong> <span t-field="quotation.date"/><br/>
+                            <div class="col-5 text-center">
+                                <strong class="h3">Facture Proforma </strong> <br/>
+                                <span class="h4" t-field="quotation.name"/>
                             </div>
-                            <div class="col-6">
-                                <strong>Client :</strong> <span t-field="quotation.partner_id"/><br/>
-                                <strong>Vendeur :</strong> <span t-field="quotation.user_id"/><br/>
-                                <strong>Mode de paiement :</strong> <span t-field="quotation.mode_paiement_id"/>
+                            <div class="col-7" style="font-size:10pt">
+                                    <div class="row">
+                                        <div class="col-3 text-end">
+                                            <strong>Client :</strong>
+                                        </div>
+                                        <div class="col-9">
+                                            <span style="font-weight:bold; " t-field="doc.partner_id.name" />
+                                            <t t-if="doc.partner_id.address">
+                                                <br/>
+                                                <span t-field="doc.partner_id.address" />
+                                                ,
+                                                <span t-field="doc.partner_id.wilaya_id" />
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="row" t-if="doc.partner_id.reg_com">
+                                        <div class="col-3 text-end" >
+                                            Reg.Com :
+                                        </div>
+                                        <div class="col-9">
+                                            <span t-field="doc.partner_id.reg_com"/>
+                                        </div>
+                                    </div>
+                                     <div class="row" t-if="doc.partner_id.art_imp">
+                                        <div class="col-3 text-end" >
+                                            Art.Imp :
+                                        </div>
+                                        <div class="col-9" >
+                                            <span t-field="doc.partner_id.art_imp"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" t-if="doc.partner_id.nif">
+                                        <div class="col-3 text-end" >
+                                            N.I.F. :
+                                        </div>
+                                        <div class="col-9">
+                                            <span t-field="doc.partner_id.nif"/>
+                                        </div>
+                                    </div>
+                                     <div class="row" t-if="doc.partner_id.nis">
+                                        <div class="col-3 text-end" >
+                                            N.I.S. :
+                                        </div>
+                                        <div class="col-9">
+                                            <span t-field="doc.partner_id.nis"/>
+                                        </div>
+                                    </div>
+                                   
                             </div>
                         </div>
 
                         <!-- Lignes de proforma -->
-                        <table class="table table-sm mt-4">
+                        <table  class="w-100 mt-4 mb-2 table-borderless" >
+                          <tr> 
+                            <td class="text-start">
+                              Suivi par: <span t-field="quotation.user_id"/>
+                            </td>
+                            <td class="text-end">
+                               Date: <span t-field="quotation.date"/>
+                            </td>
+                          </tr>
+                        </table>
+                        <table class="table table-sm mt-0 my-table">
                             <thead>
                                 <tr>
                                     <th>Désignation</th>
@@ -76,7 +130,7 @@
                                         <td><strong>TVA :</strong></td>
                                         <td class="text-end"><span t-field="quotation.amount_tva"/></td>
                                     </tr>
-                                    <tr class="fw-bold">
+                                    <tr class="fw-bold backy" >
                                         <td><strong>Total TTC:</strong></td>
                                         <td class="text-end"><span t-field="quotation.amount_ttc"/></td>
                                     </tr>
@@ -85,6 +139,18 @@
                         </div>
 
                         <!-- Note -->
+                        <div t-if="doc.mode_paiement_id">
+                            <span> Mode de paiement : </span> <span t-field="doc.mode_paiement_id"/>
+                        </div>
+                        <div t-if="doc.methode_paiement_id">
+                            <span> Méthode de paiement : </span> <span t-field="doc.methode_paiement_id"/>
+                        </div>
+                        <div t-if="doc.condition_vente_id">
+                            <span> Condition de vente : </span> <span t-field="doc.condition_vente_id"/>
+                        </div>
+                        <div t-if="doc.validity_offre_id">
+                            <span> Validité de l'offre : </span> <span t-field="doc.validity_offre_id"/>
+                        </div>
                         <div t-if="quotation.note" class="mt-4">
                             <strong>Notes :</strong>
                             <div t-field="quotation.note"/>

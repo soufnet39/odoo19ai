@@ -21,7 +21,7 @@ class SmPosConfig(models.Model):
     boxe_id = fields.Many2one('sm_boxes.boxes', string='Caisse',
                               default=lambda self: self._default_boxe_id(),
                               help='Caisse utilisée pour enregistrer les paiements du point de vente.')
-    payment_mode_ids = fields.Many2many('me_sales.payment.mode', string='Modes de paiement',
+    payment_mode_ids = fields.Many2many('sm_sales.payment.mode', string='Modes de paiement',
                                         help='Modes de paiement disponibles dans ce point de vente.')
     user_ids = fields.Many2many('res.users', string='Caissiers',
                                 help='Utilisateurs autorisés à utiliser ce point de vente. Si vide, tous les utilisateurs peuvent l’utiliser.')

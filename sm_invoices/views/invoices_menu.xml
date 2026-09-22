@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- ======================== -->
-    <!-- MENU PRINCIPAL FACTURES  -->
-    <!-- ======================== -->
-    <menuitem
-        id="menu_sm_invoices_root"
-        name="Factures"
-        parent="shakliyat.menu_landing_page"
-        sequence="15" />
+   
 
     <!-- =============================== -->
     <!-- SOUS-MENU DES FACTURES          -->
@@ -16,8 +9,8 @@
     <menuitem
         id="menu_sm_invoices_invoice"
         name="Factures"
-        parent="menu_sm_invoices_root"
+        parent="sm_sales.menu_sm_sales_root"
         action="action_sm_invoices_invoice"
-        sequence="10" />
+        sequence="11" />
 
 </odoo>

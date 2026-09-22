@@ -236,7 +236,7 @@ class SmPosSession(models.Model):
         self.ensure_one()
         config = self.config_id
         order = self.env['sm_sales.order'].browse(order_id)
-        payment_mode = self.env['me_sales.payment.mode'].browse(payment_mode_id)
+        payment_mode = self.env['sm_sales.payment.mode'].browse(payment_mode_id)
         mode_map = {'cash': 'sold', 'cheque': 'bank', 'transfer': 'virement', 'other': 'sold'}
         payment = self.env['sm_boxes.operations'].create({
             'operation': 'encaissement',

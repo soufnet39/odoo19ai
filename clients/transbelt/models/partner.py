@@ -1,4 +1,4 @@
-from odoo import models, fields , api
+from odoo import models, fields  
 
 class AlbeltPartner(models.Model):
     _inherit = 'sm_sales.partner'

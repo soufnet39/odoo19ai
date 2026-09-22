@@ -1,93 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
     <!-- Modes de paiement -->
-    <record id="payment_mode_term" model="me_sales.payment.mode">
+    <record id="payment_mode_term" model="sm_sales.payment.mode">
         <field name="sequence">1</field>
         <field name="name">À terme</field>
     </record>
-    <record id="payment_mode_cheque" model="me_sales.payment.mode">
+    <record id="payment_mode_cheque" model="sm_sales.payment.mode">
         <field name="sequence">2</field>
         <field name="name">Chèque</field>
         <field name="nature">cheque</field>
     </record>
-    <record id="payment_mode_cash" model="me_sales.payment.mode">
+    <record id="payment_mode_cash" model="sm_sales.payment.mode">
         <field name="sequence">3</field>
         <field name="name">Espèces</field>
         <field name="nature">cash</field>
     </record>
-    <record id="payment_mode_transfer" model="me_sales.payment.mode">
+    <record id="payment_mode_transfer" model="sm_sales.payment.mode">
         <field name="sequence">4</field>
         <field name="name">Virement</field>
         <field name="nature">transfer</field>
     </record>
-    <record id="payment_mode_virement" model="me_sales.payment.mode">
+    <record id="payment_mode_virement" model="sm_sales.payment.mode">
         <field name="sequence">5</field>
         <field name="name">Virement bancaire</field>
         <field name="nature">transfer</field>
     </record>
 
     <!-- Méthodes de paiement -->
-    <record id="payment_method_order" model="me_sales.payment.method">
+    <record id="payment_method_order" model="sm_sales.payment.method">
         <field name="sequence">1</field>
         <field name="name">À la commande</field>
     </record>
-    <record id="payment_method_invoice" model="me_sales.payment.method">
+    <record id="payment_method_invoice" model="sm_sales.payment.method">
         <field name="sequence">2</field>
         <field name="name">À la réception de la facture</field>
     </record>
-    <record id="payment_method_50_50" model="me_sales.payment.method">
+    <record id="payment_method_50_50" model="sm_sales.payment.method">
         <field name="sequence">3</field>
         <field name="name">50 % à la commande, 50 % à la livraison</field>
     </record>
-    <record id="payment_method_term" model="me_sales.payment.method">
+    <record id="payment_method_term" model="sm_sales.payment.method">
         <field name="sequence">4</field>
         <field name="name">À terme</field>
     </record>
 
     <!-- Conditions de vente -->
-    <record id="sale_condition_available" model="me_sales.sale.condition">
+    <record id="sale_condition_available" model="sm_sales.sale.condition">
         <field name="sequence">1</field>
         <field name="name">Disponible</field>
     </record>
-    <record id="sale_condition_3_days" model="me_sales.sale.condition">
+    <record id="sale_condition_3_days" model="sm_sales.sale.condition">
         <field name="sequence">2</field>
         <field name="name">Disponible 3 jours après réception de la commande</field>
     </record>
-    <record id="sale_condition_5_days" model="me_sales.sale.condition">
+    <record id="sale_condition_5_days" model="sm_sales.sale.condition">
         <field name="sequence">3</field>
         <field name="name">Disponible 5 jours après réception de la commande</field>
     </record>
-    <record id="sale_condition_10_days" model="me_sales.sale.condition">
+    <record id="sale_condition_10_days" model="sm_sales.sale.condition">
         <field name="sequence">4</field>
         <field name="name">Disponible 10 jours après réception de la commande</field>
     </record>
-    <record id="sale_condition_15_days" model="me_sales.sale.condition">
+    <record id="sale_condition_15_days" model="sm_sales.sale.condition">
         <field name="sequence">5</field>
         <field name="name">Disponible 15 jours après réception de la commande</field>
     </record>
 
     <!-- Durées de validité des offres -->
-    <record id="offer_validity_7_days" model="me_sales.offer.validity">
+    <record id="offer_validity_7_days" model="sm_sales.offer.validity">
         <field name="sequence">1</field>
         <field name="name">7 jours</field>
         <field name="days">7</field>
     </record>
-    <record id="offer_validity_15_days" model="me_sales.offer.validity">
+    <record id="offer_validity_15_days" model="sm_sales.offer.validity">
         <field name="sequence">2</field>
         <field name="name">15 jours</field>
         <field name="days">15</field>
     </record>
-    <record id="offer_validity_30_days" model="me_sales.offer.validity">
+    <record id="offer_validity_30_days" model="sm_sales.offer.validity">
         <field name="sequence">3</field>
         <field name="name">30 jours</field>
         <field name="days">30</field>
     </record>
-    <record id="offer_validity_45_days" model="me_sales.offer.validity">
+    <record id="offer_validity_45_days" model="sm_sales.offer.validity">
         <field name="sequence">4</field>
         <field name="name">45 jours</field>
         <field name="days">45</field>
     </record>
-    <record id="offer_validity_2_months" model="me_sales.offer.validity">
+    <record id="offer_validity_2_months" model="sm_sales.offer.validity">
         <field name="sequence">5</field>
         <field name="name">2 mois</field>
         <field name="days">60</field>

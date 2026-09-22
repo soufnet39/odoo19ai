@@ -19,8 +19,8 @@
         <field name="inherit_id" ref="sm_sales.sm_sales_customer_form"/>
         <field name="arch" type="xml">
             <group id='fiscality' position="inside">
-                     <field name="raison_social_id"/>
-                    <field name="industry_id"/>
+                     <field name="raison_social_id" options="{'no_open': True}"/>
+                    <field name="industry_id" options="{'no_open': True}"/>
              </group>
         </field>
     </record>

@@ -110,7 +110,11 @@ class SmSalesQuotation(models.Model):
                             default=lambda self: self.env['ir.config_parameter'].sudo().get_param('sm_sales.product_name_editable') == 'True')
 
 
-    mode_paiement_id = fields.Many2one('me_sales.payment.mode', string="Mode de paiement")
+    mode_paiement_id =    fields.Many2one('sm_sales.payment.mode', string="Mode de paiement")
+    methode_paiement_id = fields.Many2one('sm_sales.payment.method', string="Méthode de paiement", default=lambda self: self.env['sm_sales.payment.method'].search([('is_default', '=', True)], limit=1, order='sequence').id)
+    condition_vente_id = fields.Many2one('sm_sales.sale.condition', string="Condition de vente", default=lambda self: self.env['sm_sales.sale.condition'].search([('is_default', '=', True)], limit=1, order='sequence').id)
+    validity_offre_id = fields.Many2one('sm_sales.offer.validity', string="Validité de l'offre", default=lambda self: self.env['sm_sales.offer.validity'].search([('is_default', '=', True)], limit=1, order='sequence').id)
+
     
     @api.depends('quotation_lines')
     def _compute_lines_count(self):

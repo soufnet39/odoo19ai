@@ -1,19 +1,19 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_me_sales_payment_mode_user,me_sales.payment.mode.user,model_me_sales_payment_mode,sm_sales_user,1,0,0,0
-access_me_sales_payment_mode_manager,me_sales.payment.mode.manager,model_me_sales_payment_mode,sm_sales_manager,1,1,1,0
-access_me_sales_payment_mode_admin,me_sales.payment.mode.admin,model_me_sales_payment_mode,sm_sales_admin,1,1,1,1
+access_sm_sales_payment_mode_user,sm_sales.payment.mode.user,model_sm_sales_payment_mode,sm_sales_user,1,0,0,0
+access_sm_sales_payment_mode_manager,sm_sales.payment.mode.manager,model_sm_sales_payment_mode,sm_sales_manager,1,1,1,0
+access_sm_sales_payment_mode_admin,sm_sales.payment.mode.admin,model_sm_sales_payment_mode,sm_sales_admin,1,1,1,1
 
-access_me_sales_payment_method_user,me_sales.payment.method.user,model_me_sales_payment_method,sm_sales_user,1,0,0,0
-access_me_sales_payment_method_manager,me_sales.payment.method.manager,model_me_sales_payment_method,sm_sales_manager,1,1,1,0
-access_me_sales_payment_method_admin,me_sales.payment.method.admin,model_me_sales_payment_method,sm_sales_admin,1,1,1,1
+access_sm_sales_payment_method_user,sm_sales.payment.method.user,model_sm_sales_payment_method,sm_sales_user,1,0,0,0
+access_sm_sales_payment_method_manager,sm_sales.payment.method.manager,model_sm_sales_payment_method,sm_sales_manager,1,1,1,0
+access_sm_sales_payment_method_admin,sm_sales.payment.method.admin,model_sm_sales_payment_method,sm_sales_admin,1,1,1,1
 
-access_me_sales_sale_condition_user,me_sales.sale.condition.user,model_me_sales_sale_condition,sm_sales_user,1,0,0,0
-access_me_sales_sale_condition_manager,me_sales.sale.condition.manager,model_me_sales_sale_condition,sm_sales_manager,1,1,1,0
-access_me_sales_sale_condition_admin,me_sales.sale.condition.admin,model_me_sales_sale_condition,sm_sales_admin,1,1,1,1
+access_sm_sales_sale_condition_user,sm_sales.sale.condition.user,model_sm_sales_sale_condition,sm_sales_user,1,0,0,0
+access_sm_sales_sale_condition_manager,sm_sales.sale.condition.manager,model_sm_sales_sale_condition,sm_sales_manager,1,1,1,0
+access_sm_sales_sale_condition_admin,sm_sales.sale.condition.admin,model_sm_sales_sale_condition,sm_sales_admin,1,1,1,1
 
-access_me_sales_offer_validity_user,me_sales.offer.validity.user,model_me_sales_offer_validity,sm_sales_user,1,0,0,0
-access_me_sales_offer_validity_manager,me_sales.offer.validity.manager,model_me_sales_offer_validity,sm_sales_manager,1,1,1,0
-access_me_sales_offer_validity_admin,me_sales.offer.validity.admin,model_me_sales_offer_validity,sm_sales_admin,1,1,1,1
+access_sm_sales_offer_validity_user,sm_sales.offer.validity.user,model_sm_sales_offer_validity,sm_sales_user,1,0,0,0
+access_sm_sales_offer_validity_manager,sm_sales.offer.validity.manager,model_sm_sales_offer_validity,sm_sales_manager,1,1,1,0
+access_sm_sales_offer_validity_admin,sm_sales.offer.validity.admin,model_sm_sales_offer_validity,sm_sales_admin,1,1,1,1
 
 access_sm_sales_product_category_user,sm_sales.product.category.user,model_sm_sales_product_category,sm_sales_user,1,0,0,0
 access_sm_sales_product_category_manager,sm_sales.product.category.manager,model_sm_sales_product_category,sm_sales_manager,1,1,1,0

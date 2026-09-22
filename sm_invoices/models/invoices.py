@@ -186,7 +186,7 @@ class SmInvoice(models.Model):
     )
 
     mode_paiement_id = fields.Many2one(
-        'me_sales.payment.mode', string="Mode de paiement",
+        'sm_sales.payment.mode', string="Mode de paiement",
     )
 
     # ------------------------------------------------------------------

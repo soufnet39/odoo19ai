@@ -41,7 +41,7 @@ class SmSalesOrder(models.Model):
                 'amount_ttc': amount_ht + amount_tva ,
             })
 
-    name = fields.Char(string='Commande', required=True, copy=False, index=True, default=_('_< Nouveau >_'),)
+    name = fields.Char(string='Commande', required=True, copy=False, index=True, default='_< Nouveau >_',)
 
     name_updatable = fields.Boolean(string="Numero Modifiable", store=False, default=False)
     
@@ -122,7 +122,7 @@ class SmSalesOrder(models.Model):
                             default=lambda self: self.env['ir.config_parameter'].sudo().get_param('sm_sales.product_name_editable') == 'True')
 
 
-    mode_paiement_id = fields.Many2one('me_sales.payment.mode', string="Mode de paiement")
+    mode_paiement_id = fields.Many2one('sm_sales.payment.mode', string="Mode de paiement")
     
     @api.depends('order_lines')
     def _compute_lines_count(self):

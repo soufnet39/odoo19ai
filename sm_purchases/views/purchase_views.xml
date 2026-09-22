@@ -50,7 +50,7 @@
                                 </h1>
                             </div>
                         </group>
-                        <group string="Informations de l'achat" class='sm_group mb-0'>
+                        <group string="Informations sur le document" class='sm_group mb-0'>
                             <field name="partner_id" required="1" string="Fournisseur"  domain="[('is_supplier', '=', True)]" context="{'default_is_supplier': True}"/>
                             <field name="date"/>
                             <field name="user_id" readonly="1" options="{'no_open': True}" />

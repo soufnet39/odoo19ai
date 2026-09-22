@@ -19,6 +19,8 @@ class SmBoxesBoxes(models.Model):
     rib = fields.Char(string="RIB", required=False, )
     bank_id = fields.Many2one("sm_sales.bank")
 
+    can_be_negatif = fields.Boolean(string="Compte negatif", default=False  )
+
     operations_ids= fields.One2many('sm_boxes.operations','boxe_id')
 
     _check_name_unique = models.Constraint(

@@ -6,6 +6,8 @@ class RaisonSocioModule(models.Model):
 
     name = fields.Char( string='name', required=True  )
 
-    _sql_constraints = [
-        ('name_raison_uniq', 'unique(name)', "Le Nom doit être unique !"),
-    ]
+    _check_name_raison_uniq = models.Constraint(
+        'UNIQUE(name)',
+        'Le Nom doit être unique !',
+    )
+   

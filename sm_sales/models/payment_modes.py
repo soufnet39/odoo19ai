@@ -3,7 +3,7 @@ from odoo import models, fields, _
 
 
 class MeSalesPaymentMode(models.Model):
-    _name = 'me_sales.payment.mode'
+    _name = 'sm_sales.payment.mode'
     _description = 'Mode de paiement'
     _order = 'sequence, id'
 
@@ -20,7 +20,7 @@ class MeSalesPaymentMode(models.Model):
 
 
 class MeSalesPaymentMethod(models.Model):
-    _name = 'me_sales.payment.method'
+    _name = 'sm_sales.payment.method'
     _description = 'Méthode de paiement'
     _order = 'sequence, id'
 
@@ -31,7 +31,7 @@ class MeSalesPaymentMethod(models.Model):
 
 
 class MeSalesSaleCondition(models.Model):
-    _name = 'me_sales.sale.condition'
+    _name = 'sm_sales.sale.condition'
     _description = 'Condition de vente'
     _order = 'sequence, id'
 
@@ -42,7 +42,7 @@ class MeSalesSaleCondition(models.Model):
 
 
 class MeSalesOfferValidity(models.Model):
-    _name = 'me_sales.offer.validity'
+    _name = 'sm_sales.offer.validity'
     _description = "Durée de validité de l'offre"
     _order = 'sequence, id'
 

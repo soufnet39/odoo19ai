@@ -20,17 +20,12 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                <group>
-                    <group>
-                        <field name="name"/>
-                        <field name="boxe_type"/>
-                    </group>
-                </group>
-                <group>
-                    <group invisible="boxe_type != 'bank'">
-                        <field name="rib" />
-                        <field name="bank_id" required="boxe_type == 'bank'" options="{'no_open': True}" />
-                    </group>
+                <group>                   
+                    <field name="name"/>
+                    <field name="boxe_type"/>
+                    <field name="bank_id" invisible="boxe_type != 'bank'" required="boxe_type == 'bank'" options="{'no_open': True}" />
+                    <field name="rib" invisible="boxe_type != 'bank'"/>
+                    <field name="can_be_negatif"/>
                 </group>
                 <hr/>
                 <group>

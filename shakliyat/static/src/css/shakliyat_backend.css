@@ -125,8 +125,7 @@
 th[data-name='display_price'] {
     text-align: end;
 }
-.o_form_view .o_group .o_wrap_label .o_form_label {
-    
+.o_form_view .o_group .o_wrap_label .o_form_label ,.o_form_view .o_form_label{    
     color: darkcyan;
 }
 .o_notebook .nav{
@@ -189,6 +188,11 @@ button.rosy{
     margin-top: 8px!important;
     margin-bottom: 4px!important;
 }
+.o_horizontal_separator {
+    color: tomato 
+}
+
+
 /* ------------------------------------------------------------------ *
  * 7. Landing page — app cards
  * ------------------------------------------------------------------ */

@@ -48,7 +48,7 @@
                                 </h1>                             
                             <!-- </div> -->
                         </group>
-                        <group string="Informations de la commande" class='sm_group mb-0' >
+                        <group string="Informations sur le document" class='sm_group mb-0' >
                          <field name="partner_id" required="1"  domain="[('is_customer', '=', True)]" context="{'default_is_customer': True}"/>
                          <field name="date"/>
                          <field name="user_id" readonly="1" options="{'no_open': True}"/>
@@ -133,6 +133,9 @@
                     <group>
                         <group>
                             <field name="mode_paiement_id"/>
+                            <field name="methode_paiement_id"/>
+                            <field name="condition_vente_id"/>
+                            <field name="validity_offre_id"/>
                             <field name="note" widget="html" placeholder="Notes..."/>
                         </group>    
                         <group id='totaux' class="oe_subtotal_footer me-4">

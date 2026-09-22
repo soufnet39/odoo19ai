@@ -1,0 +1,11 @@
+
+.my-table tbody tr{
+    border-color: silver;
+
+}
+.my-table thead ,.backy{
+    background-color: #e6e3e3!important;
+}
+.no-border {
+
+}

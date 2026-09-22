@@ -75,7 +75,7 @@
 
                     <group col='12'>
                         <group colspan='8'>
-                            <div class="oe_title">
+                            <div >
                                 <h1>
                                     <field name="name" placeholder="Nom du fournisseur"/>
                                 </h1>
@@ -90,42 +90,32 @@
                             <field name="image_512" widget="image" nolabel="1"
                                    class="oe_avatar" options="{'preview_image': 'image_512'}"/>
                         </group>
-                    
                     </group>
-
-                    <notebook>
-                        <page string="Coordonnées">
-                            <group>
-                                <group>
+                     <hr/>
+                    <group col="12">
+                                <group colspan="6" string="Coordonnées">
                                     <field name="address"/>
                                     <field name="city"/>
-                                    <field name="wilaya_id"/>
-                                </group>
-                                <group>
+                                    <field name="wilaya_id"/>                             
                                     <field name="email"/>
                                     <field name="phone"/>
                                     <field name="mobile"/>
                                     <field name="website"/>
                                 </group>
-                            </group>
-                        </page>
-                        <page string="Informations commerciales">
-                            <group>
-                                <group>
+                                 <group colspan="6" string="Informations commerciales">
                                     <field name="reg_com"/>
                                     <field name="art_imp"/>
-                                </group>
-                                <group>
                                     <field name="nif"/>
                                     <field name="nis"/>
                                 </group>
-                            </group>
-                            <group string="Responsables achats">
+
+                    </group>
+                    <hr/>
+                    <group string="Responsables des achats">
                                 <field name="user_ids" widget="many2many_tags"/>
-                            </group>
-                        </page>
-                        <page string="Contacts">
-                            <field name="contact_ids">
+                    </group>
+                    <group col="12" string="Contacts">
+                          <field name="contact_ids" nolabel="1" colspan="12">
                                 <list string="Contacts" editable="bottom">
                                     <field name="name"/>
                                     <field name="function"/>
@@ -133,11 +123,14 @@
                                     <field name="email"/>
                                 </list>
                             </field>
-                        </page>
-                        <page string="Notes">
-                            <field name="note"/>
-                        </page>
-                    </notebook>
+                    </group>
+                    <hr/>
+                    <group col="12" string="Notes">
+                            <field colspan="12" name="note" nolabel="1"  placeholder="Note sur fourniseur"/>
+                    </group>
+
+                   
+                  
                 </sheet>
                 <chatter/>
             </form>

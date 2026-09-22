@@ -15,13 +15,13 @@ class CustomerSalesReport(models.Model):
     date_from = fields.Date(string='Du')
     date_to = fields.Date(string='Au' )
 
-    order_count = fields.Integer(string='Nbr Cmd.', compute='_compute_recap')
-    total_sales = fields.Float(string='Ventes', compute='_compute_recap',
+    order_count = fields.Integer(string='Nbr Cmd.', compute='_compute_counts')
+    total_sales = fields.Float(string='Ventes', compute='_compute_sales',
                                digits='Product Price')
-    total_payment = fields.Float(string='Paiements', compute='_compute_recap',
+    total_payment = fields.Float(string='Paiements', compute='_compute_payments_sum',
                                  digits='Product Price')
-    balance = fields.Float(string='Restes', compute='_compute_recap',
-                           digits='Product Price' ,store=True)
+    balance = fields.Float(string='Restes', compute='_compute_balance',
+                           digits='Product Price', store=True)
 
     order_ids = fields.One2many('sm_sales.order', compute='_compute_orders',
                                 string='Commandes')
@@ -64,13 +64,26 @@ class CustomerSalesReport(models.Model):
         return domain
 
     @api.depends('partner_id', 'date_from', 'date_to')
-    def _compute_recap(self):
+    def _compute_counts(self):
         for rec in self:
             orders = self.env['sm_sales.order'].search(self._order_domain(rec))
-            payments = self.env['sm_boxes.operations'].search(self._payment_domain(rec))
             rec.order_count = len(orders)
+
+    @api.depends('partner_id', 'date_from', 'date_to')
+    def _compute_sales(self):
+        for rec in self:
+            orders = self.env['sm_sales.order'].search(self._order_domain(rec))
             rec.total_sales = sum(orders.mapped('amount_ttc'))
+
+    @api.depends('partner_id', 'date_from', 'date_to')
+    def _compute_payments_sum(self):
+        for rec in self:
+            payments = self.env['sm_boxes.operations'].search(self._payment_domain(rec))
             rec.total_payment = sum(payments.mapped('amount_done'))
+
+    @api.depends('total_sales', 'total_payment')
+    def _compute_balance(self):
+        for rec in self:
             rec.balance = rec.total_sales - rec.total_payment
 
     @api.depends('partner_id', 'date_from', 'date_to')

@@ -48,28 +48,28 @@
         id="menu_sm_sales_payment_mode"
         name="Modes de paiement"
         parent="sm_base.menu_sm_base_configurations"
-        action="action_me_sales_payment_mode"
+        action="action_sm_sales_payment_mode"
         sequence="10" />
 
     <menuitem
         id="menu_sm_sales_payment_method"
         name="Méthodes de paiement"
         parent="sm_base.menu_sm_base_configurations"
-        action="action_me_sales_payment_method"
+        action="action_sm_sales_payment_method"
         sequence="20" />
 
     <menuitem
         id="menu_sm_sales_sale_condition"
         name="Conditions de vente"
         parent="sm_base.menu_sm_base_configurations"
-        action="action_me_sales_sale_condition"
+        action="action_sm_sales_sale_condition"
         sequence="30" />
 
     <menuitem
         id="menu_sm_sales_offer_validity"
         name="Durées de validité des offres"
         parent="sm_base.menu_sm_base_configurations"
-        action="action_me_sales_offer_validity"
+        action="action_sm_sales_offer_validity"
         sequence="40" />
 
     <menuitem
@@ -79,24 +79,19 @@
         action="action_sm_sales_product_category"
         sequence="50" />
 
-    <menuitem
-        id="menu_sm_sales_pricelist"
-        name="Liste de prix"
-        parent="sm_base.menu_sm_base_configurations"
-        sequence="60" />
 
     <menuitem
         id="menu_sm_sales_bank"
         name="Banques"
-        parent="menu_sm_sales_pricelist"
+        parent="sm_base.menu_sm_base_configurations"
         action="action_sm_sales_bank"
         sequence="10" />
 
     <menuitem
         id="menu_sm_sales_pricelist_action"
         name="Listes de prix"
-        parent="menu_sm_sales_pricelist"
+        parent="sm_base.menu_sm_base_configurations"
         action="action_sm_sales_pricelist"
-        sequence="20" />
+        sequence="13" />
 
 </odoo>

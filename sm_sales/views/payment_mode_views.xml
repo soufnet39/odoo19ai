@@ -6,9 +6,9 @@
     <!-- ==================== -->
 
     <!-- Vue liste -->
-    <record id="me_sales_payment_mode_list" model="ir.ui.view">
-        <field name="name">me_sales.payment.mode.list</field>
-        <field name="model">me_sales.payment.mode</field>
+    <record id="sm_sales_payment_mode_list" model="ir.ui.view">
+        <field name="name">sm_sales.payment.mode.list</field>
+        <field name="model">sm_sales.payment.mode</field>
         <field name="arch" type="xml">
             <list decoration-bf="1">
                 <field name="sequence" widget="handle"/>
@@ -21,9 +21,9 @@
     </record>
 
     <!-- Vue formulaire -->
-    <record id="me_sales_payment_mode_form" model="ir.ui.view">
-        <field name="name">me_sales.payment.mode.form</field>
-        <field name="model">me_sales.payment.mode</field>
+    <record id="sm_sales_payment_mode_form" model="ir.ui.view">
+        <field name="name">sm_sales.payment.mode.form</field>
+        <field name="model">sm_sales.payment.mode</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -48,9 +48,9 @@
     </record>
 
     <!-- Vue recherche -->
-    <record id="me_sales_payment_mode_search" model="ir.ui.view">
-        <field name="name">me_sales.payment.mode.search</field>
-        <field name="model">me_sales.payment.mode</field>
+    <record id="sm_sales_payment_mode_search" model="ir.ui.view">
+        <field name="name">sm_sales.payment.mode.search</field>
+        <field name="model">sm_sales.payment.mode</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
@@ -65,12 +65,12 @@
     </record>
 
     <!-- Action -->
-    <record id="action_me_sales_payment_mode" model="ir.actions.act_window">
+    <record id="action_sm_sales_payment_mode" model="ir.actions.act_window">
         <field name="name">Modes de paiement</field>
-        <field name="res_model">me_sales.payment.mode</field>
+        <field name="res_model">sm_sales.payment.mode</field>
         <field name="view_mode">list,form</field>
         <field name="path">payment_modes</field>
-        <field name="search_view_id" ref="me_sales_payment_mode_search"/>
+        <field name="search_view_id" ref="sm_sales_payment_mode_search"/>
         <field name="context">{'search_default_filter_active': 1}</field>
     </record>
 

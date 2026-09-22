@@ -8,6 +8,8 @@ class IndustrieAlbelt(models.Model):
     fullname = fields.Char(string='Full Name')
     archive = fields.Boolean(string='Archivé', default=False)
 
-    _sql_constraints = [
-        ('name_raison_uniq', 'unique(name)', "Le Nom doit être unique !"),
-    ]
+    _check_name_industryname_uniq = models.Constraint(
+        'UNIQUE(name)',
+        'Le Nom doit être unique !',
+    )
+   
