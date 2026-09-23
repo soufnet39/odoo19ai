@@ -13,7 +13,7 @@
                 <div class="row" style="border-bottom: 2px solid #1a1a1a; padding-bottom: 10px; margin-bottom: 15px;">
                     <div class="col-6">                       
                         <div><h3 style="margin: 0; color: #1a1a1a;"><span t-field="company.name"/></h3></div>
-                        <div><h6 style="margin: 0; color: #1a1a1a;"><span t-field="company.slogon"/></h6> </div>
+                        <!-- <div><h6 style="margin: 0; color: #1a1a1a;"><span t-field="company.slogon"/></h6> </div> -->
                         <div style="margin-top: 5px; font-size:10px">
                             <t t-if="company.street"><span t-field="company.street"/><br/></t>
                             <t t-if="company.street2"><span t-field="company.street2"/><br/></t>
