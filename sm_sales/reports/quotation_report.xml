@@ -24,10 +24,7 @@
                         <!-- Informations d'en-tête -->
                         
                         <div class="row mt-4">
-                            <div class="col-5 text-center">
-                                <strong class="h3">Facture Proforma </strong> <br/>
-                                <span class="h4" t-field="quotation.name"/>
-                            </div>
+                            
                             <div class="col-7" style="font-size:10pt">
                                     <div class="row">
                                         <div class="col-3 text-end">
@@ -74,8 +71,11 @@
                                         <div class="col-9">
                                             <span t-field="doc.partner_id.nis"/>
                                         </div>
-                                    </div>
-                                   
+                                    </div>                                   
+                            </div>
+                            <div class="col-5 text-end pe-5">
+                                <strong class="h3">Facture Proforma</strong> <br/>
+                                <span class="h3" t-field="quotation.name"/>
                             </div>
                         </div>
 
@@ -86,7 +86,7 @@
                               Suivi par: <span t-field="quotation.user_id"/>
                             </td>
                             <td class="text-end">
-                               Date: <span t-field="quotation.date"/>
+                               Boumerdès le: <span t-field="quotation.date"/>
                             </td>
                           </tr>
                         </table>

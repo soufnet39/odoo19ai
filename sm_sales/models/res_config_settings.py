@@ -44,9 +44,9 @@ class ResConfigSettings(models.TransientModel):
     # Paramètres de TVA (pour les commandes et les achats) -------
     tva_enabled = fields.Boolean(
         string='Activer la TVA',
-        config_parameter='sm_sales.tva_enabled',
-        default=False,
-    )
+        config_parameter='sm_sales.tva_enabled'       
+        )
+   
     tva_taux = fields.Float(
         string='Taux de TVA par défaut (%)',
         config_parameter='sm_sales.tva_taux',

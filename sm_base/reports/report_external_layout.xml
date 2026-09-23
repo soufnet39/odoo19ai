@@ -11,22 +11,19 @@
             <!-- Header section -->
             <div class="header" style="width: 100%;">
                 <div class="row" style="border-bottom: 2px solid #1a1a1a; padding-bottom: 10px; margin-bottom: 15px;">
-                    <div class="col-4">
-                        <div t-if="company.logo" style="margin-bottom: 10px;">
-                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 80px; max-width: 200px;" alt="Logo"/>
-                        </div>
-                        <h3 style="margin: 0; color: #1a1a1a;"><span t-field="company.name"/></h3>
-                    </div>
-                    <div class="col-8" style="font-size: 12px; color: #666;">
-                        <div t-if="company.reg_com"><strong>R.Com:</strong> <span t-field="company.reg_com"/></div>
-                        <div t-if="company.nis"><strong>NIS:</strong> <span t-field="company.nis"/></div>
-                        <div t-if="company.m_fisc"><strong>NIF:</strong> <span t-field="company.m_fisc"/></div>
-                        <div t-if="company.a_imp"><strong>ART:</strong> <span t-field="company.a_imp"/></div>
-                        <div style="margin-top: 5px;">
+                    <div class="col-6">                       
+                        <div><h3 style="margin: 0; color: #1a1a1a;"><span t-field="company.name"/></h3></div>
+                        <div><h6 style="margin: 0; color: #1a1a1a;"><span t-field="company.slogon"/></h6> </div>
+                        <div style="margin-top: 5px; font-size:10px">
                             <t t-if="company.street"><span t-field="company.street"/><br/></t>
                             <t t-if="company.street2"><span t-field="company.street2"/><br/></t>
                             <t t-if="company.city"><span t-field="company.city"/></t>
                             <t t-if="company.country_id"> - <span t-field="company.country_id.name"/></t>
+                        </div>
+                    </div>
+                    <div class="col-6 text-end">
+                        <div t-if="company.logo" style="margin-bottom: 10px;">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 80px; max-width: 200px;" alt="Logo"/>
                         </div>
                     </div>
                 </div>
@@ -37,8 +34,17 @@
             </div>
             <!-- Footer -->
             <div class="footer">
-                <div class="text-center" style="border-top: 1px solid #ddd; padding-top: 10px; font-size: 11px; color: #666;">
-                    <div class="row">
+             
+                 
+                <div class="text-center mt-4" style="border-top: 1px solid #cacaca; padding-top: 1px; font-size: 12px; background-color: #d2d2d2;">
+                        <span class="px-5" t-if="company.name"> <span t-field="company.name"/></span>
+                        <span class="px-5" t-if="company.reg_com"><strong>R.Com:</strong> <span t-field="company.reg_com"/></span>
+                        <span class="px-5" t-if="company.nis"><strong>NIS:</strong> <span t-field="company.nis"/></span>
+                        <span class="px-5" t-if="company.m_fisc"><strong>NIF:</strong> <span t-field="company.m_fisc"/></span>
+                        <span class="px-5" t-if="company.a_imp"><strong>ART:</strong> <span t-field="company.a_imp"/></span>
+                        
+                </div>
+                <div class="row text-center" style="border-top: 1px solid #ddd; padding-top: 10px; font-size: 11px; color: #666;">
                       <div class="col-md-4">
                         <t t-if="company.email">
                                 <span t-field="company.email"/>
@@ -52,28 +58,21 @@
                       <div class="col-md-4">
                         <t t-if="company.phone or company.mobile">
                                 <span t-field="company.phone"/> 
-                                <br t-if="company.phone and company.mobile"/> 
+                                 /  
                                 <span t-field="company.mobile"/>
                         </t>
                       </div>
-                    </div>
-                    <!-- <t t-if="company.report_footer">
-                        <span t-field="company.report_footer"/>
-                        <br/>
-                    </t> -->
-                    <!-- <t t-else="not company.report_footer">
-                        <span>Merci de votre confiance</span>
-                        <br/>
-                    </t> -->
-                    <!-- Page <span class="page"/> / <span class="topage"/> -->
                 </div>
+                   
             </div>
+            
         </t>
     </template>
 
     <!-- Layout minimal pour documents simples -->
     <template id="external_layout_sm_minimal">
         <t t-call="web.layout">
+        
             <t t-set="company" t-value="res_company"/>
             <div class="article">
                 <t t-raw="0"/>

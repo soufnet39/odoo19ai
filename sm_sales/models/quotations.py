@@ -69,13 +69,17 @@ class SmSalesQuotation(models.Model):
 
    
     #### TVA ##################################################################################################
-    tva_enabled = fields.Boolean(string="Utiliser la Tva", default=lambda self: self.env['ir.config_parameter'].sudo().get_param('sm_sales.tva_enabled'))
+    tva_enabled = fields.Boolean(
+            string="Utiliser la Tva",
+            default=lambda self: str2bool(self.env['ir.config_parameter'].sudo().get_param('sm_sales.tva_enabled', 'False'
+            )))
+  
     tva_taux = fields.Float(string="Taux de TVA", digits="Taux de TVA",
                             default=lambda self: float(self.env['ir.config_parameter'].sudo().get_param('sm_sales.tva_taux', '0')))
     ###########################################################################################################
 
     #### REMISE ###############################################################################################
-    remise_exist = fields.Boolean(string="Utiliser les remises", default=lambda self: self.env['ir.config_parameter'].sudo().get_param('sm_sales.remise_exist') == 'True')
+    remise_exist = fields.Boolean(string="Utiliser les remises", default=lambda self: str2bool(self.env['ir.config_parameter'].sudo().get_param('sm_sales.remise_exist','False') ))
     remise_taux = fields.Float(string='Taux de remise',
                                default=lambda self: float(self.env['ir.config_parameter'].sudo().get_param('sm_sales.remise_default_taux', '0')),
                                digits="Taux de remise")
