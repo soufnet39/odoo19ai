@@ -22,9 +22,9 @@
                 <field name="mobile" />
                 <field name="fax" />
             </xpath>
-            <field name="name" position="after">
+            <!-- <field name="name" position="after">
                <field name='slogon' placeholder="Slogon" style="font-size:12pt" />
-            </field>
+            </field> -->
 
             <!-- ── Identifiants fiscaux et commerciaux ──────── -->
             <xpath expr="//group[@name='social_media']" position="before">
