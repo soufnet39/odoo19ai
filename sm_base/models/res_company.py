@@ -38,4 +38,4 @@ class ResCompany(models.Model):
         string="Reg. Com.",
         help="Registre du Commerce",
     )
-    slogon=fields.Char("Slogon")
+    # slogon=fields.Char("Slogon")
