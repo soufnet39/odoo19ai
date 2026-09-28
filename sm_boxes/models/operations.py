@@ -15,9 +15,20 @@ class BoxesOperationsModule(models.Model):
                                 ('versement', 'Versement'),
                                 ('encaissement', 'Encaissement'),
                                 ('achat', 'Achat'),
-                                ('decaissement', 'Décaissement'),], default='recette'
-                            )
-    boxe_id = fields.Many2one(comodel_name="sm_boxes.boxes", string="Compte", required=True, )
+                                ('decaissement', 'Décaissement'),
+                            ], default='recette')
+
+    @api.model
+    def _default_boxe_id(self):
+        boxes = self.env['sm_boxes.boxes'].search([], limit=2)
+        return boxes.id if len(boxes) == 1 else False
+
+    boxe_id = fields.Many2one(
+        comodel_name="sm_boxes.boxes",
+        string="Compte",
+        required=True,
+        default=_default_boxe_id,
+    )
     company_id = fields.Many2one('res.company', 'Société', related='boxe_id.company_id',store=True)
 
     name = fields.Char(string="Motif", required=True, )

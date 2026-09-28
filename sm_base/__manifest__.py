@@ -27,12 +27,16 @@ et les modèles partagés de l'écosystème Smail.
         "data/apps_menu.xml",
         'views/ir_sequence_views.xml',
         'reports/report_external_layout.xml',
-
+        'views/about_mizan_views.xml',
     ],
     "assets": {
-        # "web.assets_backend": [
-        #     "sm_base/static/src/js/landing_page.js",
-        # ],
+        "web.assets_backend": [
+            "sm_base/static/src/css/about_mizan.css",
+            "sm_base/static/src/xml/about_mizan.xml",
+            "sm_base/static/src/js/landing_page.js",
+            "sm_base/static/src/js/about_mizan.js",
+            "sm_base/static/src/js/user_menu.js",
+        ],
     },
     "installable": True,
     "application": True,

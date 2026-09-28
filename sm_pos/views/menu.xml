@@ -24,7 +24,7 @@
         name="Ouvrir le point de vente"
         parent="menu_sm_pos_root"
         action="action_sm_pos"
-        groups="sm_pos_manager"
+        groups="sm_pos_user"
         sequence="10" />
 
     <menuitem

@@ -17,10 +17,10 @@
                 <field name="boxe_id"/>
                 <field name="partner_id"/>
                 <field name="mode"/>
-                <field name="amount" sum="Total"/>
+                <field name="amount_done" sum="Total" decoration-bf="1" decoration-success="sens=='credit'" decoration-danger="sens=='debit'"/>
                 <field name="sens"/>
                 <field name="user_id"/>
-                <field name="reference" optional="hode"/>
+                <field name="reference" optional="hide"/>
             </list>
         </field>
     </record>
@@ -32,24 +32,25 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <div class="oe_title">
+                  <div class="h1 text-danger" invisible="operation != 'decaissement'"> Décaissement</div>
+                  <div class="h1 text-success" invisible="operation != 'encaissement'"> Encaissement</div>
+                    <div class="oe_title" style="margin-left: 25%;">
                         <h1>
                             <field name="name" placeholder="Motif"/>
                         </h1>
                     </div>
-                    <group>
-                        <group>
-                            <field name="operation"/>
-                            <field name="sens"/>
+                    <group col="12">                        
+                        <group colspan="4">
+                        </group>    
+                        <group colspan="8">
+                            <field name="operation" invisible="1"/>
+                            <field name="sens" invisible="1"/>
                             <field name="boxe_id"/>
                             <field name="date"/>
-                            <field name="mode"/>
-                        </group>
-                        <group>
-                            <field name="amount"/>
-                            <field name="amount_done" readonly="1"/>
-                            <field name="partner_id"/>
-                            <field name="user_id"/>
+                            <field name="mode"/>                      
+                            <field name="amount" sum="Total" decoration-bf="1" decoration-success="sens=='credit'" decoration-danger="sens=='debit'"/>                            
+                            <field name="partner_id" options="{'no_open': True}" />
+                            <field name="user_id" string="Opérateur" readonly="1" options="{'no_open': True}" />
                             <field name="reference"/>
                         </group>
                     </group>

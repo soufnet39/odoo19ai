@@ -118,13 +118,15 @@ class SmStocksOrder(models.Model):
         return super(SmStocksOrder, self).action_confirm()
     def go_deliver(self):
         self.ensure_one()
+        view_id = self.env.ref('sm_stocks.sm_stocks_delivery_form').id
         return {
             'type': 'ir.actions.act_window',
             'name': _('Livraison'),
             'res_model': self._name,
             'res_id': self.id,
             'view_mode': 'form',
-            'view_id': self.env.ref('sm_stocks.sm_stocks_delivery_form').id,
+            'views': [(view_id, 'form')],
+            'view_id': view_id,
             'target': 'current',
         }
     def go_commande(self):
@@ -140,13 +142,15 @@ class SmStocksOrder(models.Model):
             }
     def go_receipt(self):
         self.ensure_one()
+        view_id = self.env.ref('sm_stocks.sm_stocks_receipt_form').id
         return {
             'type': 'ir.actions.act_window',
             'name': _('Réception'),
             'res_model': self._name,
             'res_id': self.id,
             'view_mode': 'form',
-            'view_id': self.env.ref('sm_stocks.sm_stocks_receipt_form').id,
+            'views': [(view_id, 'form')],
+            'view_id': view_id,
             'target': 'current',
         }
     def go_achat(self):
@@ -178,6 +182,17 @@ class SmStocksOrderLines(models.Model):
         digits='Quantity',
     )
 
+    def action_open_movement(self):
+        self.ensure_one()
+        if not self.order_id:
+            return False
+        op_type = self.operation_type or self.order_id.operation_type
+        if op_type == 'order':
+            return self.order_id.go_deliver()
+        elif op_type == 'purchase':
+            return self.order_id.go_receipt()
+        return False
+
     @api.depends("qty")
     def _compute_qty_value(self):
         for line in self:
@@ -195,6 +210,7 @@ class SmStocksOrderLines(models.Model):
             domain = [
                 ('product_id', '=', line.product_id.id),
                 ('stock_id', '=', line.stock_id.id),
+                ('stock_state', 'in', ('received','delivered')),
             ]
             # Exclude the current order's own lines so the rest reflects the
             # physical on-hand BEFORE this order (auto-delivery already reduces

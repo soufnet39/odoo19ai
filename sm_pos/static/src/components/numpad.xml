@@ -2,19 +2,46 @@
 <templates xml:space="preserve">
 
     <t t-name="sm_pos.Numpad">
-        <div class="o_sm_pos_numpad row g-1">
-            <t t-foreach="keys" t-as="key" t-key="key">
-                <div class="col-4">
-                    <button class="btn btn-light w-100 py-2"
-                            t-on-click="() => key === 'backspace' ? props.onBackspace() : props.onInput(key)">
-                        <i t-if="key === 'backspace'" class="fa fa-delete-left"/>
-                        <t t-else="" t-esc="key"/>
-                    </button>
-                </div>
-            </t>
-            <div class="col-12 mt-1">
-                <button class="btn btn-outline-danger w-100 py-2" t-on-click="props.onClear">
-                    Clear
+        <div class="o_sm_pos_numpad d-flex flex-column gap-1">
+            <!-- Row 1: 1, 2, 3, Qté -->
+            <div class="d-flex gap-1">
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('1')">1</button>
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('2')">2</button>
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('3')">3</button>
+                <button type="button" t-attf-class="btn o_numpad_mode #{activeMode === 'qty' ? 'o_mode_active' : ''}"
+                        t-on-click="() => this.setMode('qty')">
+                    Qté
+                </button>
+            </div>
+            <!-- Row 2: 4, 5, 6, % -->
+            <div class="d-flex gap-1">
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('4')">4</button>
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('5')">5</button>
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('6')">6</button>
+                <button type="button" t-attf-class="btn o_numpad_mode #{activeMode === 'discount' ? 'o_mode_active' : ''}"
+                        t-on-click="() => this.setMode('discount')">
+                    %
+                </button>
+            </div>
+            <!-- Row 3: 7, 8, 9, Prix -->
+            <div class="d-flex gap-1">
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('7')">7</button>
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('8')">8</button>
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('9')">9</button>
+                <button type="button" t-attf-class="btn o_numpad_mode #{activeMode === 'price' ? 'o_mode_active' : ''}"
+                        t-on-click="() => this.setMode('price')">
+                    Prix
+                </button>
+            </div>
+            <!-- Row 4: +/-, 0, ,, ⌫ -->
+            <div class="d-flex gap-1">
+                <button type="button" class="btn o_numpad_key o_numpad_pm" t-on-click="() => this.press('+/-')">+/-</button>
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press('0')">0</button>
+                <button type="button" class="btn o_numpad_key" t-on-click="() => this.press(',')">,</button>
+                <button type="button" class="btn o_numpad_key o_numpad_del"
+                        title="Supprimer la ligne"
+                        t-on-click="() => this.press('backspace')">
+                    <i class="fa fa-trash"/>
                 </button>
             </div>
         </div>

@@ -219,9 +219,17 @@ class SmInvoice(models.Model):
         if isinstance(vals_list, dict):
             vals_list = [vals_list]
 
+        # Vérifie si confirm_orders_by_default est activé
+        confirmed_invoice_by_default = str2bool(self.env['ir.config_parameter'].sudo().get_param('sm_invoices.confirm_invoices_by_default', 'False'))
+    
+
         for vals in vals_list:
             if vals.get('name', _('_< Nouveau >_')) == _('_< Nouveau >_'):
                 vals['name'] = self.env['ir.sequence'].next_by_code('sm_invoices.invoice')
+                # Définit l'état sur confirmé si confirmed_order_by_default est vrai
+                if confirmed_invoice_by_default and 'state' not in vals:
+                    vals['state'] = 'confirmed'   
+            
 
         return super().create(vals_list)
 

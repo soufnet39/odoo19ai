@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" width="100%" height="100%">
+  <defs>
+    <!-- Vibrant Enterprise Orange Gradient -->
+    <linearGradient id="opt1aOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7A00" />
+      <stop offset="100%" stop-color="#FF4D00" />
+    </linearGradient>
+
+    <!-- Deep Carbon Black Gradient -->
+    <linearGradient id="opt1aDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#090D16" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter for depth -->
+    <filter id="mizanGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#FF5500" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- ICON MARK: Option 1A (Integrated Tech Fulcrum) -->
+  <g transform="translate(30, 25)">
+    <!-- Base / Shelves: Black Left and Right Horizontal Balance Wings -->
+    <!-- Left Balance Shelf -->
+    <polygon points="10,135 65,135 55,152 0,152" fill="url(#opt1aDark)" />
+    
+    <!-- Right Balance Shelf -->
+    <polygon points="125,135 180,135 190,152 135,152" fill="url(#opt1aDark)" />
+
+    <!-- Outer 'M' Geometric Frame (Black) -->
+    <!-- Left Pillar -->
+    <polygon points="35,135 50,135 50,30 35,30" fill="url(#opt1aDark)" />
+    <!-- Right Pillar -->
+    <polygon points="140,135 155,135 155,30 140,30" fill="url(#opt1aDark)" />
+    <!-- Top Left Incline -->
+    <polygon points="35,30 50,30 95,95 80,95" fill="url(#opt1aDark)" />
+    <!-- Top Right Incline -->
+    <polygon points="155,30 140,30 95,95 110,95" fill="url(#opt1aDark)" />
+
+    <!-- Central Precision Fulcrum & Pointer (Vibrant Orange) -->
+    <g filter="url(#mizanGlow)">
+      <!-- Orange Chevron Pointer Stem -->
+      <polygon points="95,78 68,40 82,30 95,48 108,30 122,40" fill="url(#opt1aOrange)" />
+      
+      <!-- Central Fulcrum Pivot Ring -->
+      <circle cx="95" cy="115" r="14" fill="#FFFFFF" stroke="url(#opt1aOrange)" stroke-width="6" />
+      <circle cx="95" cy="115" r="5" fill="url(#opt1aOrange)" />
+
+      <!-- Orange Lower Needle Pointer -->
+      <polygon points="87,130 95,165 103,130" fill="url(#opt1aOrange)" />
+    </g>
+  </g>
+
+  <!-- TYPOGRAPHY: MIZAN ERP SOLUTIONS -->
+  <g transform="translate(250, 85)">
+    <!-- Brand Name: MIZAN -->
+    <text x="0" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="56" font-weight="900" letter-spacing="4">
+      <tspan fill="#0F172A">MIZAN</tspan>
+    </text>
+
+    <!-- Subtitle: ERP SOLUTIONS -->
+    <text x="4" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="700" fill="#FF5500" letter-spacing="8">
+      ERP SOLUTIONS
+    </text>
+
+    <!-- Equilibrium Accent Line -->
+    <rect x="4" y="92" width="75" height="4" rx="2" fill="url(#opt1aOrange)" />
+    <rect x="85" y="92" width="160" height="4" rx="2" fill="url(#opt1aDark)" />
+    <circle cx="254" cy="94" r="4" fill="url(#opt1aOrange)" />
+  </g>
+</svg>

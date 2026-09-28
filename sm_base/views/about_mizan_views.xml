@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action client pour afficher la page Service Mizan / Mizan Solutions -->
+    <record id="action_about_mizan" model="ir.actions.client">
+        <field name="name">Service Mizan</field>
+        <field name="tag">sm_base.about_mizan</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Élément de menu sous Configurations -->
+    <menuitem
+        id="menu_sm_base_about_mizan"
+        name="À propos de Mizan"
+        parent="menu_sm_base_configurations"
+        action="action_about_mizan"
+        sequence="90" />
+
+</odoo>

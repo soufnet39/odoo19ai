@@ -40,7 +40,7 @@
                             invisible="(state != 'draft') or ('_&lt;' in name)"/>
                     <button name="print_invoice" string="Imprimer la facture" type="object"
                             class="btn btn-info"
-                            invisible="create_date == write_date"
+                            disabled="'_&lt;' in name or amount_ttc==0" 
                             icon="fa-print"/>
 
                     <field name="state" widget="statusbar"

@@ -1,13 +1,29 @@
 /** @odoo-module **/
 import { Component } from "@odoo/owl";
+import { useService } from "@web/core/utils/hooks";
 
 export class Numpad extends Component {
     static template = "sm_pos.Numpad";
     static props = {
-        onInput: Function,
-        onBackspace: Function,
-        onClear: Function,
+        onKey: { type: Function, optional: true },
     };
 
-    keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "backspace"];
+    setup() {
+        this.pos = useService("pos");
+    }
+
+    get activeMode() {
+        return this.pos.numpadMode;
+    }
+
+    setMode(mode) {
+        this.pos.setNumpadMode(mode);
+    }
+
+    press(key) {
+        this.pos.handleNumpad(key);
+        if (this.props.onKey) {
+            this.props.onKey(key);
+        }
+    }
 }

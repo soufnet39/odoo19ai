@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="sm_base.AboutMizanPage">
+        <div class="o_mizan_about_page h-100 d-flex flex-column">
+            <!-- Glow background decoration -->
+            <div class="o_mizan_glow_bg" aria-hidden="true"/>
+
+            <!-- Main scrollable container -->
+            <div class="o_mizan_about_scroll flex-grow-1 overflow-auto">
+                <div class="o_mizan_about_container container-fluid py-4">
+
+                    <!-- Top Bar / Breadcrumb Navigation -->
+                    <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom o_mizan_topbar">
+                        <div class="d-flex align-items-center gap-2">
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 d-flex align-items-center gap-2 o_btn_back"
+                                    t-on-click="goToDashboard"
+                                    type="button">
+                                <i class="fa fa-arrow-left"/>
+                                <span>Tableau de bord</span>
+                            </button>
+                            <span class="text-muted">/</span>
+                            <span class="fw-semibold text-secondary">Service Mizan</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 fw-medium">
+                                <i class="fa fa-cube me-1"/> Mizan Suite • v19
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Hero Section -->
+                    <div class="o_mizan_hero_card card border-0 shadow-sm mb-5">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-8 col-12">
+                                    <div class="d-flex align-items-center gap-2 mb-3">
+                                        <span class="badge bg-danger rounded-pill px-3 py-1 text-white text-uppercase fw-semibold letter-spacing-1">
+                                            Solutions Sur Mesure
+                                        </span>
+                                        <span class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-1">
+                                            Progiciel ERP
+                                        </span>
+                                    </div>
+                                    <h1 class="display-6 fw-bold mb-3 text-dark o_hero_title">
+                                        Mizan Solutions
+                                    </h1>
+                                    <p class="lead text-muted mb-4 o_hero_lead">
+                                        Le progiciel de gestion intégré (ERP) pensé et développé <strong class="text-danger">100% sur mesure</strong> pour répondre avec exactitude aux processus et exigences uniques de votre entreprise.
+                                    </p>
+                                    <p class="text-secondary mb-4 o_hero_description">
+                                        Contrairement aux logiciels rigides et standardisés du marché, <strong>Mizan Solutions</strong> place vos méthodes de travail au cœur de l'outil. Chaque fonctionnalité, interface et flux d'automatisation est façonné pour simplifier la vie de vos collaborateurs, éliminer les tâches chronophages et booster la rentabilité de vos activités.
+                                    </p>
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <button class="btn btn-danger px-4 py-2 rounded-pill fw-medium shadow-sm d-flex align-items-center gap-2 o_btn_primary"
+                                                t-on-click="goToDashboard"
+                                                type="button">
+                                            <i class="fa fa-th-large"/>
+                                            <span>Explorer les Applications</span>
+                                        </button>
+                                        <a href="mailto:contact@Mizan-solutions.com" class="btn btn-outline-danger px-4 py-2 rounded-pill fw-medium d-flex align-items-center gap-2">
+                                            <i class="fa fa-envelope-o"/>
+                                            <span>Contacter le Support</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12 text-center">
+                                    <div class="o_mizan_logo_showcase">
+                                        <div class="o_mizan_logo_wrapper shadow">
+                                            <img src="/sm_base/static/description/icon.svg" alt="Mizan Solutions Logo" class="o_mizan_logo_img"/>
+                                        </div>
+                                        <div class="mt-3">
+                                            <h5 class="fw-bold mb-0 text-dark">Service Mizan</h5>
+                                            <span class="small text-muted">Excellence &amp; Innovation Métier</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Pillars (4 Cards) -->
+                    <div class="mb-5">
+                        <div class="text-center mb-4">
+                            <span class="badge rounded-pill bg-light text-danger fw-semibold px-3 py-1 mb-2 border">NOTRE PHILOSOPHIE</span>
+                            <h2 class="fw-bold text-dark">Pourquoi choisir Mizan Solutions ?</h2>
+                            <p class="text-muted mx-auto" style="max-width: 650px;">
+                                Une approche centrée sur l'efficacité métier, combinant la puissance d'un moteur ERP moderne à la souplesse d'un développement taillé au millimètre.
+                            </p>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card h-100 border-0 shadow-sm o_feature_card">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="o_feature_icon_box bg-danger-subtle text-danger mb-3">
+                                            <i class="fa fa-sliders fa-lg"/>
+                                        </div>
+                                        <h5 class="fw-bold text-dark mb-2">100% Sur Mesure</h5>
+                                        <p class="text-muted small mb-0 flex-grow-1">
+                                            Pas d'usines à gaz inutiles ni de contraintes rigides. L'outil épouse vos habitudes, votre vocabulaire métier et vos flux réels.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card h-100 border-0 shadow-sm o_feature_card">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="o_feature_icon_box bg-primary-subtle text-primary mb-3">
+                                            <i class="fa fa-bolt fa-lg"/>
+                                        </div>
+                                        <h5 class="fw-bold text-dark mb-2">Ergonomie &amp; Rapidité</h5>
+                                        <p class="text-muted small mb-0 flex-grow-1">
+                                            Interface épurée, navigation instantanée et raccourcis clavier pour une exécution ultra-rapide des opérations de caisse et de gestion.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card h-100 border-0 shadow-sm o_feature_card">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="o_feature_icon_box bg-success-subtle text-success mb-3">
+                                            <i class="fa fa-link fa-lg"/>
+                                        </div>
+                                        <h5 class="fw-bold text-dark mb-2">Synergie Totale</h5>
+                                        <p class="text-muted small mb-0 flex-grow-1">
+                                            De la prise de commande jusqu'au bilan de caisse en passant par les stocks, toutes vos données communiquent sans ressaisie.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-3">
+                                <div class="card h-100 border-0 shadow-sm o_feature_card">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="o_feature_icon_box bg-warning-subtle text-warning mb-3">
+                                            <i class="fa fa-shield fa-lg"/>
+                                        </div>
+                                        <h5 class="fw-bold text-dark mb-2">Fiabilité &amp; Évolution</h5>
+                                        <p class="text-muted small mb-0 flex-grow-1">
+                                            Protection rigoureuse des données, contrôle des accès et adaptabilité continue aux futures évolutions de votre structure.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ecosystem Modules Overview -->
+                    <div class="mb-5">
+                        <div class="text-center mb-4">
+                            <span class="badge rounded-pill bg-light text-danger fw-semibold px-3 py-1 mb-2 border">MODULES SM</span>
+                            <h2 class="fw-bold text-dark">L'Écosystème Modulaire Mizan</h2>
+                            <p class="text-muted mx-auto" style="max-width: 650px;">
+                                Des modules métiers interconnectés qui s'activent et se personnalisent selon vos priorités.
+                            </p>
+                        </div>
+
+                        <div class="row g-4">
+                            <!-- Ventes -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 border-0 shadow-sm o_module_card">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-center gap-3 mb-3">
+                                            <div class="o_module_icon bg-danger text-white">
+                                                <i class="fa fa-shopping-bag"/>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold mb-0 text-dark">Ventes &amp; Devis</h5>
+                                                <span class="small text-muted">SM Sales</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted small mb-3">
+                                            Gestion fluide du cycle commercial : propositions de devis sur mesure, suivi des commandes, barèmes de remises et validation client.
+                                        </p>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <span class="badge bg-light text-primary border">Devis rapides</span>
+                                            <span class="badge bg-light text-primary border">Validation agile</span>
+                                            <span class="badge bg-light text-primary border">Tarifs personnalisés</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stocks -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 border-0 shadow-sm o_module_card">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-center gap-3 mb-3">
+                                            <div class="o_module_icon bg-primary text-white">
+                                                <i class="fa fa-cubes"/>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold mb-0 text-dark">Stocks &amp; Logistique</h5>
+                                                <span class="small text-muted">SM Stocks</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted small mb-3">
+                                            Traçabilité temps réel des entrées, sorties, transferts inter-dépôts, alertes de rupture et valorisation automatisée de l'inventaire.
+                                        </p>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <span class="badge bg-light text-primary border">Multi-emplacements</span>
+                                            <span class="badge bg-light text-primary border">Inventaires réguliers</span>
+                                            <span class="badge bg-light text-primary border">Valorisation</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Point de Vente -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 border-0 shadow-sm o_module_card">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-center gap-3 mb-3">
+                                            <div class="o_module_icon bg-success text-white">
+                                                <i class="fa fa-calculator"/>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold mb-0 text-dark">Point de Vente</h5>
+                                                <span class="small text-muted">SM POS</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted small mb-3">
+                                            Caisse enregistreuse tactile haute performance pour le comptoir : recherche ultra-rapide, clavier numérique, tickets et multi-règlements.
+                                        </p>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <span class="badge bg-light text-primary border">Vente comptoir</span>
+                                            <span class="badge bg-light text-primary border">Multi-modes de paiement</span>
+                                            <span class="badge bg-light text-primary border">Clôtures Z</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Facturation -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 border-0 shadow-sm o_module_card">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-center gap-3 mb-3">
+                                            <div class="o_module_icon bg-info text-white">
+                                                <i class="fa fa-file-text-o"/>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold mb-0 text-dark">Factures &amp; Règlements</h5>
+                                                <span class="small text-muted">SM Invoices</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted small mb-3">
+                                            Édition de factures conformes, gestion rigoureuse des échéances de règlement, suivi des créances et relances automatiques.
+                                        </p>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <span class="badge bg-light text-primary border">Factures clients</span>
+                                            <span class="badge bg-light text-primary border">Échéanciers</span>
+                                            <span class="badge bg-light text-primary border">Suivi des paiements</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Achats -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 border-0 shadow-sm o_module_card">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-center gap-3 mb-3">
+                                            <div class="o_module_icon bg-secondary text-white" style="border: 1px solid gray;color: gray !important;">
+                                                <i class="fa fa-truck"/>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold mb-0 text-dark">Achats &amp; Fournisseurs</h5>
+                                                <span class="small text-muted">SM Purchases</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted small mb-3">
+                                            Maîtrise des coûts d'approvisionnement, bons de commande fournisseurs, contrôle des réceptions et comparaison des offres d'achat.
+                                        </p>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <span class="badge bg-light text-primary border">Bons d'achat</span>
+                                            <span class="badge bg-light text-primary border">Contrôle réceptions</span>
+                                            <span class="badge bg-light text-primary border">Factures d'achat</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Trésorerie & Caisse -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 border-0 shadow-sm o_module_card">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-center gap-3 mb-3">
+                                            <div class="o_module_icon bg-dark text-white">
+                                                <i class="fa fa-archive"/>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold mb-0 text-dark">Trésorerie &amp; Caisses</h5>
+                                                <span class="small text-muted">SM Boxes</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted small mb-3">
+                                            Suivi en temps réel des caisses physiques, mouvements d'entrées/sorties de liquidités, rapprochements et sécurité des espèces.
+                                        </p>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <span class="badge bg-light text-primary border">Caisses multiples</span>
+                                            <span class="badge bg-light text-primary border">Entrées / Sorties</span>
+                                            <span class="badge bg-light text-primary border">Journal financier</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services & Support Card -->
+                    <div class="o_mizan_support_card card border-0 shadow-sm mb-4">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-7 col-12">
+                                    <span class="badge bg-danger rounded-pill px-3 py-1 mb-2 text-white">SERVICE &amp; ACCOMPAGNEMENT</span>
+                                    <h3 class="fw-bold text-dark mb-3">Un accompagnement dédié pour votre réussite</h3>
+                                    <p class="text-muted mb-4">
+                                        Le Service Mizan ne se limite pas à vous fournir un progiciel : nous sommes votre partenaire technologique. Nous concevons les modules complémentaires dont vous avez besoin, assurons le suivi de vos données et formons vos équipes pour une adoption fluide.
+                                    </p>
+                                    <div class="row g-3">
+                                        <div class="col-sm-6">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <i class="fa fa-check-circle text-danger"/>
+                                                <span class="small fw-medium text-dark">Développement à la carte</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <i class="fa fa-check-circle text-danger"/>
+                                                <span class="small fw-medium text-dark">Support réactif et humain</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <i class="fa fa-check-circle text-danger"/>
+                                                <span class="small fw-medium text-dark">Formation des utilisateurs</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <i class="fa fa-check-circle text-danger"/>
+                                                <span class="small fw-medium text-dark">Mises à jour &amp; sauvegardes</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5 col-12">
+                                    <div class="o_contact_box p-4 rounded-4 shadow-sm">
+                                        <h5 class="fw-bold text-dark mb-3">Besoin d'aide ou d'un devis sur-mesure ?</h5>
+                                        <p class="text-muted small mb-4">
+                                            Contactez directement notre équipe pour toute question technique ou demande de nouvelle fonctionnalité.
+                                        </p>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-outline-dark d-flex align-items-center justify-content-between px-3 py-2 rounded-3"
+                                                    t-on-click="() => this.copyText('email', 'contact@Mizan-solutions.com')"
+                                                    type="button">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <i class="fa fa-envelope text-danger"/>
+                                                    <span class="small fw-medium">contact@Mizan-solutions.com</span>
+                                                </div>
+                                                <i t-if="!state.copiedEmail" class="fa fa-clone text-muted small" title="Copier"/>
+                                                <i t-else="" class="fa fa-check text-success small" title="Copié !"/>
+                                            </button>
+
+                                            <button class="btn btn-outline-dark d-flex align-items-center justify-content-between px-3 py-2 rounded-3"
+                                                    t-on-click="() => this.copyText('phone', '+213 550 00 00 00')"
+                                                    type="button">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <i class="fa fa-phone text-danger"/>
+                                                    <span class="small fw-medium">Support &amp; Assistance directe</span>
+                                                </div>
+                                                <i t-if="!state.copiedPhone" class="fa fa-clone text-muted small" title="Copier"/>
+                                                <i t-else="" class="fa fa-check text-success small" title="Copié !"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="text-center py-4 text-muted small border-top o_mizan_footer">
+                        <p class="mb-1">
+                            Propulsé par <strong class="text-danger fw-bold">Mizan Solutions</strong> — Votre ERP sur mesure
+                        </p>
+                        <p class="mb-0 text-muted opacity-75">
+                            © 2026 Mizan Solutions • Tous droits réservés.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

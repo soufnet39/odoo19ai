@@ -4,6 +4,13 @@ from odoo import models, fields
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
+    # Paramètres généraux
+    confirm_invoices_by_default = fields.Boolean(
+        string='Confirmer les factures par défaut',
+        config_parameter='sm_invoices.confirm_invoices_by_default',
+        default=False,
+    )
+    
 
     # ------------------------------------------------------------------
     # Paramètres des produits
@@ -18,13 +25,13 @@ class ResConfigSettings(models.TransientModel):
     # ------------------------------------------------------------------
     # Paramètres de TVA (factures uniquement)
     # ------------------------------------------------------------------
-    tva_enabled = fields.Boolean(
+    invoice_tva_enabled = fields.Boolean(
         string="Activer la TVA sur les factures",
         config_parameter='sm_invoices.tva_enabled',
         default=False,
         help="Activer le calcul de la TVA sur les factures clients.",
     )
-    tva_taux = fields.Float(
+    invoice_tva_taux = fields.Float(
         string="Taux de TVA par défaut (%)",
         config_parameter='sm_invoices.tva_taux',
         default=19.0,

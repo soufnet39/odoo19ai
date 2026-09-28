@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Rounded Squircle Base Card -->
+  <rect x="2" y="2" width="252" height="252" rx="56" fill="#FAFAFA" stroke="#E8E8E8" stroke-width="2"/>
+  
+  <!-- Icon Graphics (Filled Vector Paths) -->
+
+  <!-- Back Banknote -->
+  <path d="M84 62 C84 57 88 53 93 53 H173 C178 53 182 57 182 62 V74 H84 Z" fill="#B71C1C"/>
+  <!-- Front Banknote -->
+  <path d="M72 74 C72 69 76 65 81 65 H185 C190 65 194 69 194 74 V86 H72 Z" fill="#EF5350"/>
+  <!-- Main Wallet Body -->
+  <rect x="52" y="86" width="152" height="114" rx="20" fill="#D51C1B"/>
+  <!-- Clasp Strap -->
+  <path d="M142 120 H198 C206 120 212 126 212 134 V152 C212 160 206 166 198 166 H142 C134 166 128 160 128 152 V134 C128 126 134 120 142 120 Z" fill="#B71C1C" stroke="#FFFFFF" stroke-width="4"/>
+  <!-- Metallic Snap Button -->
+  <circle cx="182" cy="143" r="10" fill="#FFFFFF"/>
+  <circle cx="182" cy="143" r="5" fill="#D51C1B"/>
+
+</svg>

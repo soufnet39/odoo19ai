@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Rounded Squircle Base Card -->
+  <rect x="2" y="2" width="252" height="252" rx="56" fill="#FAFAFA" stroke="#E8E8E8" stroke-width="2"/>
+  
+  <!-- Icon Graphics (Filled Vector Paths) -->
+
+  <!-- Artist Palette -->
+  <path d="M128 42 C78 42 42 78 42 128 C42 156 56 182 82 196 C94 202 102 214 102 218 C102 222 106 226 112 226 H132 C178 226 214 190 214 144 C214 88 176 42 128 42 Z" fill="#D51C1B"/>
+  <!-- Palette Thumb Hole -->
+  <ellipse cx="166" cy="164" rx="16" ry="20" fill="#FFFFFF"/>
+  <!-- Color Swatch Wells on Palette -->
+  <circle cx="82" cy="108" r="13" fill="#FFFFFF"/>
+  <circle cx="82" cy="108" r="9" fill="#EF5350"/>
+  <circle cx="112" cy="80" r="13" fill="#FFFFFF"/>
+  <circle cx="112" cy="80" r="9" fill="#B71C1C"/>
+  <circle cx="152" cy="76" r="13" fill="#FFFFFF"/>
+  <circle cx="152" cy="76" r="9" fill="#EF5350"/>
+  <circle cx="184" cy="108" r="13" fill="#FFFFFF"/>
+  <circle cx="184" cy="108" r="9" fill="#B71C1C"/>
+  <!-- Paintbrush Across Palette -->
+  <g transform="rotate(-38 136 136)">
+    <rect x="130" y="30" width="12" height="106" rx="6" fill="#FFFFFF"/>
+    <rect x="132" y="32" width="8" height="102" rx="4" fill="#B71C1C"/>
+    <rect x="129" y="136" width="14" height="22" rx="2" fill="#FFFFFF"/>
+    <path d="M129 158 H143 L138 184 C137 188 135 188 134 184 Z" fill="#EF5350"/>
+  </g>
+
+</svg>

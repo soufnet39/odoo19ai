@@ -2,31 +2,23 @@
 <templates xml:space="preserve">
 
     <t t-name="sm_pos.OrderLine">
-        <div class="o_sm_pos_order_line d-flex justify-content-between align-items-center p-2 border-bottom">
-            <div class="flex-grow-1">
-                <div class="fw-bold small" t-esc="props.line.name"/>
-                <div class="d-flex align-items-center gap-1 mt-1">
-                    <button class="btn btn-sm btn-outline-secondary p-0 px-1"
-                            t-on-click.stop="() => this.pos.decQty(props.line)">
-                        <i class="fa fa-minus"/>
-                    </button>
-                    <input type="number" class="form-control form-control-sm text-center"
-                           style="width: 55px;" min="1"
-                           t-model="props.line.qty"
-                           t-on-change="() => this.pos.setQty(props.line, props.line.qty)"/>
-                    <button class="btn btn-sm btn-outline-secondary p-0 px-1"
-                            t-on-click.stop="() => this.pos.incQty(props.line)">
-                        <i class="fa fa-plus"/>
-                    </button>
-                    <span class="text-muted small ms-1">x <t t-esc="props.line.unit_price.toFixed(2)"/></span>
+        <div t-attf-class="o_sm_pos_order_line d-flex justify-content-between align-items-center py-2 px-3 #{props.isSelected ? 'o_line_selected' : ''}"
+             t-on-click="props.onClick"
+             role="button">
+            <div class="d-flex align-items-baseline gap-2 flex-grow-1 overflow-hidden">
+                <span class="o_line_qty fw-bold fs-6" t-esc="props.line.qty"/>
+                <div class="d-flex flex-column text-truncate">
+                    <span class="o_line_name fw-semibold text-truncate" t-esc="props.line.name"/>
+                    <span class="o_line_unit_desc text-muted small">
+                        <t t-esc="formattedUnitPrice"/> / Unité(s)
+                        <t t-if="props.line.discount &gt; 0">
+                            <span class="text-danger ms-1">(-<t t-esc="props.line.discount"/>%)</span>
+                        </t>
+                    </span>
                 </div>
             </div>
-            <div class="text-end">
-                <div class="fw-bold" t-esc="total.toFixed(2)"/>
-                <button class="btn btn-sm btn-link text-danger p-0"
-                        t-on-click.stop="() => this.pos.removeLine(props.line)">
-                    <i class="fa fa-trash"/>
-                </button>
+            <div class="text-end ps-2">
+                <span class="o_line_total fw-bold" t-esc="formattedTotal"/>
             </div>
         </div>
     </t>

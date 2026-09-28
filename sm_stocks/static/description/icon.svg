@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Rounded Squircle Base Card -->
+  <rect x="2" y="2" width="252" height="252" rx="56" fill="#FAFAFA" stroke="#E8E8E8" stroke-width="2"/>
+  
+  <!-- Icon Graphics (Filled Vector Paths) -->
+
+  <!-- Top Face of Carton -->
+  <polygon points="128,40 196,78 128,116 60,78" fill="#EF5350"/>
+  <!-- Sealing Tape Across Top -->
+  <polygon points="112,49 96,58 144,85 160,76" fill="#FFFFFF"/>
+  <!-- Left Side Face of Box -->
+  <polygon points="60,78 128,116 128,206 60,168" fill="#D51C1B"/>
+  <!-- Right Side Face of Box -->
+  <polygon points="128,116 196,78 196,168 128,206" fill="#B71C1C"/>
+  <!-- Sealing Tape Down Left Face -->
+  <polygon points="128,116 112,107 112,197 128,206" fill="#FFFFFF" opacity="0.9"/>
+  <!-- Shipping Label on Right Face -->
+  <polygon points="144,124 178,104 178,138 144,158" fill="#FFFFFF"/>
+  <!-- Barcode Strips -->
+  <polygon points="148,127 151,125 151,146 148,148" fill="#B71C1C"/>
+  <polygon points="154,123 158,121 158,142 154,144" fill="#B71C1C"/>
+  <polygon points="161,119 164,117 164,138 161,140" fill="#B71C1C"/>
+  <polygon points="167,116 172,113 172,135 167,137" fill="#B71C1C"/>
+
+</svg>

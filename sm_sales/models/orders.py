@@ -81,7 +81,7 @@ class SmSalesOrder(models.Model):
 
    
     #### TVA ##################################################################################################
-    tva_enabled = fields.Boolean(string="Utiliser la Tva", default=lambda self: self.env['ir.config_parameter'].sudo().get_param('sm_sales.tva_enabled'))
+    tva_enabled = fields.Boolean(string="Utiliser la Tva", default=lambda self: str2bool(self.env['ir.config_parameter'].sudo().get_param('sm_sales.tva_enabled', 'False')))
     tva_taux = fields.Float(string="Taux de TVA", digits="Taux de TVA",
                             default=lambda self: float(self.env['ir.config_parameter'].sudo().get_param('sm_sales.tva_taux', '0')))
     ###########################################################################################################

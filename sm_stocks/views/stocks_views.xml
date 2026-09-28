@@ -51,27 +51,29 @@
         <field name="arch" type="xml">
             <form string="Stock">
                 <sheet>
-                    <div class="oe_title">
-                        <label for="name"/>
-                        <h1>
-                            <field name="name" placeholder="e.g. Stock Principal"/>
-                        </h1>
+                 <style>
+                        .oe_indent {
+                            margin-left: 33.33%;
+                            width: 40%;
+                        }
+                    </style>
+                     <field name="id" invisible="1"/>
+                    <div class="oe_title h1">
+                        <span class="text-danger">Stock</span>
+                        <span invisible="id" class="text-muted"> / Création</span>
+                        <span invisible="not id" class="text-muted"> / Edition</span>
                     </div>
-                    <group>
-                        <group>
-                            <field name="nature"/>
-                            <field name="wilaya_id"/>
-                            <field name="company_id" groups="base.group_multi_company"/>
-                        </group>
-                        <group>
-                            <field name="can_be_negatif"/>
-                        </group>
-                    </group>
-                    <group>
-                        <group>
+                    <group class="oe_indent">
+                        
+                            <field name="name"/>
                             <field name="description" placeholder="Description du stock..."/>
-                        </group>
+                            <field name="nature"/>
+                            <field name="wilaya_id" options="{'no_open': True}"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_open': True}"/>
+                            <field name="can_be_negatif"/>
+                        
                     </group>
+                  
                     <hr/>
                     <group>
                         <field name="user_ids" widget="many2many_tags"/>

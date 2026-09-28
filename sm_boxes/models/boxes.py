@@ -14,7 +14,7 @@ class SmBoxesBoxes(models.Model):
     company_id = fields.Many2one('res.company', 'Société', default=lambda self: self.env.company, index=True)
     boxe_type = fields.Selection(string="Type", selection=[  ('bank',  'Banque'),  ('sold',  'Espèce') ], required=True,default='sold', tracking=2) 
 
-    user_ids = fields.Many2many(comodel_name="res.users", string="Responsables", )
+    user_ids = fields.Many2many(comodel_name="res.users", string="Résponsables", )
 
     rib = fields.Char(string="RIB", required=False, )
     bank_id = fields.Many2one("sm_sales.bank")

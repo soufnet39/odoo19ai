@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Shakliyat',
-    'version': '19.0.1.11.0',
+    'version': '19.0.1.14.0',
     'category': 'Smail',
     'summary': 'Custom theming and style overrides for the Odoo UI',
     'description': """
@@ -37,6 +37,7 @@ backend app chrome, buttons, forms and the frontend website/login pages.
             'shakliyat/static/src/js/landing_page.js',
             'shakliyat/static/src/js/hide_discuss.js',
             'shakliyat/static/src/js/dark_mode.js',
+            'shakliyat/static/src/js/view_button.js',
         ],
         # Website + login page
         'web.assets_frontend': [

@@ -3,15 +3,600 @@
 
     <t t-name="sm_pos.PosApp">
         <div class="o_sm_pos_app h-100 d-flex flex-column">
-            <SessionScreen t-if="currentScreen === 'session'" onSessionOpened.bind="onSessionOpened"/>
-            <ProductScreen t-elif="currentScreen === 'product'" onPay.bind="onPay"
-                           onReadyToClose.bind="onReadyToClose"/>
-            <PaymentScreen t-elif="currentScreen === 'payment'"
-                           onPaymentDone.bind="onPaymentDone"
-                           onBack.bind="onBackToProduct"/>
-            <ClosingScreen t-elif="currentScreen === 'closing'"
-                           onClosingDone.bind="onClosingDone"
-                           onClosingBack.bind="onClosingBack"/>
+
+            <!-- ==================================================== -->
+            <!-- TOP NAVBAR                                           -->
+            <!-- ==================================================== -->
+            <header class="o_sm_pos_navbar d-flex justify-content-between align-items-center px-3 py-2 border-bottom bg-white shadow-sm">
+                <!-- Left navigation: Caisse, Commandes, [+] button, Order tabs -->
+                <div class="d-flex align-items-center gap-2 overflow-auto">
+                    <button type="button"
+                            t-attf-class="btn btn-sm fw-bold o_pos_nav_btn #{state.activeTab === 'caisse' ? 'o_tab_active' : 'btn-light'}"
+                            t-on-click="() => this.switchTab('caisse')">
+                        Caisse
+                    </button>
+                    <button type="button"
+                            t-attf-class="btn btn-sm fw-bold o_pos_nav_btn #{state.activeTab === 'commandes' ? 'o_tab_active' : 'btn-light'}"
+                            t-on-click="() => this.switchTab('commandes')">
+                        Commandes
+                    </button>
+                    
+                    <!-- Add new order button -->
+                    <button type="button" class="btn btn-sm btn-light o_btn_add_order rounded-2 px-2"
+                            title="Nouvelle commande"
+                            t-on-click="addNewOrder">
+                        <i class="fa fa-plus"/>
+                    </button>
+
+                    <!-- Order tabs (1001, 1002...) -->
+                    <div class="d-flex align-items-center gap-1 ms-1">
+                        <t t-foreach="orders" t-as="order" t-key="order.uid">
+                            <div t-attf-class="o_order_tab btn btn-sm py-1 px-3 d-flex align-items-center gap-2 #{activeOrderIndex === order_index ? 'o_order_tab_active' : 'btn-light'}"
+                                 t-on-click="() => this.switchOrder(order_index)">
+                                <span class="fw-semibold" t-esc="order.uid"/>
+                                <i t-if="orders.length &gt; 1"
+                                   class="fa fa-times small text-muted o_tab_close"
+                                   title="Fermer ce ticket"
+                                   t-on-click="(e) => this.closeOrder(order_index, e)"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Right tools: Search, Barcode, Cashier Badge, Menu -->
+                <div class="d-flex align-items-center gap-3">
+                    <!-- Search input with clear icon -->
+                    <div class="position-relative o_search_box">
+                        <i class="fa fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"/>
+                        <input type="text"
+                               class="form-control form-control-sm ps-5 pe-4 rounded-pill border-light bg-light"
+                               placeholder="Rechercher des produits..."
+                               t-model="state.searchTerm"/>
+                        <i t-if="state.searchTerm"
+                           class="fa fa-times position-absolute top-50 end-0 translate-middle-y me-3 text-muted role-button"
+                           role="button"
+                           t-on-click="clearSearch"/>
+                    </div>
+
+                    <!-- Barcode icon -->
+                    <div class="o_barcode_indicator text-muted" title="Lecteur code-barres actif">
+                        <i class="fa fa-barcode fa-lg"/>
+                    </div>
+
+                    <!-- Cashier avatar initial (Green circle like reference image) -->
+                    <div class="o_cashier_avatar rounded-circle d-flex align-items-center justify-content-center fw-bold text-white shadow-sm"
+                         t-att-title="(pos.user and pos.user.name) or 'Caissier'">
+                        <t t-esc="cashierInitial"/>
+                    </div>
+
+                    <!-- Burger menu dropdown -->
+                    <div class="position-relative">
+                        <button type="button" class="btn btn-sm btn-light border-0 px-2"
+                                t-on-click="toggleMenuDropdown">
+                            <i class="fa fa-bars fa-lg text-secondary"/>
+                        </button>
+                        <div t-if="state.showMenuDropdown"
+                             class="dropdown-menu dropdown-menu-end show position-absolute shadow-lg py-2 mt-2"
+                             style="right: 0; min-width: 200px; z-index: 1050;">
+                            <a class="dropdown-item py-2" href="#" t-on-click.prevent="openClosingModal">
+                                <i class="fa fa-flag-checkered text-warning me-2"/> Clôturer la session
+                            </a>
+                            <a class="dropdown-item py-2" href="#" t-on-click.prevent="() => this.pos.loadData()">
+                                <i class="fa fa-sync text-primary me-2"/> Recharger le catalogue
+                            </a>
+                            <div class="dropdown-divider"/>
+                            <a class="dropdown-item py-2 text-danger" href="#" t-on-click.prevent="exitPos">
+                                <i class="fa fa-sign-out-alt me-2"/> Quitter le point de vente
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ==================================================== -->
+            <!-- MAIN VIEW (CAISSE)                                   -->
+            <!-- ==================================================== -->
+            <div t-if="state.activeTab === 'caisse'" class="o_sm_pos_body flex-grow-1 d-flex overflow-hidden">
+
+                <!-- LEFT PANE: Cart, Subtotals, Actions, Numpad, Pay Button -->
+                <div class="o_pos_left_pane d-flex flex-column border-end bg-white">
+                    <!-- Cart lines scroll area (fills space, docking calculator at bottom) -->
+                    <div class="o_pos_cart_lines flex-grow-1 overflow-auto">
+                        <t t-if="activeOrder.lines.length === 0">
+                            <div class="text-center text-muted py-5 px-3">
+                                <i class="fa fa-shopping-basket fa-3x mb-3 text-secondary opacity-50"/>
+                                <h6 class="fw-normal">Le panier est vide</h6>
+                                <p class="small text-muted mb-0">Cliquez sur un produit pour l'ajouter</p>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <OrderLine t-foreach="activeOrder.lines" t-as="line" t-key="line.uuid"
+                                       line="line"
+                                       isSelected="activeOrder.selectedLineUuid === line.uuid"
+                                       onClick="() => this.onSelectLine(line)"/>
+                        </t>
+                    </div>
+
+                    <!-- Calculator & Payment Block (docked at bottom, compact to keep payment fully visible) -->
+                    <div class="o_pos_calculator_pane flex-shrink-0">
+                        <!-- Totals summary area -->
+                        <div class="o_pos_totals px-3 py-1 border-top bg-light">
+                            <div class="d-flex justify-content-between text-muted small mb-1">
+                                <span>Taxes</span>
+                                <span><t t-esc="currency"/> <t t-esc="formattedTaxes"/></span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <span class="fs-6 fw-bold">Total</span>
+                                <span class="fs-4 fw-bold text-dark">
+                                    <t t-esc="currency"/> <t t-esc="formattedTotal"/>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Action buttons row: Client, Note, Transfer, More -->
+                        <div class="o_pos_action_buttons d-flex gap-1 px-3 py-1 border-top">
+                            <button type="button" class="btn btn-sm btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-1"
+                                    t-on-click="openClientModal">
+                                <i class="fa fa-user"/>
+                                <span class="text-truncate" style="max-width: 90px;">
+                                    <t t-esc="activeOrder.partner_name || 'Client'"/>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-1"
+                                    t-on-click="openNoteModal">
+                                <i class="fa fa-sticky-note"/>
+                                <span>Note</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center justify-content-center gap-1 px-2"
+                                    title="Réinitialiser le panier"
+                                    t-on-click="clearActiveCart">
+                                <i class="fa fa-trash text-danger"/>
+                                <span>Tous</span>
+                            </button>
+                        </div>
+
+                        <!-- Integrated 4x4 Numpad -->
+                        <div class="o_pos_numpad_container px-3 pb-1 pt-1">
+                            <Numpad/>
+                        </div>
+
+                        <!-- Big Payment Button -->
+                        <div class="o_pos_payment_container px-3 pb-3 pt-0">
+                            <button type="button"
+                                    class="btn o_btn_payment w-100 py-2 fw-bold fs-5 text-white shadow-sm"
+                                    t-att-disabled="activeOrder.lines.length === 0"
+                                    t-on-click="openPayment">
+                                Paiement
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT PANE: Category Pills + Product Cards Grid -->
+                <div class="o_pos_right_pane flex-grow-1 d-flex flex-column bg-light overflow-hidden p-3">
+                    <!-- Category pills row -->
+                    <div class="o_pos_categories d-flex gap-2 mb-3 overflow-auto pb-1 flex-shrink-0">
+                        <button type="button"
+                                t-attf-class="btn o_cat_pill #{state.selectedCategoryId === false ? 'o_cat_pill_active' : ''} o_cat_default"
+                                t-on-click="() => this.selectCategory(false)">
+                            Tous
+                        </button>
+                        <t t-foreach="categories" t-as="cat" t-key="cat.id">
+                            <button type="button"
+                                    t-attf-class="btn o_cat_pill #{state.selectedCategoryId === cat.id ? 'o_cat_pill_active' : ''} #{getCategoryColorClass(cat_index)}"
+                                    t-on-click="() => this.selectCategory(cat.id)">
+                                <t t-esc="cat.name"/>
+                            </button>
+                        </t>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="o_pos_product_grid flex-grow-1 overflow-auto">
+                        <t t-if="filteredProducts.length === 0">
+                            <div class="text-center text-muted py-5">
+                                <i class="fa fa-search fa-3x mb-3 text-secondary opacity-50"/>
+                                <h5>Aucun produit trouvé</h5>
+                                <p class="small text-muted">Essayez un autre mot-clé ou sélectionnez une autre catégorie</p>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="o_grid_container">
+                                <t t-foreach="filteredProducts" t-as="product" t-key="product.id">
+                                    <ProductCard product="product" onClick="() => this.pos.addProduct(product)"/>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ==================================================== -->
+            <!-- COMMANDES (HISTORY) VIEW                             -->
+            <!-- ==================================================== -->
+            <div t-if="state.activeTab === 'commandes'" class="o_pos_orders_view flex-grow-1 p-4 bg-white overflow-auto">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Historique des commandes de la session</h4>
+                    <button class="btn btn-outline-primary btn-sm" t-on-click="() => this.pos.loadData()">
+                        <i class="fa fa-sync me-1"/> Actualiser
+                    </button>
+                </div>
+                <div class="table-responsive shadow-sm rounded-3 border">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Commande</th>
+                                <th>Date</th>
+                                <th>Client</th>
+                                <th class="text-end">Articles</th>
+                                <th class="text-end">Total TTC</th>
+                                <th>État</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="pos.recentOrders.length === 0">
+                                <tr>
+                                    <td colspan="7" class="text-center py-4 text-muted">
+                                        Aucune commande passée dans cette session
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-foreach="pos.recentOrders" t-as="order" t-key="order.id">
+                                <tr>
+                                    <td class="fw-bold" t-esc="order.name"/>
+                                    <td t-esc="order.date"/>
+                                    <td t-esc="order.partner_name"/>
+                                    <td class="text-end" t-esc="order.lines.length"/>
+                                    <td class="text-end fw-bold"><t t-esc="currency"/> <t t-esc="order.amount_ttc.toFixed(2)"/></td>
+                                    <td>
+                                        <span class="badge bg-success" t-esc="order.state"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                                title="Imprimer le ticket"
+                                                t-on-click="() => this.reprintOrderReceipt(order.id)">
+                                            <i class="fa fa-print"/> Reçu
+                                        </button>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ==================================================== -->
+            <!-- MODAL: PAYMENT OVERLAY                               -->
+            <!-- ==================================================== -->
+            <div t-if="state.showPaymentModal" class="o_pos_modal_backdrop d-flex align-items-center justify-content-center">
+                <div class="card shadow-lg border-0 o_pos_payment_modal" style="width: 580px; max-width: 95vw;">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                        <h5 class="fw-bold mb-0">Règlement de la commande</h5>
+                        <button type="button" class="btn-close" t-on-click="closePayment"/>
+                    </div>
+                    <div class="card-body p-4">
+                        <!-- Total due summary -->
+                        <div class="d-flex justify-content-between align-items-center p-3 rounded-3 bg-light mb-4">
+                            <div>
+                                <div class="text-muted small">Total à payer</div>
+                                <div class="fs-2 fw-bold text-dark"><t t-esc="currency"/> <t t-esc="formattedTotal"/></div>
+                            </div>
+                            <div class="text-end" t-if="paymentChange &gt; 0">
+                                <div class="text-success small fw-bold">Monnaie à rendre</div>
+                                <div class="fs-2 fw-bold text-success"><t t-esc="currency"/> <t t-esc="paymentChange.toFixed(2)"/></div>
+                            </div>
+                        </div>
+
+                        <!-- Payment modes selection -->
+                        <label class="form-label fw-bold mb-2">Mode de paiement</label>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <t t-foreach="pos.paymentModes" t-as="mode" t-key="mode.id">
+                                <button type="button"
+                                        t-attf-class="btn py-2 px-3 fw-semibold #{state.selectedPaymentMode &amp;&amp; state.selectedPaymentMode.id === mode.id ? 'btn-primary' : 'btn-outline-secondary'}"
+                                        t-on-click="() => this.state.selectedPaymentMode = mode">
+                                    <t t-esc="mode.name"/>
+                                </button>
+                            </t>
+                        </div>
+
+                        <!-- Amount given input -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold mb-1">Montant remis par le client</label>
+                            <input type="number" step="0.01" class="form-control form-control-lg text-end fs-3 fw-bold"
+                                   t-model="state.paymentAmountInput"/>
+                        </div>
+
+                        <!-- Quick cash buttons -->
+                        <div class="d-flex gap-2 mb-4">
+                            <button type="button" class="btn btn-outline-secondary btn-sm flex-fill"
+                                    t-on-click="() => this.setQuickCash(pos.getOrderTotal())">
+                                Montant exact
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm flex-fill"
+                                    t-on-click="() => this.addQuickCash(500)">
+                                +500
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm flex-fill"
+                                    t-on-click="() => this.addQuickCash(1000)">
+                                +1 000
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm flex-fill"
+                                    t-on-click="() => this.addQuickCash(2000)">
+                                +2 000
+                            </button>
+                        </div>
+
+                        <div t-if="state.paymentError" class="alert alert-danger py-2" t-esc="state.paymentError"/>
+
+                        <!-- Action buttons -->
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-outline-secondary py-3 flex-fill"
+                                    t-on-click="closePayment">
+                                Retour
+                            </button>
+                            <button type="button" class="btn btn-success py-3 flex-fill fw-bold fs-6"
+                                    t-att-disabled="state.paying"
+                                    t-on-click="() => this.validatePayment(true)">
+                                <i class="fa fa-print me-1"/> Valider &amp; Ticket
+                            </button>
+                            <button type="button" class="btn btn-primary py-3 flex-fill fw-bold fs-6"
+                                    t-att-disabled="state.paying"
+                                    t-on-click="() => this.validatePayment(false)">
+                                Valider
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================================================== -->
+            <!-- MODAL: RECEIPT PRINT PREVIEW                         -->
+            <!-- ==================================================== -->
+            <div t-if="state.showReceiptModal and state.lastReceiptData" class="o_pos_modal_backdrop d-flex align-items-center justify-content-center">
+                <div class="card shadow-lg border-0" style="width: 380px; max-width: 95vw;">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <span class="fw-bold">Reçu de caisse</span>
+                        <button type="button" class="btn-close" t-on-click="closeReceipt"/>
+                    </div>
+                    <div class="card-body p-3">
+                        <div id="o_pos_printable_receipt" class="o_thermal_receipt p-3 font-monospace bg-white border">
+                            <div class="text-center mb-2">
+                                <h5 class="fw-bold mb-1" t-esc="state.lastReceiptData.company_name"/>
+                                <div class="small text-muted" t-esc="state.lastReceiptData.pos_name"/>
+                                <div class="small text-muted" t-esc="state.lastReceiptData.date"/>
+                                <div class="fw-bold mt-1" t-esc="state.lastReceiptData.order_name"/>
+                                <div class="small" t-esc="state.lastReceiptData.partner_name"/>
+                            </div>
+                            <hr class="my-2"/>
+                            <table class="w-100 small mb-2">
+                                <thead>
+                                    <tr class="border-bottom">
+                                        <th class="py-1">Article</th>
+                                        <th class="text-center py-1">Qté</th>
+                                        <th class="text-end py-1">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="state.lastReceiptData and state.lastReceiptData.lines">
+                                        <t t-foreach="state.lastReceiptData.lines" t-as="l" t-key="l_index">
+                                            <tr>
+                                                <td class="py-1" t-esc="l.name"/>
+                                                <td class="text-center py-1" t-esc="l.qty"/>
+                                                <td class="text-end py-1" t-esc="l.price_total.toFixed(2)"/>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <hr class="my-2"/>
+                            <div class="d-flex justify-content-between fw-bold fs-6 mb-1">
+                                <span>TOTAL</span>
+                                <span><t t-esc="state.lastReceiptData.currency"/> <t t-esc="state.lastReceiptData.amount_ttc.toFixed(2)"/></span>
+                            </div>
+                            <div t-if="state.lastReceiptData.paid_amount" class="d-flex justify-content-between small text-muted">
+                                <span>Payé (<t t-esc="state.lastReceiptData.mode_name"/>)</span>
+                                <span><t t-esc="state.lastReceiptData.paid_amount.toFixed(2)"/></span>
+                            </div>
+                            <div t-if="state.lastReceiptData.change &gt; 0" class="d-flex justify-content-between small text-success fw-bold">
+                                <span>Monnaie rendue</span>
+                                <span><t t-esc="state.lastReceiptData.change.toFixed(2)"/></span>
+                            </div>
+                            <div class="text-center mt-3 small text-muted">
+                                Merci de votre visite !
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="button" class="btn btn-outline-secondary flex-fill" t-on-click="closeReceipt">
+                                Fermer
+                            </button>
+                            <button type="button" class="btn btn-primary flex-fill" t-on-click="printReceipt">
+                                <i class="fa fa-print me-1"/> Imprimer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================================================== -->
+            <!-- MODAL: CLIENT SELECTOR                               -->
+            <!-- ==================================================== -->
+            <div t-if="state.showClientModal" class="o_pos_modal_backdrop d-flex align-items-center justify-content-center">
+                <div class="card shadow-lg border-0" style="width: 480px; max-width: 95vw;">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">Associer un client</h5>
+                        <button type="button" class="btn-close" t-on-click="closeClientModal"/>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light"><i class="fa fa-search text-muted"/></span>
+                            <input type="text" class="form-control" placeholder="Rechercher par nom ou téléphone..."
+                                   t-model="state.clientSearch"/>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm w-100 mb-3"
+                                t-on-click="() => this.choosePartner(false)">
+                            <i class="fa fa-user-times me-1"/> Client comptoir (Anonyme)
+                        </button>
+                        <div class="overflow-auto border rounded-2" style="max-height: 280px;">
+                            <div t-foreach="filteredPartners" t-as="p" t-key="p.id"
+                                 class="d-flex justify-content-between align-items-center p-2 border-bottom role-button hover-bg"
+                                 role="button"
+                                 t-on-click="() => this.choosePartner(p)">
+                                <div>
+                                    <div class="fw-semibold" t-esc="p.name"/>
+                                    <div class="text-muted small" t-esc="p.phone"/>
+                                </div>
+                                <i class="fa fa-chevron-right text-muted"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================================================== -->
+            <!-- MODAL: NOTE                                          -->
+            <!-- ==================================================== -->
+            <div t-if="state.showNoteModal" class="o_pos_modal_backdrop d-flex align-items-center justify-content-center">
+                <div class="card shadow-lg border-0" style="width: 420px; max-width: 95vw;">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">Note de commande</h5>
+                        <button type="button" class="btn-close" t-on-click="closeNoteModal"/>
+                    </div>
+                    <div class="card-body p-3">
+                        <textarea class="form-control mb-3" rows="4" placeholder="Ajouter une instruction ou remarque..."
+                                  t-model="state.currentNote"/>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-outline-secondary flex-fill" t-on-click="closeNoteModal">Annuler</button>
+                            <button type="button" class="btn btn-primary flex-fill" t-on-click="saveNote">Enregistrer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================================================== -->
+            <!-- MODAL: CLOSING SESSION                               -->
+            <!-- ==================================================== -->
+            <div t-if="state.showClosingModal" class="o_pos_modal_backdrop d-flex align-items-center justify-content-center">
+                <div class="card shadow-lg border-0" style="width: 460px; max-width: 95vw;">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">Clôture de la session</h5>
+                        <button type="button" class="btn-close" t-on-click="closeClosingModal"/>
+                    </div>
+                    <div class="card-body p-4">
+                        <t t-if="state.closingLoading">
+                            <div class="text-center py-4">
+                                <i class="fa fa-spinner fa-spin fa-2x text-primary"/>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <table class="table table-sm mb-3">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted">Solde d'ouverture</td>
+                                        <td class="text-end fw-bold">
+                                            <t t-esc="currency"/> <t t-esc="(state.closingData and state.closingData.cash_register_balance_start or 0).toFixed(2)"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Solde théorique de caisse</td>
+                                        <td class="text-end fw-bold">
+                                            <t t-esc="currency"/> <t t-esc="(state.closingData and state.closingData.cash_register_balance_end or 0).toFixed(2)"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Commandes passées</td>
+                                        <td class="text-end" t-esc="state.closingData and state.closingData.order_count or 0"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Espèces réelles comptées</label>
+                                <input type="number" step="0.01" class="form-control form-control-lg text-end fs-4 fw-bold"
+                                       t-model="state.countedCash"/>
+                            </div>
+
+                            <div class="mb-3 d-flex justify-content-between align-items-baseline">
+                                <span class="text-muted">Différence de caisse :</span>
+                                <span t-attf-class="fw-bold fs-5 #{closingDifference &lt; 0 ? 'text-danger' : (closingDifference &gt; 0 ? 'text-success' : 'text-muted')}">
+                                    <t t-esc="currency"/> <t t-esc="closingDifference.toFixed(2)"/>
+                                </span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">Notes de clôture</label>
+                                <textarea class="form-control" rows="2" t-model="state.closingNotes"/>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-outline-secondary flex-fill" t-on-click="closeClosingModal">
+                                    Annuler
+                                </button>
+                                <button type="button" class="btn btn-danger flex-fill fw-bold" t-on-click="confirmCloseSession">
+                                    Confirmer la clôture
+                                </button>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================================================== -->
+            <!-- MODAL: START SESSION (if none active)                -->
+            <!-- ==================================================== -->
+            <div t-if="state.showStartSessionModal"
+                 class="o_pos_modal_backdrop d-flex align-items-center justify-content-center"
+                 t-on-click.self="cancelStartSession">
+                <div class="card shadow-lg border-0 position-relative" style="width: 460px; max-width: 95vw;">
+                    <!-- Close button in top-right corner -->
+                    <button type="button"
+                            class="btn-close position-absolute top-0 end-0 m-3"
+                            aria-label="Fermer"
+                            title="Fermer / Retour"
+                            t-on-click="cancelStartSession"/>
+
+                    <div class="card-body p-4 text-center">
+                        <div class="o_cashier_avatar mx-auto mb-3 rounded-circle d-flex align-items-center justify-content-center fw-bold text-white shadow"
+                             style="width: 60px; height: 60px; font-size: 24px;">
+                            <i class="fa fa-cash-register"/>
+                        </div>
+                        <h4 class="fw-bold mb-3">Ouvrir le Point de Vente</h4>
+
+                        <div class="mb-3 text-start">
+                            <label class="form-label fw-semibold">Point de vente</label>
+                            <select class="form-select" t-model="state.selectedConfigId">
+                                <t t-foreach="state.configs" t-as="cfg" t-key="cfg.id">
+                                    <option t-att-value="cfg.id" t-esc="cfg.name"/>
+                                </t>
+                            </select>
+                        </div>
+
+                        <div class="mb-4 text-start">
+                            <label class="form-label fw-semibold">Solde initial de la caisse (Espèces)</label>
+                            <input type="number" step="0.01" class="form-control form-control-lg text-end fs-4 fw-bold"
+                                   t-model="state.openingCash"/>
+                        </div>
+
+                        <div t-if="state.sessionError" class="alert alert-danger py-2 small mb-3" t-esc="state.sessionError"/>
+
+                        <div class="d-flex gap-2">
+                            <button type="button"
+                                    class="btn btn-outline-secondary btn-lg fw-semibold px-4 py-3"
+                                    t-att-disabled="state.sessionLoading"
+                                    t-on-click="cancelStartSession">
+                                <i class="fa fa-arrow-left me-2"/> Annuler
+                            </button>
+                            <button type="button"
+                                    class="btn btn-primary btn-lg flex-grow-1 fw-bold py-3 shadow-sm"
+                                    t-att-disabled="state.sessionLoading || !state.selectedConfigId"
+                                    t-on-click="startNewSession">
+                                <i class="fa fa-play me-2"/> Commencer les ventes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </t>
 

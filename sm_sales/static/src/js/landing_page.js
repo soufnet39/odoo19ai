@@ -6,6 +6,7 @@ registry.category("shakliyat_landing_apps").add("sm_sales", {
     name: "Ventes SM",
     description: "Gestion des ventes",
     icon: "fa-shopping-cart",
-    color: "#875A7B",
+    web_icon: "/sm_sales/static/description/icon.png",
+    color: "#D51C1B",
     action: "sm_sales.action_sm_sales_order",
 });

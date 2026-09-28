@@ -44,25 +44,20 @@
                  <widget name="web_ribbon" title="En attente" bg_color="bg-warning" invisible="stock_state != 'pending'"  />        
                  <widget name="web_ribbon" title="Livré" bg_color="bg-success" invisible="stock_state != 'delivered'"  />        
                  <widget name="web_ribbon" title="Retourné" bg_color="bg-danger" invisible="stock_state != 'returned'"  />        
-                    <h1>
-                        Bon de Livraison: (<field name="name" readonly="1" class="d-inline"/>)
-                    </h1>
-                    <group col="12">
-                        <group colspan="4">
-                        </group>
-                        <group colspan="3">
+                 <group>  
+                    <group>
+                        <h1>
+                            Bon de Livraison: (<field name="name" readonly="1" class="d-inline"/>)
+                        </h1>
+                     </group>
+                    <group string="Informations" class='sm_group mb-0'>
                             <field name="partner_id" readonly="1" options="{'no_open': True}"/>
-                            <field name="stock_id" readonly="1"  options="{'no_open': True}"/>
-                        </group>
-                        <group colspan="3">
                             <field name="date_stk_in_out" string="Date Liv."/>
+                            <field name="stock_id" readonly="1"  options="{'no_open': True}"/>
                             <field name="user_id" readonly="1"  options="{'no_open': True}"/>
-                        </group>
-                        <group>
-                        </group>
                     </group>
+                </group>
                     <notebook>
-                    
                         <page string="Lignes" name="lines">
                             <field name="order_lines">
                                <list editable="bottom" create="0" delete="0"  decoration-bf="1">

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Rounded Squircle Base Card -->
+  <rect x="2" y="2" width="252" height="252" rx="56" fill="#FAFAFA" stroke="#E8E8E8" stroke-width="2"/>
+  
+  <!-- Icon Graphics (Filled Vector Paths) -->
+
+  <!-- Handles -->
+  <path d="M96 82 C96 60 110 44 128 44 C146 44 160 60 160 82 H146 C146 68 138 56 128 56 C118 56 110 68 110 82 Z" fill="#B71C1C"/>
+  <path d="M90 82 C90 56 107 38 128 38 C149 38 166 56 166 82 H152 C152 64 141 50 128 50 C115 50 104 64 104 82 Z" fill="#D51C1B"/>
+  <!-- Bag Body -->
+  <path d="M56 82 H200 L188 212 C187 217 182 220 176 220 H80 C74 220 69 217 68 212 Z" fill="#D51C1B"/>
+  <!-- Subtle Top Lip Crease -->
+  <polygon points="56,82 200,82 195,96 61,96" fill="#B71C1C" opacity="0.4"/>
+  <!-- Central Badge: Commercial Sale Tag -->
+  <circle cx="128" cy="150" r="28" fill="#FFFFFF"/>
+  <!-- Percentage / Deal glyph inside tag -->
+  <circle cx="118" cy="140" r="5" fill="#D51C1B"/>
+  <circle cx="138" cy="160" r="5" fill="#D51C1B"/>
+  <polygon points="139,136 142,139 119,164 116,161" fill="#D51C1B"/>
+
+</svg>

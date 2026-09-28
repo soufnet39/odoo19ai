@@ -62,11 +62,18 @@
         </xpath>
     </t>
 
+    <!-- shakliyat.ControlPanel: add slot for sheet-aligned actions at the right edge of breadcrumbs -->
+    <t t-inherit="web.ControlPanel" t-name="shakliyat.ControlPanel">
+        <xpath expr="//div[hasclass('o_control_panel_breadcrumbs')]" position="inside">
+            <t t-slot="control-panel-sheet-actions"/>
+        </xpath>
+    </t>
+
     <!--
         shakliyat.FormView: moves the <CogMenu> (silver "Actions" button) from
-        the control-panel-additional-actions slot to the control-panel-
-        status-indicator slot, so it renders as a sibling of the Save / Cancel
-        buttons inside the breadcrumbs status indicator area.
+        the control-panel-additional-actions slot to the control-panel-sheet-actions
+        slot, so it renders at the right edge of the breadcrumbs area, aligned
+        with the right edge of the form sheet across all form views.
     -->
     <t t-inherit="web.FormView" t-name="shakliyat.FormView">
         <!-- Remove CogMenu from the additional-actions slot (keep only the
@@ -74,10 +81,11 @@
         <xpath expr="//t[@t-set-slot='control-panel-additional-actions']/CogMenu" position="replace">
         </xpath>
 
-        <!-- Insert CogMenu into the status-indicator slot, before the
-             FormStatusIndicator (Save / Cancel buttons). -->
-        <xpath expr="//t[@t-set-slot='control-panel-status-indicator']" position="inside">
-            <CogMenu t-props="this.cogMenuProps" />
+        <!-- Place CogMenu into the control-panel-sheet-actions slot -->
+        <xpath expr="//Layout/t[@t-set-slot='control-panel-status-indicator']" position="after">
+            <t t-set-slot="control-panel-sheet-actions">
+                <CogMenu t-props="this.cogMenuProps" />
+            </t>
         </xpath>
     </t>
 

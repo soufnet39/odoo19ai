@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Rounded Squircle Base Card -->
+  <rect x="2" y="2" width="252" height="252" rx="56" fill="#FAFAFA" stroke="#E8E8E8" stroke-width="2"/>
+  
+  <!-- Icon Graphics (Filled Vector Paths) -->
+
+  <!-- Cart Handle and Slanted Frame (Filled Bars) -->
+  <rect x="42" y="60" width="28" height="12" rx="6" fill="#D51C1B"/>
+  <polygon points="62,60 74,60 100,166 88,166" fill="#D51C1B"/>
+  <!-- Lower Chassis & Wheel Connectors -->
+  <rect x="80" y="166" width="102" height="12" rx="6" fill="#D51C1B"/>
+  <rect x="96" y="176" width="12" height="18" fill="#D51C1B"/>
+  <rect x="162" y="176" width="12" height="18" fill="#D51C1B"/>
+  <!-- Wheels -->
+  <circle cx="102" cy="198" r="16" fill="#D51C1B"/>
+  <circle cx="102" cy="198" r="7" fill="#FFFFFF"/>
+  <circle cx="168" cy="198" r="16" fill="#D51C1B"/>
+  <circle cx="168" cy="198" r="7" fill="#FFFFFF"/>
+  <!-- Basket Outline and Front Wall -->
+  <path d="M72 82 H198 L180 156 H92 Z" fill="#D51C1B"/>
+  <!-- White Slots in Basket -->
+  <rect x="104" y="94" width="8" height="50" rx="4" fill="#FFFFFF"/>
+  <rect x="122" y="94" width="8" height="50" rx="4" fill="#FFFFFF"/>
+  <rect x="140" y="94" width="8" height="50" rx="4" fill="#FFFFFF"/>
+  <rect x="158" y="94" width="8" height="50" rx="4" fill="#FFFFFF"/>
+  <!-- Verified Procurement Badge -->
+  <circle cx="184" cy="74" r="34" fill="#D51C1B" stroke="#FFFFFF" stroke-width="5"/>
+  <polygon points="172,74 182,84 200,64 206,69 182,94 166,79" fill="#FFFFFF"/>
+
+</svg>

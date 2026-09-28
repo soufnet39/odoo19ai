@@ -3,48 +3,126 @@
 
     <t t-name="shakliyat.LandingPage">
         <div class="o_shakliyat_landing_page h-100 d-flex flex-column">
-            <!-- En-tête de bienvenue -->
-            <div class="text-center py-5">
-                <h1 class="display-4 fw-bold mb-3">Bienvenue sur votre tableau de bord</h1>
-                <p class="lead text-muted">Sélectionnez une application pour commencer</p>
-            </div>
+            <!-- Décoration d'arrière-plan lumineuse -->
+            <div class="o_landing_glow_bg" aria-hidden="true"/>
 
-            <!-- Conteneur de la grille des applications -->
-            <div class="container flex-grow-1">
-                <div class="row justify-content-center g-4">
-                    <t t-foreach="apps" t-as="app" t-key="app.name">
-                        <div class="col-md-4 col-sm-6">
-                            <div class="card o_app_card h-100 shadow-sm"
-                                 t-attf-style="border-top: 4px solid #{app.color || '#714B67'}"
-                                 t-on-click="() => this.onAppClick(app)"
-                                 role="button"
-                                 tabindex="0">
-                                <div class="card-body text-center p-4">
-                                    <div class="mb-2">
-                                        <i t-attf-class="fa #{app.icon} fa-3x"
-                                           t-attf-style="color: #{app.color || '#714B67'}"/>
-                                    </div>
-                                    <h5 class="card-title fw-bold mb-2" t-esc="app.name"/>
-                                    <p class="card-text text-muted small" t-esc="app.description"/>
+            <!-- Conteneur principal -->
+            <div class="o_landing_container container-fluid flex-grow-1 d-flex flex-column">
+
+                <!-- En-tête moderne avec salutation et recherche -->
+                <div class="o_landing_header">
+                    <div class="row align-items-center justify-content-between g-3">
+                        <div class="col-md-6 col-12">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="o_user_avatar_badge">
+                                    <i class="fa fa-user-circle fa-2x"/>
+                                </div>
+                                <div>
+                                    <h1 class="o_landing_title mb-1">
+                                        <t t-esc="greeting"/>, <span class="o_title_highlight" t-esc="userName"/>
+                                    </h1>
+                                    <p class="o_landing_subtitle mb-0">
+                                        <i class="fa fa-calendar-o me-1"/>
+                                        <t t-esc="formattedDate"/>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                    </t>
-                </div>
 
-                <!-- État vide (affiché lorsqu'aucune application n'est disponible) -->
-                <div t-if="apps.length === 0" class="text-center py-5">
-                    <div class="mb-4">
-                        <i class="fa fa-th-large fa-4x text-muted"></i>
+                        <!-- Barre de recherche rapide avec raccourci ⌘K -->
+                        <div class="col-md-5 col-12">
+                            <div class="o_landing_search_wrapper">
+                                <i class="fa fa-search o_search_icon"/>
+                                <input type="text"
+                                       class="form-control o_landing_search_input"
+                                       placeholder="Rechercher une application..."
+                                       t-ref="searchInput"
+                                       t-att-value="state.searchQuery"
+                                       t-on-input="onSearchInput"
+                                       t-on-keydown="onSearchKeydown"/>
+                                <button t-if="state.searchQuery"
+                                        class="btn btn-link o_search_clear_btn"
+                                        t-on-click="clearSearch"
+                                        type="button"
+                                        title="Effacer">
+                                    <i class="fa fa-times-circle"/>
+                                </button>
+                                <span class="o_search_shortcut_badge" t-on-click="focusSearch" title="Raccourci clavier">⌘K</span>
+                            </div>
+                        </div>
                     </div>
-                    <h4 class="text-muted">Aucune application pour le moment</h4>
-                    <p class="text-muted">Les applications apparaîtront ici une fois configurées.</p>
                 </div>
-            </div>
 
-            <!-- Pied de page -->
-            <div class="text-center py-3 text-muted small">
-                <p class="mb-0">Powered par <strong>Mizan</strong></p>
+                <!-- Grille d'applications -->
+                <div class="o_landing_content flex-grow-1">
+                    <div t-if="filteredApps.length > 0" class="row g-4 o_apps_grid">
+                        <t t-foreach="filteredApps" t-as="app" t-key="app.name">
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                <div class="card o_app_card h-100 shadow-sm"
+                                     t-attf-style="--app-accent: #{app.color || '#D51C1B'};"
+                                     t-on-click="() => this.onAppClick(app)"
+                                     role="button"
+                                     tabindex="0">
+                                    <div class="card-body d-flex flex-column justify-content-between p-4">
+                                        <div class="d-flex align-items-start justify-content-between mb-3">
+                                            <!-- Badge d'icône d'application -->
+                                            <div class="o_app_icon_wrapper shadow-sm">
+                                                <img t-if="app.web_icon" t-att-src="app.web_icon" alt="" class="o_app_img_icon"/>
+                                                <i t-else="" t-attf-class="fa #{app.icon} fa-2x" t-attf-style="color: #{app.color || '#D51C1B'}"/>
+                                            </div>
+                                            <!-- Indicateur interactif d'ouverture -->
+                                            <div class="o_app_action_indicator">
+                                                <i class="fa fa-arrow-right"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Libellé & Description -->
+                                        <div>
+                                            <h5 class="o_app_title fw-bold mb-1" t-esc="app.name"/>
+                                            <p class="o_app_description mb-0 text-muted" t-esc="app.description || 'Accéder au module'"/>
+                                        </div>
+
+                                        <!-- Bas de carte avec accent visuel -->
+                                        <div class="o_app_card_footer mt-3 pt-3 d-flex align-items-center justify-content-between">
+                                            <span class="o_app_dot"/>
+                                            <span class="o_app_open_text">Ouvrir</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- État recherche vide -->
+                    <div t-if="filteredApps.length === 0 and state.searchQuery" class="o_empty_search text-center py-5">
+                        <div class="o_empty_icon_box mb-3">
+                            <i class="fa fa-search fa-3x text-muted opacity-50"/>
+                        </div>
+                        <h4 class="fw-bold mb-2">Aucune application trouvée</h4>
+                        <p class="text-muted mb-3">Aucun module ne correspond à « <strong t-esc="state.searchQuery"/> »</p>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill px-4" t-on-click="clearSearch">
+                            <i class="fa fa-undo me-1"/> Réinitialiser la recherche
+                        </button>
+                    </div>
+
+                    <!-- État vide (aucune application configurée) -->
+                    <div t-if="rawApps.length === 0" class="o_empty_state text-center py-5">
+                        <div class="mb-4">
+                            <i class="fa fa-th-large fa-4x text-muted opacity-50"/>
+                        </div>
+                        <h4 class="text-muted fw-bold">Aucune application pour le moment</h4>
+                        <p class="text-muted">Les applications apparaîtront ici une fois configurées.</p>
+                    </div>
+                </div>
+
+                <!-- Pied de page -->
+                <div class="o_landing_footer text-center py-3 text-muted small">
+                    <p class="mb-0">
+                        Propulsé par <strong class="o_mizan_brand">Mizan</strong>
+                        <span class="mx-2">•</span>
+                        <span>Suite Entreprise</span>
+                    </p>
+                </div>
             </div>
         </div>
     </t>

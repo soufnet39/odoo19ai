@@ -74,7 +74,7 @@
                             invisible="active"/>
 
                     <group col='12'>
-                        <group colspan='8'>
+                        <group colspan='9'>
                             <div >
                                 <h1>
                                     <field name="name" placeholder="Nom du fournisseur"/>
@@ -83,10 +83,9 @@
                                     <field name="ref" placeholder="Code fournisseur"/>
                                 </h3>
                             </div>  
-                            <field name="company_id" groups="base.group_multi_company"/>
                             <field name="is_supplier" force_save="1" invisible="1"/>
                         </group>
-                        <group colspan='4'>
+                        <group colspan='3'>
                             <field name="image_512" widget="image" nolabel="1"
                                    class="oe_avatar" options="{'preview_image': 'image_512'}"/>
                         </group>
@@ -101,6 +100,7 @@
                                     <field name="phone"/>
                                     <field name="mobile"/>
                                     <field name="website"/>
+                                    <field name="company_id" groups="base.group_multi_company"/>
                                 </group>
                                  <group colspan="6" string="Informations commerciales">
                                     <field name="reg_com"/>

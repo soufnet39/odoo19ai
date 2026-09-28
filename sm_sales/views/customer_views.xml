@@ -72,7 +72,7 @@
                     <widget name="web_ribbon" title="Archivé" bg_color="bg-warning"
                             invisible="active"/>                    
                     <group col='12'>
-                        <group colspan='8'>
+                        <group colspan='9'>
                             <div >
                                 <h1>
                                     <field name="name"  placeholder="Nom du client"/>
@@ -83,7 +83,7 @@
                             </div>                             
                             <field name="is_customer" force_save="1" invisible="1"/>
                         </group>
-                        <group colspan='4'>
+                        <group colspan='3'>
                             <field name="image_512" widget="image" nolabel="1"
                                    class="oe_avatar" options="{'preview_image': 'image_512'}"/>
                         </group>
@@ -94,11 +94,11 @@
                                 <field name="address"/>
                                 <field name="city"/>
                                 <field name="wilaya_id"/>
-                                <field name="company_id" groups="base.group_multi_company"/>
                                 <field name="email"/>
                                 <field name="phone"/>
                                 <field name="mobile"/>
                                 <field name="website"/>                             
+                                <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                          <group id='fiscality' colspan='6' string="Information fiscals">
                                 <field name="reg_com"/>

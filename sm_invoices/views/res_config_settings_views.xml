@@ -12,7 +12,19 @@
             <xpath expr="//form" position="inside">
 
                 <app data-string="Factures" string="Factures" name="sm_invoices" groups="sm_invoices.sm_invoices_manager">
-
+                  <!-- ======================== -->
+                    <!-- Paramètres généraux -->
+                    <!-- ======================== -->
+                    <block title="Paramètres généraux" name="sm_invoices_general">
+                        <setting id="sm_invoices_confirm_invoices" 
+                                 string="Confirmer les factures par défaut"
+                                 help="Confirmer automatiquement les factures lors de leur création.">
+                            <field name="confirm_invoices_by_default"/>
+                        </setting>
+                      
+                       
+                    </block>
+             
                     <!-- ======================== -->
                     <!-- Paramètres des produits -->
                     <!-- ======================== -->
@@ -30,13 +42,13 @@
                     <block title="Paramètres de TVA pour les factures" name="sm_invoices_vat">
                         <setting id="sm_invoices_tva_enabled" string="Activer la TVA"
                                  help="Activer le calcul de la TVA sur les factures clients.">
-                            <field name="tva_enabled"/>
+                            <field name="invoice_tva_enabled"/>
                         </setting>
                         <setting id="sm_invoices_tva_taux" string="Taux de TVA par défaut"
                                  help="Taux de TVA par défaut appliqué aux nouvelles factures."
-                                 invisible="not tva_enabled">
+                                 invisible="not invoice_tva_enabled">
                             <div class="row mt8">
-                                <field name="tva_taux" class="oe_inline"/>
+                                <field name="invoice_tva_taux" class="oe_inline"/>
                                 <span class="ml8">%</span>
                             </div>
                         </setting>

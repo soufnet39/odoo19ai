@@ -70,13 +70,17 @@
 /* ------------------------------------------------------------------ *
  * 4. Statusbars & badges (example)
  * ------------------------------------------------------------------ */
-.text-purple{
-    color: purple;
+.text-purple {
+    color: #6d28d9 !important;
+    font-weight: 700;
 }
- .btn-secondary{
-    border: 1px solid #bababa;
+
+.o_control_panel .btn-secondary,.o_statusbar_buttons .btn-secondary {
+    background-color: #ffffff !important;
+    border: 1px solid #bababa !important;
 }
-.o_field_float{
+
+.o_field_float {
     text-align: right;
 }
 
@@ -106,11 +110,39 @@
 }
 
 /* The CogMenu has been moved from the breadcrumbs "additional-actions" slot
-   to the "status-indicator" slot (next to Save/Cancel). The original
-   o_control_panel_breadcrumbs_actions wrapper is now empty on desktop — hide
-   it so no empty gap remains in the breadcrumbs. */
+   to the dedicated "control-panel-sheet-actions" slot at the right edge of
+   the breadcrumbs area. Hide the legacy empty actions wrapper. */
 .o_control_panel_breadcrumbs_actions:empty {
     display: none;
+}
+
+/* In form views, align the control panel breadcrumbs section with the sheet */
+.o_form_view .o_control_panel .o_control_panel_breadcrumbs {
+    width: var(--form-sheet-width, auto);
+    max-width: var(--form-sheet-width, 1400px);
+    flex: 0 0 var(--form-sheet-width, auto);
+}
+
+/* Push the Actions button to the far right edge of the breadcrumbs area */
+.o_form_view .o_control_panel_breadcrumbs .o_cp_action_menus {
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+/* Fallback when chatter is aside and JS has not measured yet */
+.o_form_view:has(.o-mail-Form-chatter.o-aside) .o_control_panel .o_control_panel_breadcrumbs {
+    flex: 1 1 auto;
+    width: var(--form-sheet-width, calc(100% - 530px));
+    max-width: var(--form-sheet-width, 1400px);
+}
+
+/* On mobile / small screens, keep normal responsive breadcrumbs */
+@media (max-width: 767.98px) {
+    .o_form_view .o_control_panel .o_control_panel_breadcrumbs {
+        width: auto !important;
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
+    }
 }
 
 /* ------------------------------------------------------------------ *
@@ -125,71 +157,155 @@
 th[data-name='display_price'] {
     text-align: end;
 }
-.o_form_view .o_group .o_wrap_label .o_form_label ,.o_form_view .o_form_label{    
-    color: darkcyan;
+/* Form Title: label and input on the same single line */
+.oe_title {
+    width: auto !important;
+    max-width: 100% !important;
 }
-.o_notebook .nav{
+
+.oe_title h1 {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+}
+
+.oe_title h1 span,
+.oe_title h1 .o_field_widget {
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+/* Form Groups: keep labels and inputs on the same horizontal line */
+.o_form_view .o_group .o_wrap_label .o_form_label,
+.o_form_view .o_form_label,
+.o_form_view label.o_form_label {    
+    color: #009688 !important; /* Modern Indigo */
+    font-weight: 600;
+    white-space: nowrap !important;
+}
+
+.o_form_view .o_inner_group {
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr) !important;
+    align-items: center !important;
+}
+
+.o_form_view .o_inner_group .o_cell.o_wrap_label {
+    white-space: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.o_form_view .o_inner_group .o_cell.o_wrap_input {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.o_notebook .nav {
     background-color: inherit;
 }
-.o_notebook{
-    margin-bottom: 10px;
+.o_notebook {
+    margin-bottom: 12px;
+}
+.o_notebook .nav-tabs {
+    border-bottom: 1px solid #e2e8f0;
+    gap: 6px;
+}
+.o_notebook .nav-tabs .nav-link {
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    background: transparent !important;
+    color: #64748b !important;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 0;
+    transition: all 0.15s ease;
+}
+.o_notebook .nav-tabs .nav-link:hover {
+    color: #334155 !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+}
+.o_notebook .nav-tabs .nav-link.active {
+    color: #6d28d9 !important;
+    border-bottom: 2px solid #6d28d9 !important;
+    font-weight: 600;
 }
 
 .o_form_view .o_notebook > .tab-content {
     border-bottom: 0px; 
     background-color: white;
-    padding: 10px 20px 0;
-    min-height:156px;
+    padding: 12px 16px 0;
+    min-height: 156px;
 }
 
-.o_form_view .o_notebook > .tab-content > .tab-pane{
-    padding: 16px 0 0;
+.o_form_view .o_notebook > .tab-content > .tab-pane {
+    padding: 14px 0 0;
 }
-.o_form_view .o_notebook > .tab-content > .tab-pane > :first-child:not(.o_group) .o_field_x2many.o_field_x2many_list .o_list_renderer, .o_form_view .o_notebook > .tab-content > .tab-pane > :first-child.o_invisible_modifier .o_field_x2many.o_field_x2many_list .o_list_renderer {
+.o_form_view .o_notebook > .tab-content > .tab-pane > :first-child:not(.o_group) .o_field_x2many.o_field_x2many_list .o_list_renderer,
+.o_form_view .o_notebook > .tab-content > .tab-pane > :first-child.o_invisible_modifier .o_field_x2many.o_field_x2many_list .o_list_renderer {
     --ListRenderer-margin-x: inherit;
 }
-.o_notebook .o_notebook_headers{
+.o_notebook .o_notebook_headers {
     margin: 0;
 }
-table.o_list_table thead tr th{
-    background-color: #f3fbff!important;
+table.o_list_table thead tr th {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
 }
 
-element.style {
-}
 .o_form_view .o_inner_group.oe_subtotal_footer {
- 
     border-top: 0;
+    gap: 0px;
+    background-color: #faf5ff;
+    border: 1px solid #ede9fe;
+    border-radius: 8px;
+    padding: 8px 12px;
+    box-shadow: 0 1px 3px rgba(109, 40, 217, 0.04);
 }
  
-.silver .o_form_sheet{
-  background-color: mistyrose;
-}
-button.rosy{
+/* .silver .o_form_sheet {
+    background-color: mistyrose;
+} */
+button.rosy {
     border: 1px solid #9d9d9d;
-    background-color:mistyrose ;
+    background-color: mistyrose;
 }
-
 
 .o_form_view .o_inner_group.oe_subtotal_footer .o_cell.o_wrap_label,
-.o_form_view .o_inner_group.oe_subtotal_footer .o_cell.o_wrap_input
-{
-    border-bottom: 1px solid #e0e0e0;
-    padding: 2px 10px;
-    background-color: white;
+.o_form_view .o_inner_group.oe_subtotal_footer .o_cell.o_wrap_input {
+    border-bottom: 1px solid #f1f5f9;
+    padding: 3px 8px;
+    background-color: transparent;
 }
-.o_form_view .o_inner_group.oe_subtotal_footer{
-    gap: 0px;
+.o_form_view .o_inner_group.oe_subtotal_footer [name="amount_ttc"] {
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: #6d28d9 !important;
 }
-.o_group .o_cell.o_wrap_label,.o_group .o_cell.o_wrap_input{
-    height: 22px;
+.o_form_view .o_inner_group.oe_subtotal_footer .o_cell.o_wrap_label:has(+ [name="amount_ttc"]),
+.o_form_view .o_inner_group.oe_subtotal_footer [name="amount_ttc"] {
+    border-top: 2px solid #ddd6fe !important;
+    border-bottom: none !important;
+    padding-top: 6px !important;
 }
-.mb-0 .o_horizontal_separator{
-    margin-top: 8px!important;
-    margin-bottom: 4px!important;
+.o_group .o_cell.o_wrap_label,
+.o_group .o_cell.o_wrap_input {
+    height: 24px;
+}
+.mb-0 .o_horizontal_separator {
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
 }
 .o_horizontal_separator {
-    color: tomato 
+    color: tomato !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
 }
 
 
@@ -197,64 +313,303 @@ button.rosy{
  * 7. Landing page — app cards
  * ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ *
+ * Shakliyat Landing Page — Option 1: Modern Executive SaaS
+ * ------------------------------------------------------------------ */
+
 .o_shakliyat_landing_page {
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+    background: radial-gradient(100% 70% at 50% 0%, #ffffff 0%, #f1f5f9 100%);
     min-height: 100vh;
+    position: relative;
+    overflow-y: auto;
+    color: #1e293b;
 }
 
+/* Subtle ambient backdrop */
+.o_shakliyat_landing_page .o_landing_glow_bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 380px;
+    background: radial-gradient(circle at 50% 0%, rgba(213, 28, 27, 0.04) 0%, rgba(99, 102, 241, 0.02) 40%, transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.o_landing_container {
+    position: relative;
+    z-index: 1;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 2.25rem 2rem 1.5rem;
+}
+
+/* Header & Salutation */
+.o_landing_header {
+    margin-bottom: 2.25rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+.o_landing_title {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+
+.o_landing_title .o_title_highlight {
+    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.o_landing_subtitle {
+    font-size: 0.92rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.o_user_avatar_badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+    color: #D51C1B;
+    flex-shrink: 0;
+}
+
+/* Fast Search Input & ⌘K Badge */
+.o_landing_search_wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.o_landing_search_wrapper .o_search_icon {
+    position: absolute;
+    left: 1rem;
+    color: #94a3b8;
+    pointer-events: none;
+    font-size: 0.95rem;
+}
+
+.o_landing_search_input {
+    height: 46px;
+    padding-left: 2.75rem;
+    padding-right: 4.75rem;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    font-size: 0.9rem;
+    color: #1e293b;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.o_landing_search_input:focus {
+    border-color: #D51C1B;
+    box-shadow: 0 0 0 3px rgba(213, 28, 27, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
+    outline: none;
+}
+
+.o_search_clear_btn {
+    position: absolute;
+    right: 3.25rem;
+    color: #94a3b8;
+    padding: 0;
+    line-height: 1;
+}
+
+.o_search_clear_btn:hover {
+    color: #475569;
+}
+
+.o_search_shortcut_badge {
+    position: absolute;
+    right: 0.75rem;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease;
+}
+
+.o_search_shortcut_badge:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+/* App Card Component */
 .o_app_card {
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle accent strip on card hover */
+.o_app_card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--app-accent, #D51C1B);
+    opacity: 0;
+    transition: opacity 0.25s ease;
 }
 
 .o_app_card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+    transform: translateY(-5px);
+    border-color: rgba(213, 28, 27, 0.3);
+    box-shadow: 0 16px 24px -4px rgba(0, 0, 0, 0.07), 0 6px 12px -2px rgba(0, 0, 0, 0.03);
 }
 
-.o_app_card:focus {
+.o_app_card:hover::before {
+    opacity: 1;
+}
+
+.o_app_card:focus-visible {
+    outline: 2px solid var(--app-accent, #D51C1B);
+    outline-offset: 2px;
+}
+
+/* Icon Box Wrapper */
+.o_app_icon_wrapper {
+    width: 66px;
+    height: 66px;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #edf2f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s ease;
+}
+
+.o_app_card:hover .o_app_icon_wrapper {
+    transform: scale(1.06);
+}
+
+.o_app_img_icon {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+/* Action indicator arrow */
+.o_app_action_indicator {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 0.82rem;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.o_app_card:hover .o_app_action_indicator {
+    background: var(--app-accent, #D51C1B);
+    color: #ffffff;
+    opacity: 1;
+    transform: translateX(3px);
+}
+
+.o_app_title {
+    font-size: 1.05rem;
+    color: #0f172a;
+    letter-spacing: -0.01em;
+}
+
+.o_app_description {
+    font-size: 0.84rem;
+    color: #64748b;
+    line-height: 1.45;
+    min-height: 2.5em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.o_app_card_footer {
+    border-top: 1px solid #f1f5f9;
+}
+
+.o_app_open_text {
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+}
+
+.o_app_card:hover .o_app_open_text {
+    color: var(--app-accent, #D51C1B);
+}
+
+.o_app_dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    transition: background-color 0.2s ease;
+}
+
+.o_app_card:hover .o_app_dot {
+    background: var(--app-accent, #D51C1B);
+}
+
+.o_mizan_brand {
+    color: #D51C1B;
+}
+.o_field_widget input, .o_field_date button, .o_field_text {
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 3px 6px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.o_field_widget input:focus, .o_field_text:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.15);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(113, 75, 103, 0.3);
-}
-
-.o_app_card .card-body {
-    padding: 1.25rem 1rem;
-}
-
-.o_app_card .fa {
-    transition: transform 0.2s ease-in-out;
-}
-
-.o_app_card:hover .fa {
-    transform: scale(1.1);
-}
-
-.o_app_card .card-title {
-    font-size: 0.95rem;
-    margin-bottom: 0.25rem;
-}
-
-.o_app_card .card-text {
-    font-size: 0.8rem;
-}
-.o_field_widget input,.o_field_date button, .o_field_text{
-    /* background-color: #fcfcfc; */
-    border: 1px solid #e7e7e7
 }
 
 .sm_group .o_readonly_modifier {
-    border: 1px solid #dcdcdc;
-    background-color: #dadada;
-    color: gray;
-    padding: 2px 5px;
+    border: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+    color: #334155;
+    padding: 3px 8px;
+    border-radius: 4px;
 }
 .oe_title .o_readonly_modifier {
-    /* background-color: transparent!important; */
-    /* border: 0; */
-    color: #71639e;
-
+    color: #6d28d9;
+    font-weight: 700;
 }
 /* ------------------------------------------------------------------ *
  * 8. Hide Discuss (Shakliyat setting: hide_discuss)

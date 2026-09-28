@@ -30,8 +30,9 @@
             <form string="Commande">
                 <header>
                    <button name="print_quotation" string="Imprimer la proforma" type="object"
-                            class="btn btn-info" invisible="'_&lt;' in name or amount_ttc==0" icon="fa-print"/>
+                            class="btn btn-info" disabled="'_&lt;' in name or amount_ttc==0" icon="fa-print"/>
                 </header>
+ 
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_sale_orders" type="object"
@@ -42,11 +43,9 @@
                     </div>
                     <group>
                         <group >
-                           <!-- <div class="oe_title">  -->
                                  <h1>
                                     Facture Proforma: (<field name="name" readonly="not name_updatable" class="text-purple d-inline"/>)
                                 </h1>                             
-                            <!-- </div> -->
                         </group>
                         <group string="Informations sur le document" class='sm_group mb-0' >
                          <field name="partner_id" required="1"  domain="[('is_customer', '=', True)]" context="{'default_is_customer': True}"/>

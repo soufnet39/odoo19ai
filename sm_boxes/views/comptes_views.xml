@@ -8,6 +8,8 @@
         <field name="arch" type="xml">
             <list  decoration-bf="1">
                 <field name="name"/>
+                <field name="boxe_type"/>
+                <field name="can_be_negatif"/>
                 <field name="user_ids" widget="many2many_tags"/>
             </list>
         </field>
@@ -20,13 +22,25 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                <group>                   
-                    <field name="name"/>
-                    <field name="boxe_type"/>
-                    <field name="bank_id" invisible="boxe_type != 'bank'" required="boxe_type == 'bank'" options="{'no_open': True}" />
-                    <field name="rib" invisible="boxe_type != 'bank'"/>
-                    <field name="can_be_negatif"/>
-                </group>
+                    <style>
+                        .oe_indent {
+                            margin-left: 33.33%;
+                            width: 40%;
+                        }
+                    </style>
+                    <field name="id" invisible="1"/>
+                    <div class="oe_title h1">
+                        <span class="text-danger">Caisse</span>
+                        <span invisible="id" class="text-muted"> / Création</span>
+                        <span invisible="not id" class="text-muted"> / Edition</span>
+                    </div>
+                    <group class="oe_indent">                   
+                        <field name="name"/>
+                        <field name="boxe_type"/>
+                        <field name="bank_id" invisible="boxe_type != 'bank'" required="boxe_type == 'bank'" options="{'no_open': True}" />
+                        <field name="rib" invisible="boxe_type != 'bank'"/>
+                        <field name="can_be_negatif"/>
+                    </group>
                 <hr/>
                 <group>
                      <field name="user_ids" widget="many2many_tags"/>

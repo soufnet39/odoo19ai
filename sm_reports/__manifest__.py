@@ -35,6 +35,7 @@ Reports for the Smail ecosystem.
     'assets': {
         'web.assets_backend': [
             'sm_reports/static/src/css/customer_sales.css',
+            'sm_reports/static/src/js/landing_page.js',
         ],
     },
     'installable': True,

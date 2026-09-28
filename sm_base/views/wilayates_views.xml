@@ -43,20 +43,23 @@
         <field name="arch" type="xml">
             <form string="Wilaya">
                 <sheet>
+                    <style>
+                        .oe_title h1 {
+                            text-align: center;
+                            color: odoo_customize_get(' --info' ) or #875A7B;
+                        }
+                        .oe_indent {
+                            margin-left: 25%;
+                        }
+                    </style>
                     <div class="oe_title">
-                        <label for="name" />
-                        <h1>
-                            <field name="name" placeholder="ex. Alger" />
-                        </h1>
+                        <h1 class="text-danger">Wilaya</h1>
                     </div>
-                    <group>
-                        <group>
-                            <field name="code" placeholder="e.g. 16" />
-                            <field name="sequence" />
-                        </group>
-                        <group>
-                            <field name="active" />
-                        </group>
+                    <group class="oe_indent">
+                        <field name="name" placeholder="ex. Alger"/>
+                        <field name="code" placeholder="ex. 16"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
                     </group>
                 </sheet>
             </form>

@@ -1,0 +1,269 @@
+/* ------------------------------------------------------------------ *
+ * Mizan Solutions — About & Service Mizan Page Styling
+ * ------------------------------------------------------------------ */
+
+:root {
+    --mizan-red: #D51C1B;
+    --mizan-red-dark: #B71C1C;
+    --mizan-red-light: #EF5350;
+    --mizan-red-subtle: rgba(213, 28, 27, 0.08);
+}
+
+.o_mizan_about_page {
+    position: relative;
+    background-color: #f8fafc;
+    color: #1e293b;
+    overflow: hidden;
+}
+
+.o_mizan_about_container {
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+/* Background ambient glow */
+.o_mizan_glow_bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 480px;
+    background: radial-gradient(circle at 12% 15%, rgba(213, 28, 27, 0.09) 0%, transparent 55%),
+                radial-gradient(circle at 88% 10%, rgba(99, 102, 241, 0.07) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.o_mizan_about_scroll {
+    position: relative;
+    z-index: 1;
+}
+
+/* Topbar */
+.o_mizan_topbar {
+    border-color: rgba(226, 232, 240, 0.8) !important;
+}
+
+.o_btn_back {
+    transition: all 0.2s ease;
+}
+.o_btn_back:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+/* Hero Card */
+.o_mizan_hero_card {
+    background: #ffffff;
+    border-radius: 24px !important;
+    border: 1px solid #e2e8f0 !important;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.02) !important;
+}
+
+.o_mizan_hero_card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--mizan-red), #ff7675, #6366f1);
+}
+
+.o_hero_title {
+    letter-spacing: -0.02em;
+    color: #0f172a !important;
+}
+
+.o_hero_lead {
+    font-size: 1.15rem;
+    line-height: 1.6;
+}
+
+.o_hero_description {
+    line-height: 1.7;
+    font-size: 0.96rem;
+}
+
+.o_btn_primary {
+    background-color: var(--mizan-red) !important;
+    border-color: var(--mizan-red) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.o_btn_primary:hover {
+    background-color: var(--mizan-red-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(213, 28, 27, 0.25) !important;
+}
+
+/* Logo Showcase */
+.o_mizan_logo_wrapper {
+    width: 130px;
+    height: 130px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 12px 30px rgba(213, 28, 27, 0.12) !important;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.o_mizan_logo_wrapper:hover {
+    transform: scale(1.08) rotate(2deg);
+}
+
+.o_mizan_logo_img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Feature Cards (Pillars) */
+.o_feature_card {
+    border-radius: 18px !important;
+    border: 1px solid #e2e8f0 !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #ffffff;
+}
+
+.o_feature_card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(213, 28, 27, 0.3) !important;
+    box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.o_feature_icon_box {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Module Cards */
+.o_module_card {
+    border-radius: 18px !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #ffffff;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.o_module_card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px -4px rgba(0, 0, 0, 0.06) !important;
+    border-color: #cbd5e1 !important;
+}
+
+.o_module_icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Support & Contact Card */
+.o_mizan_support_card {
+    background: #ffffff;
+    border-radius: 24px !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.o_contact_box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.o_contact_box button {
+    transition: all 0.15s ease;
+    border-color: #cbd5e1;
+    background: #ffffff;
+}
+
+.o_contact_box button:hover {
+    background: #f1f5f9;
+    border-color: var(--mizan-red);
+    color: var(--mizan-red) !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * Dark Mode Overrides (Shakliyat data-theme="dark")
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .o_mizan_about_page {
+    background-color: #0f172a;
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .o_mizan_about_page h1,
+[data-theme="dark"] .o_mizan_about_page h2,
+[data-theme="dark"] .o_mizan_about_page h3,
+[data-theme="dark"] .o_mizan_about_page h4,
+[data-theme="dark"] .o_mizan_about_page h5,
+[data-theme="dark"] .o_mizan_about_page .text-dark {
+    color: #f8fafc !important;
+}
+
+[data-theme="dark"] .o_mizan_hero_card,
+[data-theme="dark"] .o_feature_card,
+[data-theme="dark"] .o_module_card,
+[data-theme="dark"] .o_mizan_support_card {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .o_contact_box {
+    background-color: #0f172a !important;
+    border-color: #334155 !important;
+}
+
+[data-theme="dark"] .o_contact_box button {
+    background-color: #1e293b !important;
+    border-color: #475569 !important;
+    color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .o_contact_box button:hover {
+    border-color: var(--mizan-red) !important;
+    color: #ff7675 !important;
+}
+
+[data-theme="dark"] .o_mizan_logo_wrapper {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .o_mizan_about_page .badge.bg-light {
+    background-color: #334155 !important;
+    border-color: #475569 !important;
+    color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .o_mizan_topbar {
+    border-color: #334155 !important;
+}
+
+[data-theme="dark"] .o_btn_back {
+    border-color: #475569;
+    color: #e2e8f0;
+}
+[data-theme="dark"] .o_btn_back:hover {
+    background-color: #334155;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .o_mizan_footer {
+    border-color: #334155 !important;
+}

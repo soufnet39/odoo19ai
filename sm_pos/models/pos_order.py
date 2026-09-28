@@ -9,15 +9,13 @@ class SmSalesOrder(models.Model):
     pos_config_id = fields.Many2one('sm_pos.config', string='Point de vente', index=True, copy=False)
     is_pos_order = fields.Boolean(string='Commande du point de vente', default=False, copy=False, index=True)
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals_list):
-        if isinstance(vals_list, dict):
-            vals_list = [vals_list]
         for vals in vals_list:
-            if vals.get('is_pos_order') and vals.get('name', '<new order>') == '<new order>':
-                vals['name'] = self.env['ir.sequence'].next_by_code('sm_sales.order.pos')
-                if vals['name']:
-                    vals['name'] = 'VC/' + vals['name'] # Duplicated (get rid of it)
+            if vals.get('is_pos_order'):
+                current_name = vals.get('name')
+                if not current_name or current_name in ('<new order>', '_< Nouveau >_'):
+                    vals['name'] = self.env['ir.sequence'].next_by_code('sm_sales.order.pos') or '/'
         return super().create(vals_list)
 
     def action_view_session(self):

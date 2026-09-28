@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Rounded Squircle Base Card -->
+  <rect x="2" y="2" width="252" height="252" rx="56" fill="#FAFAFA" stroke="#E8E8E8" stroke-width="2"/>
+  
+  <!-- Icon Graphics (Filled Vector Paths) -->
+
+  <!-- Conveyor Outer Looped Track (Solid Pill) -->
+  <rect x="42" y="90" width="172" height="84" rx="42" fill="#D51C1B"/>
+  <!-- Inner Cutout of Looped Belt -->
+  <rect x="62" y="110" width="132" height="44" rx="22" fill="#FFFFFF"/>
+  
+  <!-- Left Motorized Roller Drum -->
+  <circle cx="84" cy="132" r="28" fill="#B71C1C"/>
+  <circle cx="84" cy="132" r="20" fill="#FFFFFF"/>
+  <circle cx="84" cy="132" r="12" fill="#D51C1B"/>
+  <circle cx="84" cy="132" r="5" fill="#FFFFFF"/>
+  
+  <!-- Right Idle Roller Drum -->
+  <circle cx="172" cy="132" r="28" fill="#B71C1C"/>
+  <circle cx="172" cy="132" r="20" fill="#FFFFFF"/>
+  <circle cx="172" cy="132" r="12" fill="#D51C1B"/>
+  <circle cx="172" cy="132" r="5" fill="#FFFFFF"/>
+  
+  <!-- Belt Ridges / Cleats on Top Track -->
+  <rect x="80" y="92" width="6" height="12" rx="2" fill="#FFFFFF"/>
+  <rect x="110" y="92" width="6" height="12" rx="2" fill="#FFFFFF"/>
+  <rect x="140" y="92" width="6" height="12" rx="2" fill="#FFFFFF"/>
+  <rect x="170" y="92" width="6" height="12" rx="2" fill="#FFFFFF"/>
+
+  <!-- Industrial Package Carried along Conveyor -->
+  <rect x="108" y="50" width="40" height="38" rx="5" fill="#D51C1B"/>
+  <polygon points="108,50 148,50 144,58 112,58" fill="#EF5350"/>
+  <rect x="124" y="50" width="8" height="38" fill="#B71C1C"/>
+  
+  <!-- Direction Motion Triangle between drums -->
+  <polygon points="120,132 134,124 134,140" fill="#D51C1B"/>
+
+</svg>

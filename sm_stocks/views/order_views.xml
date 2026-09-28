@@ -26,8 +26,12 @@
         <field name="inherit_id" ref="sm_sales.view_sm_sales_order_form"/>
         <field name="arch" type="xml">
             <header position="inside">
-                <button name="go_deliver" string="Livraison" type="object"
-                                class="btn btn-secondary rosy" invisible="'_&lt;' in name"/>
+                <button name="go_deliver"  type="object"
+                        class="btn btn-secondary rosy" invisible="'_&lt;' in name">
+                            <span>Livraison [</span>
+                            <field class="text-muted" name="stock_state" readonly="1"/>
+                            <span>]</span>
+                </button>
             </header>
             <field name="user_id" position="after">
                 <field name="order_lines_count" invisible="1"/>

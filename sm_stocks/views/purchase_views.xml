@@ -25,8 +25,12 @@
         <field name="inherit_id" ref="sm_purchases.view_sm_purchases_purchase_form"/>
         <field name="arch" type="xml">
             <header position="inside">
-                <button name="go_receipt" string="Réception" type="object"
-                                class="btn btn-secondary rosy" invisible="0"/>
+                <button name="go_receipt"  type="object"
+                        class="btn btn-secondary rosy" invisible="0">
+                            <span>Reception [</span>
+                            <field class="text-muted" name="stock_state" readonly="1"/>
+                            <span>]</span>
+                </button>
             </header>
             <field name="user_id" position="after">               
                 <field name="order_lines_count" invisible="1"/>

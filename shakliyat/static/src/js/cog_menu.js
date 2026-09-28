@@ -18,16 +18,19 @@
  * extensions registered after a template block are not retroactively applied
  * to templates that already inherited from the extended parent.
  *
- * Additionally, the entire web.FormView template is overridden (shakliyat.FormView)
- * to move the <CogMenu> from the control-panel-additional-actions slot to the
- * control-panel-status-indicator slot, so the "Actions" button renders as a
- * sibling of the Save / Cancel buttons in the form status indicator.
+ * Additionally, the entire web.FormView and web.ControlPanel templates are
+ * overridden to move the <CogMenu> from the breadcrumbs text to a dedicated
+ * control-panel-sheet-actions slot at the right edge of the breadcrumbs area,
+ * perfectly aligning the "Actions" button with the right edge of the form sheet.
  *
  * The "Actions" label is a plain string in the XML template, so it goes
  * through Odoo's translation pipeline at render time (same mechanism as the
  * existing data-tooltip="Actions" attribute).
  */
+import { patch } from "@web/core/utils/patch";
+import { useEffect } from "@odoo/owl";
 import { FormController } from "@web/views/form/form_controller";
+import { ControlPanel } from "@web/search/control_panel/control_panel";
 import { CogMenu } from "@web/search/cog_menu/cog_menu";
 import { FormCogMenu } from "@web/views/form/form_cog_menu/form_cog_menu";
 import { ListCogMenu } from "@web/views/list/list_cog_menu";
@@ -39,7 +42,59 @@ FormCogMenu.template = "shakliyat.FormCogMenu";
 ListCogMenu.template = "shakliyat.ListCogMenu";
 KanbanCogMenu.template = "shakliyat.KanbanCogMenu";
 
-// Override the FormView template so the CogMenu (Actions button) is moved
-// from the control-panel-additional-actions slot to the status-indicator slot,
-// placing it as a sibling of the Save / Cancel buttons.
+// Override ControlPanel and FormView templates so the CogMenu (Actions button)
+// is moved to the control-panel-sheet-actions slot at the right edge of the breadcrumbs,
+// perfectly aligning with the form sheet across all form views.
+ControlPanel.template = "shakliyat.ControlPanel";
 FormController.template = "shakliyat.FormView";
+
+// Keep the breadcrumbs area width precisely synchronized with the form sheet
+// across window resizes, responsive layout changes, and chatter aside mode.
+patch(FormController.prototype, {
+    setup() {
+        super.setup(...arguments);
+        useEffect(
+            () => {
+                const root = this.rootRef?.el;
+                if (!root) {
+                    return;
+                }
+                const updateWidth = () => {
+                    const sheet = root.querySelector(".o_form_sheet") ||
+                                  root.querySelector(".o_form_statusbar") ||
+                                  root.querySelector(".o_form_sheet_bg");
+                    const cpMain = root.querySelector(".o_control_panel_main");
+                    if (sheet && cpMain) {
+                        const rightCoord = sheet.getBoundingClientRect().right;
+                        const leftCoord = cpMain.getBoundingClientRect().left;
+                        const width = rightCoord - leftCoord;
+                        if (width > 0) {
+                            root.style.setProperty("--form-sheet-width", `${Math.round(width)}px`);
+                        }
+                    }
+                };
+
+                // Initial measurement and immediate RAF pass
+                updateWidth();
+                requestAnimationFrame(updateWidth);
+
+                const ro = new ResizeObserver(() => {
+                    updateWidth();
+                });
+                const content = root.querySelector(".o_content") || root;
+                ro.observe(content);
+                const sheetBg = root.querySelector(".o_form_sheet_bg");
+                if (sheetBg) {
+                    ro.observe(sheetBg);
+                }
+
+                window.addEventListener("resize", updateWidth);
+                return () => {
+                    ro.disconnect();
+                    window.removeEventListener("resize", updateWidth);
+                };
+            },
+            () => [this.rootRef?.el]
+        );
+    },
+});
