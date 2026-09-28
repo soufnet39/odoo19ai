@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 class SmBoxesBoxes(models.Model):
     _name = 'sm_boxes.boxes'
@@ -33,6 +33,18 @@ class SmBoxesBoxes(models.Model):
     def _compute_boxe_sold(self):
         for rec in self:
             rec.boxe_sold = sum(rec.operations_ids.mapped('amount_done'))
+
+    def action_view_operations(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id('sm_boxes.sm_boxes_operations_action')
+        action['name'] = _('Opérations')
+        action['domain'] = [('boxe_id', '=', self.id)]
+        action['context'] = dict(self.env.context, default_boxe_id=self.id)
+        list_view = self.env.ref('sm_boxes.sm_boxes_operations_view_list', raise_if_not_found=False)
+        form_view = self.env.ref('sm_boxes.sm_boxes_operations_view_form', raise_if_not_found=False)
+        if list_view and form_view:
+            action['views'] = [(list_view.id, 'list'), (form_view.id, 'form')]
+        return action
    
 
 

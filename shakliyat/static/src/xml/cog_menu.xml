@@ -70,10 +70,9 @@
     </t>
 
     <!--
-        shakliyat.FormView: moves the <CogMenu> (silver "Actions" button) from
-        the control-panel-additional-actions slot to the control-panel-sheet-actions
-        slot, so it renders at the right edge of the breadcrumbs area, aligned
-        with the right edge of the form sheet across all form views.
+        shakliyat.FormView: moves the ButtonBox (smart buttons) and CogMenu ("Actions" button)
+        into the control-panel-sheet-actions slot, placing smart buttons immediately before
+        the Actions button, aligned with the right edge of the form sheet.
     -->
     <t t-inherit="web.FormView" t-name="shakliyat.FormView">
         <!-- Remove CogMenu from the additional-actions slot (keep only the
@@ -81,10 +80,21 @@
         <xpath expr="//t[@t-set-slot='control-panel-additional-actions']/CogMenu" position="replace">
         </xpath>
 
-        <!-- Place CogMenu into the control-panel-sheet-actions slot -->
+        <!-- Clear layout-actions so ButtonBox is not rendered on the right side over the chatter -->
+        <xpath expr="//Layout/t[@t-set-slot='layout-actions']" position="replace">
+            <t t-set-slot="layout-actions">
+            </t>
+        </xpath>
+
+        <!-- Place ButtonBox and CogMenu into the control-panel-sheet-actions slot -->
         <xpath expr="//Layout/t[@t-set-slot='control-panel-status-indicator']" position="after">
             <t t-set-slot="control-panel-sheet-actions">
-                <CogMenu t-props="this.cogMenuProps" />
+                <div class="d-flex align-items-center gap-2 ms-auto">
+                    <t t-if="!env.isSmall and buttonBoxTemplate">
+                        <t t-call="{{ buttonBoxTemplate }}" t-call-context="{ __comp__: Object.assign(Object.create(this), { this, props: { ...this.props, record: this.model.root } }) }"/>
+                    </t>
+                    <CogMenu t-props="this.cogMenuProps" />
+                </div>
             </t>
         </xpath>
     </t>

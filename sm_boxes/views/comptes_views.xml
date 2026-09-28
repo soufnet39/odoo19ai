@@ -23,6 +23,21 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_operations"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-list-alt"
+                                invisible="not id"
+                                groups="sm_boxes.sm_boxes_admin">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">
+                                    Solde: <field name="boxe_sold" class="d-inline fw-bold" decoration-danger="boxe_sold &lt; 0" decoration-success="boxe_sold &gt; 0"/>
+                                </span>
+                                <span class="o_stat_text">Opérations</span>
+                            </div>
+                        </button>
+                    </div>
                     <style>
                         .oe_indent {
                             margin-left: 33.33%;

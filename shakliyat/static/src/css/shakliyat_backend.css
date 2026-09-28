@@ -123,10 +123,13 @@
     flex: 0 0 var(--form-sheet-width, auto);
 }
 
-/* Push the Actions button to the far right edge of the breadcrumbs area */
+/* Align smart buttons and Actions button at the far right edge of the breadcrumbs area */
 .o_form_view .o_control_panel_breadcrumbs .o_cp_action_menus {
-    margin-left: auto;
+    margin-left: 0;
     white-space: nowrap;
+}
+.o_form_view .o_control_panel_breadcrumbs .o-form-buttonbox {
+    margin-bottom: 0;
 }
 
 /* Fallback when chatter is aside and JS has not measured yet */
