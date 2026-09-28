@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 class SmBoxesBoxes(models.Model):
     _name = 'sm_boxes.boxes'
@@ -21,12 +21,18 @@ class SmBoxesBoxes(models.Model):
 
     can_be_negatif = fields.Boolean(string="Compte negatif", default=False  )
 
-    operations_ids= fields.One2many('sm_boxes.operations','boxe_id')
+    operations_ids = fields.One2many('sm_boxes.operations', 'boxe_id')
+    boxe_sold = fields.Float(string="Solde", compute='_compute_boxe_sold', store=True)
 
     _check_name_unique = models.Constraint(
         'UNIQUE(name)',
         'Le nom de compte doit être unique. Veuillez choisir un autre nom.',
     )
+
+    @api.depends('operations_ids.amount_done')
+    def _compute_boxe_sold(self):
+        for rec in self:
+            rec.boxe_sold = sum(rec.operations_ids.mapped('amount_done'))
    
 
 

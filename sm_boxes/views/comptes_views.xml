@@ -9,6 +9,7 @@
             <list  decoration-bf="1">
                 <field name="name"/>
                 <field name="boxe_type"/>
+                <field name="boxe_sold" groups="sm_boxes.sm_boxes_admin" decoration-danger="boxe_sold &lt; 0" decoration-success="boxe_sold &gt; 0"/>
                 <field name="can_be_negatif"/>
                 <field name="user_ids" widget="many2many_tags"/>
             </list>
