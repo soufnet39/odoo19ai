@@ -36,9 +36,17 @@
         <field name="model">sm_sales.product</field>
         <field name="inherit_id" ref="sm_sales.sm_sales_product_form"/>
         <field name="arch" type="xml">
-            <group id="sales_info" position="inside">
-                <field name="rest_in_stock" readonly="1" invisible="product_type == 'service'"/>
-            </group>
+            <xpath expr="//widget[@name='web_ribbon']" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button class="oe_stat_button"
+                            name="action_view_stock_moves"
+                            type="object"
+                            icon="fa-cubes"
+                            invisible="product_type == 'service'">
+                        <field name="rest_in_stock" widget="statinfo" readonly="1"/>
+                    </button>
+                </div>
+            </xpath>
         </field>
     </record>
 

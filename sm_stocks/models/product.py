@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import ast
 from odoo import api, fields, models
 
 
@@ -37,3 +38,16 @@ class SMSalesProduct(models.Model):
 
         for product in physical:
             product.rest_in_stock = qty_by_product.get(product.id, 0.0)
+
+    def action_view_stock_moves(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id('sm_stocks.sm_stocks_stock_movement_action')
+        action['domain'] = [('product_id', '=', self.id)]
+        ctx = ast.literal_eval(action['context']) if isinstance(action.get('context'), str) else dict(action.get('context') or {})
+        ctx.update({
+            'default_product_id': self.id,
+            'search_default_group_stock': 1,
+        })
+        ctx.pop('search_default_group_product', None)
+        action['context'] = ctx
+        return action
