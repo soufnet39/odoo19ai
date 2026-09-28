@@ -76,13 +76,6 @@
                 <field name="operation"/>
                 <field name="partner_id"/>
 
-                <!-- <filter name="filter_draft" string="Brouillon"
-                        domain="[('state', '=', 'draft')]"/>
-                <filter name="filter_confirmed" string="Confirmées"
-                        domain="[('state', '=', 'confirmed')]"/>
-                <filter name="filter_canceled" string="Annulées"
-                        domain="[('state', '=', 'canceled')]"/>
-                 <separator/>    -->
                 <filter name="filter_recette" string="Recette" domain="[('operation','=','recette')]"/>
                 <filter name="filter_depence" string="Dépense" domain="[('operation','=','depence')]"/>
                 

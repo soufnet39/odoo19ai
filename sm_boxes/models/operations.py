@@ -1,4 +1,5 @@
 from odoo import api, models, fields, _
+from odoo.exceptions import ValidationError
 
 class BoxesOperationsModule(models.Model):
     _name = 'sm_boxes.operations'
@@ -69,5 +70,48 @@ class BoxesOperationsModule(models.Model):
     def _amount_done(self):
         for rec in self:
             rec.amount_done = rec.amount if rec.sens=='credit' else -1*rec.amount
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
+
+        box_balances = {}
+        for vals in vals_list:
+            operation = vals.get('operation') or self.env.context.get('default_operation') or 'recette'
+            if operation in ['decaissement', 'achat']:
+                boxe_id = vals.get('boxe_id') or self.env.context.get('default_boxe_id') or self._default_boxe_id()
+                if boxe_id:
+                    boxe = boxe_id if isinstance(boxe_id, models.Model) else self.env['sm_boxes.boxes'].browse(boxe_id)
+                    amount = float(vals.get('amount') or 0.0)
+                    if not boxe.can_be_negatif:
+                        current_sold = box_balances.get(boxe.id, boxe.boxe_sold)
+                        if amount > current_sold:
+                            raise ValidationError(
+                                _("Impossible d'ajouter cette opération : le montant demandé (%(amount).2f) dépasse le solde disponible (%(sold).2f) du compte '%(boxe)s'.") % {
+                                    'amount': amount,
+                                    'sold': current_sold,
+                                    'boxe': boxe.name,
+                                }
+                            )
+                        box_balances[boxe.id] = current_sold - amount
+        return super().create(vals_list)
+
+    @api.constrains('operation', 'boxe_id', 'amount')
+    def _check_boxe_sold(self):
+        for rec in self:
+            if rec.operation in ['decaissement', 'achat'] and rec.boxe_id and not rec.boxe_id.can_be_negatif:
+                # Dans un constrains, l'impact de l'enregistrement (rec.amount_done) est déjà inclus dans rec.boxe_id.boxe_sold.
+                # Le solde disponible avant cette opération est donc : rec.boxe_id.boxe_sold - rec.amount_done.
+                solde_disponible = rec.boxe_id.boxe_sold - rec.amount_done
+                if rec.amount > solde_disponible:
+                    raise ValidationError(
+                        _("Impossible d'enregistrer cette opération : le montant demandé (%(amount).2f) dépasse le solde disponible (%(sold).2f) du compte '%(boxe)s'.") % {
+                            'amount': rec.amount,
+                            'sold': solde_disponible,
+                            'boxe': rec.boxe_id.name,
+                        }
+                    )
+
 
    

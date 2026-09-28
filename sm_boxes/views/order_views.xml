@@ -6,7 +6,7 @@
 		<field name="inherit_id" ref="sm_sales.view_sm_sales_order_list"/>
 		<field name="arch" type="xml">
 			<xpath expr="//list/field[@name='amount_ttc']" position="after">
-				<field name="amount_rest" sum="amount_rest" optional="show"/>
+				<field name="amount_rest" sum="amount_rest" decoration-danger="amount_rest != 0" decoration-success="amount_rest == 0"  optional="show"/>
 			</xpath>
 		</field>
 	</record>
