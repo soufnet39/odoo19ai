@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vue liste produit : ajout de rest_in_stock -->
+    <record id="sm_stocks_product_list_inherit" model="ir.ui.view">
+        <field name="name">sm_stocks.sm_sales.product.list</field>
+        <field name="model">sm_sales.product</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_product_list"/>
+        <field name="arch" type="xml">
+            <field name="display_price" position="before">
+                <field name="rest_in_stock" string="Stock" class="text-end" invisible="product_type == 'service'"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Vue kanban produit : ajout de rest_in_stock -->
+    <record id="sm_stocks_product_kanban_inherit" model="ir.ui.view">
+        <field name="name">sm_stocks.sm_sales.product.kanban</field>
+        <field name="model">sm_sales.product</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_product_kanban"/>
+        <field name="arch" type="xml">
+            <field name="product_type" position="after">
+                <field name="rest_in_stock"/>
+            </field>
+            <xpath expr="//templates//div[hasclass('h5')]" position="after">
+                <div t-if="record.product_type.raw_value != 'service'">
+                    Stock : <span class="fw-bold"><field name="rest_in_stock"/></span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vue formulaire produit : ajout de rest_in_stock -->
+    <record id="sm_stocks_product_form_inherit" model="ir.ui.view">
+        <field name="name">sm_stocks.sm_sales.product.form</field>
+        <field name="model">sm_sales.product</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_product_form"/>
+        <field name="arch" type="xml">
+            <group id="sales_info" position="inside">
+                <field name="rest_in_stock" readonly="1" invisible="product_type == 'service'"/>
+            </group>
+        </field>
+    </record>
+
+</odoo>

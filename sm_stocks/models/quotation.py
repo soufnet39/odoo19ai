@@ -24,16 +24,12 @@ class SmStocksQuotationLines(models.Model):
             digits='Quantity',
         )
     
-    @api.depends('product_id', 'stock_id',"qty")
+    @api.depends('product_id', 'stock_id')
     def _compute_rest_in_stock(self):
         for line in self:
             if not line.product_id or not line.stock_id:
                 line.rest_in_stock = 0.0
                 continue
-            domain = [
-                ('product_id', '=', line.product_id.id),
-                ('stock_id', '=', line.stock_id.id),
-            ]
-    
-            lines = self.env['sm_sales.order.line'].search(domain)           
-            line.rest_in_stock = sum(l.qty_value for l in lines)
+            line.rest_in_stock = line.product_id.with_context(
+                stock_id=line.stock_id.id
+            ).rest_in_stock

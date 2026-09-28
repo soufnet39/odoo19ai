@@ -19,6 +19,7 @@
 
         #  "data/sm_boxes_config_data.xml",
         'views/stocks_views.xml',
+        'views/product_views.xml',
         'views/order_views.xml',
         'views/quotation_views.xml',
         'views/purchase_views.xml',

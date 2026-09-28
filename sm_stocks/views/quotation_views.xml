@@ -16,6 +16,9 @@
                 <field name="stock_id" force_save='1' options="{'no_open': True}" readonly="quotation_lines_count>0"/>
             </field>
             <!-- Show remaining stock under the product in the order line form -->
+            <field name="product_id" position="attributes">
+                <attribute name="context">{'stock_id': parent.stock_id}</attribute>
+            </field>
             <field name="product_id" position="after">
                 <field name="product_type" invisible='1' />
                 <field invisible="product_type=='service'" name="rest_in_stock" readonly="1"/>
