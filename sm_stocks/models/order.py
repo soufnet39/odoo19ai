@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models, fields, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class SmStocksOrder(models.Model):
@@ -82,7 +82,32 @@ class SmStocksOrder(models.Model):
     #             for line in order.order_lines:                 
     #                 line.qty_value = line.qty
     #     return res
-   
+    @api.onchange('order_lines')
+    def _onchange_order_lines_stock_check(self):
+        for order in self:
+            if order.operation_type != 'order':
+                continue
+            to_remove = self.env['sm_sales.order.line']
+            for line in order.order_lines:
+                violation = line._stock_rule_violation()
+                if violation:
+                    if not line._origin.id:
+                        to_remove |= line
+                    else:
+                        line.qty = line._origin.qty
+
+            if to_remove:
+                order.order_lines = order.order_lines - to_remove
+                names = ", ".join(to_remove.mapped('product_id.name'))
+                return {
+                    'warning': {
+                        'title': _("Article non ajouté"),
+                        'message': _(
+                            "Stock insuffisant pour %s.\nL'article n'a pas été ajouté à la commande."
+                        ) % names
+                    }
+                }
+
     def action_delivered(self):
         for order in self:
             order.stock_state='delivered'           
@@ -216,20 +241,25 @@ class SmStocksOrderLines(models.Model):
         """Return (line, total_qty, rest) if the line violates the stock rule, else False."""
         for line in self:
             order = line.order_id
-            if order.operation_type != 'order': # purchases are valid always
+            if not order or order.operation_type != 'order': # purchases are valid always
                 continue
-            if not line.product_id or not line.stock_id:
+            stock = line.stock_id or order.stock_id
+            if not line.product_id or not stock:
                 continue
             if line.product_id.product_type != 'consu': # like service it is endless
                 continue
-            if line.stock_id.can_be_negatif:
+            if stock.can_be_negatif:
                 continue
-            total_qty = sum(
-                l.qty for l in order.order_lines
-                if l.product_id == line.product_id and l.stock_id == line.stock_id and l.id != line.id
+            other_lines = order.order_lines.filtered(
+                lambda l: l.product_id == line.product_id and (l.stock_id or order.stock_id) == stock and l != line
             )
-            if total_qty > line.rest_in_stock:
-                return (line, total_qty, line.rest_in_stock)
+            total_qty = line.qty + sum(other_lines.mapped('qty'))
+            rest = line.product_id.with_context(
+                stock_id=stock.id,
+                exclude_order_id=order.id if order and isinstance(order.id, int) else False,
+            ).rest_in_stock
+            if total_qty > rest:
+                return (line, total_qty, rest)
         return False
 
     @api.onchange('product_id', 'qty')
@@ -237,16 +267,21 @@ class SmStocksOrderLines(models.Model):
         violation = self._stock_rule_violation()
         if violation:
             line, total_qty, rest = violation
-            raise UserError(_(
-                 "Stock insuffisant pour %s. \n %s disponible(s) en stock. \n %s demandé(s)."
-            ) % (line.product_id.name, int(rest), int(total_qty)))
+            return {
+                'warning': {
+                    'title': _("Stock insuffisant"),
+                    'message': _(
+                        "Stock insuffisant pour %s. \n %s disponible(s) en stock. \n %s demandé(s)."
+                    ) % (line.product_id.name, int(rest), int(total_qty))
+                }
+            }
 
     @api.constrains('qty', 'product_id', 'stock_id')
     def _check_stock_available(self):
         violation = self._stock_rule_violation()
         if violation:
             line, total_qty, rest = violation
-            raise UserError(_(
+            raise ValidationError(_(
                  "Stock insuffisant pour %s. \n %s disponible(s) en stock. \n %s demandé(s)."
             ) % (line.product_id.name, int(rest), int(total_qty)))
 
