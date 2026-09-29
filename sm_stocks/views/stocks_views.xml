@@ -17,9 +17,16 @@
                 <filter string="Mobile" name="mobil" domain="[('nature', '=', 'mobil')]"/>
                 <filter string="Virtuel" name="virtual" domain="[('nature', '=', 'virtual')]"/>
                 <separator/>
+                <filter string="Aujourd'hui" name="filter_today" domain="[('create_date', '&gt;=', 'today'), ('create_date', '&lt;', 'today +1d')]"/>
+                <filter string="Cette Semaine" name="filter_this_week" domain="[('create_date', '&gt;=', '=week_start'), ('create_date', '&lt;', '=week_start +1w')]"/>
+                <filter string="Ce Mois" name="filter_this_month" domain="[('create_date', '&gt;=', 'today =1d'), ('create_date', '&lt;', 'today =1d +1m')]"/>
+                <separator/>
+                <filter string="Dates" name="filter_date" date="create_date"/>
+                <separator/>
                 <filter string="Nature" name="group_nature" context="{'group_by': 'nature'}"/>
                 <filter string="Wilaya" name="group_wilaya" context="{'group_by': 'wilaya_id'}"/>
                 <filter string="Société" name="group_company" context="{'group_by': 'company_id'}"/>
+                <filter string="Date" name="group_date" context="{'group_by': 'create_date'}"/>
 
             </search>
         </field>
@@ -51,6 +58,18 @@
         <field name="arch" type="xml">
             <form string="Stock">
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_stock_moves"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-exchange"
+                                invisible="not id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">[<field name="movement_count" class="d-inline"/>]</span>
+                                <span class="o_stat_text">Opérations</span>
+                            </div>
+                        </button>
+                    </div>
                  <style>
                         .oe_indent {
                             margin-left: 33.33%;
