@@ -8,7 +8,7 @@ class SmStocksOrder(models.Model):
 
     @api.model
     def _default_stock_id(self):
-        stocks = self.env['sm_stocks.stock'].search([])
+        stocks = self.env['sm_stocks.stock'].search([],limit=2)
         return stocks.id if len(stocks) == 1 else False
 
     stock_id = fields.Many2one('sm_stocks.stock', string='Stock', required=True, tracking=True, default=_default_stock_id)

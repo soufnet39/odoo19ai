@@ -68,7 +68,7 @@
                                 </h1> 
                             <!-- </div> -->
                         </group>
-                        <group string="Informations de la facture" class='sm_group mb-0'>
+                        <group string="Informations" class='sm_group mb-0'>
                             <field name="partner_id" required="1"
                                    domain="[('is_customer', '=', True)]"
                                    context="{'default_is_customer': True}"/>

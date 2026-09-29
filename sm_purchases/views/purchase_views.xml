@@ -48,7 +48,7 @@
                                    Commande Achat: (<field name="name" readonly="not name_updatable" class="text-purple d-inline"/>)
                                 </h1>
                         </group>
-                        <group string="Informations sur le document" class='sm_group mb-0'>
+                        <group string="Informations" class='sm_group mb-0'>
                             <field name="partner_id" required="1" string="Fournisseur"  domain="[('is_supplier', '=', True)]" context="{'default_is_supplier': True}"/>
                             <field name="date"/>
                             <field name="user_id" readonly="1" options="{'no_open': True}" />
