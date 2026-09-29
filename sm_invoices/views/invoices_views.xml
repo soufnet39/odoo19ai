@@ -220,7 +220,7 @@
                         context="{'group_by': 'partner_id'}"/>
                 <filter name="group_user" string="Vendeur"
                         context="{'group_by': 'user_id'}"/>
-                <filter name="group_date" string="Date"
+                <filter name="group_date" string="Dates"
                         context="{'group_by': 'date'}"/>
             </search>
         </field>

@@ -240,6 +240,7 @@ class SmSaleOrderLine(models.Model):
     order_id = fields.Many2one('sm_sales.order', string='Référence de commande',
                                 ondelete='cascade',
                                index=True, copy=False, readonly=True)
+    date = fields.Date(string='Date', related='order_id.date', store=True)
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

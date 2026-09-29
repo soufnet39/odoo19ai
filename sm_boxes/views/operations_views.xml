@@ -78,6 +78,7 @@
 
                 <filter name="filter_recette" string="Recette" domain="[('operation','=','recette')]"/>
                 <filter name="filter_depence" string="Dépense" domain="[('operation','=','depence')]"/>
+                
                 <separator/>
                 <filter string="Aujourd'hui" name="filter_today" domain="[('date', '&gt;=', 'today'), ('date', '&lt;', 'today +1d')]"/>
                 <filter string="Cette Semaine" name="filter_this_week" domain="[('date', '&gt;=', '=week_start'), ('date', '&lt;', '=week_start +1w')]"/>
@@ -87,7 +88,7 @@
                 <separator/>
                 <filter name="group_boxe" string="Compte" context="{'group_by': 'boxe_id'}"/>
                 <filter name="group_operation" string="Opération" context="{'group_by': 'operation'}"/>
-                <filter name="group_date" string="Date" context="{'group_by': 'date'}"/>
+                <filter name="group_date" string="Dates" context="{'group_by': 'date'}"/>
                 
             </search>
         </field>

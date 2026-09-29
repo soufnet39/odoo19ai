@@ -23,12 +23,20 @@
                 <filter string="En attente" name="filter_pending" domain="[('order_id.stock_state', '=', 'pending')]"/>
                 <filter string="Reçu ou livré" name="filter_confirmed" domain="[('order_id.stock_state', 'in', ('received','delivered'))]"/>
                 <filter string="Retourné" name="filter_returned" domain="[('order_id.stock_state', '=', 'returned')]"/>
+                <separator/>
+                <filter string="Aujourd'hui" name="filter_today" domain="[('date', '&gt;=', 'today'), ('date', '&lt;', 'today +1d')]"/>
+                <filter string="Cette Semaine" name="filter_this_week" domain="[('date', '&gt;=', '=week_start'), ('date', '&lt;', '=week_start +1w')]"/>
+                <filter string="Ce Mois" name="filter_this_month" domain="[('date', '&gt;=', 'today =1d'), ('date', '&lt;', 'today =1d +1m')]"/>
+                <separator/>
+                <filter string="Dates" name="filter_date" date="date"/>
                 <!-- Group by -->
                 <filter string="Produit" name="group_product" context="{'group_by': 'product_id'}"/>
                 <filter string="Stock" name="group_stock" context="{'group_by': 'stock_id'}"/>
                 <filter string="Partenaire" name="group_partner" context="{'group_by': 'partner_id'}"/>
                 <filter string="Commande" name="group_order" context="{'group_by': 'order_id'}"/>
                 <filter string="Vendeur" name="group_user" context="{'group_by': 'user_id'}"/>
+                <filter name="group_date" string="Dates" context="{'group_by': 'date'}"/>
+
             </search>
         </field>
     </record>
@@ -48,6 +56,7 @@
                   decoration-bf="1"
                   >
                 <field name="operation_type" column_invisible="1"/>
+                <field name="date"/>
                 <field name="stock_id" readonly="1" options="{'no_open': True}"/>
                 <field name="order_id" string="Document" readonly="1" options="{'no_open': True}"/>
                 <field name="stock_state" decoration-danger="stock_state == 'returned'" 
