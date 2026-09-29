@@ -4,3 +4,5 @@ from . import product
 from . import order
 from . import quotation
 from . import res_config_settings
+from . import transfer
+from . import movement

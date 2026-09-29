@@ -36,6 +36,28 @@ class SMSalesProduct(models.Model):
         for line in lines:
             qty_by_product[line.product_id.id] = qty_by_product.get(line.product_id.id, 0.0) + (line.qty_value or 0.0)
 
+        if stock_id:
+            exclude_transfer_id = self.env.context.get('exclude_transfer_id')
+            transfer_out_domain = [
+                ('product_id', 'in', physical.ids),
+                ('state', '=', 'done'),
+                ('stock_source_id', '=', stock_id),
+            ]
+            transfer_in_domain = [
+                ('product_id', 'in', physical.ids),
+                ('state', '=', 'done'),
+                ('stock_dest_id', '=', stock_id),
+            ]
+            if exclude_transfer_id and isinstance(exclude_transfer_id, int):
+                transfer_out_domain.append(('transfer_id', '!=', exclude_transfer_id))
+                transfer_in_domain.append(('transfer_id', '!=', exclude_transfer_id))
+
+            for t_line in self.env['sm_stocks.transfer.line'].search(transfer_out_domain):
+                qty_by_product[t_line.product_id.id] = qty_by_product.get(t_line.product_id.id, 0.0) - (t_line.qty or 0.0)
+
+            for t_line in self.env['sm_stocks.transfer.line'].search(transfer_in_domain):
+                qty_by_product[t_line.product_id.id] = qty_by_product.get(t_line.product_id.id, 0.0) + (t_line.qty or 0.0)
+
         for product in physical:
             product.rest_in_stock = qty_by_product.get(product.id, 0.0)
 

@@ -3,26 +3,30 @@
 
     <!-- ============================================================ -->
     <!-- STOCK MOVEMENT SEARCH VIEW                                    -->
-    <!-- Based on sm_sales.order.line with stock grouping              -->
+    <!-- Based on unified sm_stocks.stock.movement SQL view            -->
     <!-- ============================================================ -->
     <record id="sm_stocks_stock_movement_search" model="ir.ui.view">
         <field name="name">sm_stocks.stock.movement.search</field>
-        <field name="model">sm_sales.order.line</field>
+        <field name="model">sm_stocks.stock.movement</field>
         <field name="arch" type="xml">
             <search string="Mouvements de Stock">
                 <!-- Searchable fields -->
+                <field name="document" string="Document"/>
                 <field name="name"/>
                 <field name="product_id"/>
                 <field name="product_code"/>
                 <field name="stock_id"/>
                 <field name="partner_id"/>
-                <field name="order_id"/>
                 <field name="user_id"/>
                 <separator/>
                 <!-- Filters by order state -->
-                <filter string="En attente" name="filter_pending" domain="[('order_id.stock_state', '=', 'pending')]"/>
-                <filter string="Reçu ou livré" name="filter_confirmed" domain="[('order_id.stock_state', 'in', ('received','delivered'))]"/>
-                <filter string="Retourné" name="filter_returned" domain="[('order_id.stock_state', '=', 'returned')]"/>
+                <filter string="En attente" name="filter_pending" domain="[('stock_state', '=', 'pending')]"/>
+                <filter string="Reçu ou livré" name="filter_confirmed" domain="[('stock_state', 'in', ('received','delivered'))]"/>
+                <filter string="Retourné" name="filter_returned" domain="[('stock_state', '=', 'returned')]"/>
+                <separator/>
+                <filter string="Ventes" name="filter_orders" domain="[('operation_type', '=', 'order')]"/>
+                <filter string="Achats" name="filter_purchases" domain="[('operation_type', '=', 'purchase')]"/>
+                <filter string="Transferts" name="filter_transfers" domain="[('operation_type', '=', 'transfer')]"/>
                 <separator/>
                 <filter string="Aujourd'hui" name="filter_today" domain="[('date', '&gt;=', 'today'), ('date', '&lt;', 'today +1d')]"/>
                 <filter string="Cette Semaine" name="filter_this_week" domain="[('date', '&gt;=', '=week_start'), ('date', '&lt;', '=week_start +1w')]"/>
@@ -33,69 +37,64 @@
                 <filter string="Produit" name="group_product" context="{'group_by': 'product_id'}"/>
                 <filter string="Stock" name="group_stock" context="{'group_by': 'stock_id'}"/>
                 <filter string="Partenaire" name="group_partner" context="{'group_by': 'partner_id'}"/>
-                <filter string="Commande" name="group_order" context="{'group_by': 'order_id'}"/>
+                <filter string="Type" name="group_movement_type" context="{'group_by': 'movement_type'}"/>
                 <filter string="Vendeur" name="group_user" context="{'group_by': 'user_id'}"/>
                 <filter name="group_date" string="Dates" context="{'group_by': 'date'}"/>
-
             </search>
         </field>
     </record>
 
     <!-- ============================================================ -->
     <!-- STOCK MOVEMENT LIST VIEW                                      -->
-    <!-- Shows all order lines as stock movements                       -->
+    <!-- Shows all stock movements (sales, purchases, transfers)       -->
     <!-- ============================================================ -->
     <record id="sm_stocks_stock_movement_list" model="ir.ui.view">
         <field name="name">sm_stocks.stock.movement.list</field>
-        <field name="model">sm_sales.order.line</field>
+        <field name="model">sm_stocks.stock.movement</field>
         <field name="arch" type="xml">
             <list string="Mouvements de Stock" action="action_open_movement" type="object" create="0" edit="0" delete="0" 
-                  decoration-warning="order_id.state == 'draft'"
-                  decoration-success="order_id.state == 'confirmed'"
-                  decoration-danger="order_id.state == 'canceled'"
-                  decoration-bf="1"
-                  >
+                  decoration-warning="state == 'draft'"
+                  decoration-success="state == 'confirmed'"
+                  decoration-danger="state == 'canceled'"
+                  decoration-bf="1">
                 <field name="operation_type" column_invisible="1"/>
                 <field name="date"/>
                 <field name="stock_id" readonly="1" options="{'no_open': True}"/>
-                <field name="order_id" string="Document" readonly="1" options="{'no_open': True}"/>
+                <field name="document" string="Document" readonly="1"/>
+                <field name="movement_type" string="Type"/>
                 <field name="stock_state" decoration-danger="stock_state == 'returned'" 
-                decoration-warning="stock_state == 'pending'"
-                decoration-success="stock_state in ['received','delivered']"/>
+                       decoration-warning="stock_state == 'pending'"
+                       decoration-success="stock_state in ['received','delivered']"/>
                 <!-- Partner -->
                 <field name="partner_id" string="Client/Fournis." readonly="1" options="{'no_open': True}"/>
                 <!-- Product -->
                 <field name="product_code" optional="hide"/>
                 <field name="product_id" readonly="1" options="{'no_open': True}"/>
-                <field name="name" string="Désignation" optional='hide'/>
+                <field name="name" string="Désignation"/>
                 <!-- Quantities -->
-                <!-- <field name="qty" readonly="1" string="Qté commandée" optional='hide'  />              -->
-                <field name="qty_value"  string="Qté Valeur" />
-               
+                <field name="qty_value" string="Qté Valeur"/>
                 <!-- Meta -->
                 <field name="user_id" optional="hide"/>
             </list>
         </field>
     </record>
 
-  
-
     <!-- ============================================================ -->
     <!-- STOCK MOVEMENT ACTION                                         -->
     <!-- ============================================================ -->
     <record id="sm_stocks_stock_movement_action" model="ir.actions.act_window">
         <field name="name">Mouvements de Stocks</field>
-        <field name="res_model">sm_sales.order.line</field>
+        <field name="res_model">sm_stocks.stock.movement</field>
         <field name="view_mode">list</field>
         <field name="view_id" ref="sm_stocks_stock_movement_list"/>
         <field name="search_view_id" ref="sm_stocks_stock_movement_search"/>
-        <field name="context">{'search_default_group_product':1,'search_default_filter_confirmed':1}</field>        
+        <field name="context">{'search_default_group_product': 1, 'search_default_filter_confirmed': 1}</field>        
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Aucun mouvement de stock
             </p>
             <p>
-                Les lignes de commandes apparaissent ici avec leurs informations de stock.
+                Les livraisons, réceptions et transferts apparaissent ici avec leurs informations de stock.
             </p>
         </field>
     </record>

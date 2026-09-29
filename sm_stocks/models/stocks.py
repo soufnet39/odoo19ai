@@ -29,6 +29,10 @@ class SmStocksStocks(models.Model):
         string="Nombre de mouvements",
         compute='_compute_movement_count',
     )
+    transfer_count = fields.Integer(
+        string="Nombre de transferts",
+        compute='_compute_transfer_count',
+    )
 
     _check_name_unique = models.Constraint(
             'UNIQUE(name)',
@@ -38,9 +42,31 @@ class SmStocksStocks(models.Model):
     def _compute_movement_count(self):
         for stock in self:
             if stock.id and isinstance(stock.id, int):
-                stock.movement_count = self.env['sm_sales.order.line'].search_count([('stock_id', '=', stock.id)])
+                stock.movement_count = self.env['sm_stocks.stock.movement'].search_count([('stock_id', '=', stock.id)])
             else:
                 stock.movement_count = 0
+
+    def _compute_transfer_count(self):
+        for stock in self:
+            if stock.id and isinstance(stock.id, int):
+                stock.transfer_count = self.env['sm_stocks.transfer'].search_count([
+                    '|',
+                    ('stock_source_id', '=', stock.id),
+                    ('stock_dest_id', '=', stock.id),
+                ])
+            else:
+                stock.transfer_count = 0
+
+    def action_view_transfers(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id('sm_stocks.sm_stocks_transfer_action')
+        action['domain'] = ['|', ('stock_source_id', '=', self.id), ('stock_dest_id', '=', self.id)]
+        ctx = ast.literal_eval(action['context']) if isinstance(action.get('context'), str) else dict(action.get('context') or {})
+        ctx.update({
+            'default_stock_source_id': self.id,
+        })
+        action['context'] = ctx
+        return action
 
     def action_view_stock_moves(self):
         self.ensure_one()

@@ -16,6 +16,14 @@
               groups="sm_stocks_admin"
               sequence="100"/>
 
+    <!-- Entre Stocks -->
+    <menuitem id="sm_stocks_menu_transfer_action"
+              name="Entre Stocks"
+              parent="sm_stocks_menu_root"
+              action="sm_stocks_transfer_action"
+              groups="sm_stocks_manager"
+              sequence="110"/>
+
     <!-- Stock Movements -->
     <menuitem id="sm_stocks_menu_movement_action"
               name="Mouvements de Stocks"

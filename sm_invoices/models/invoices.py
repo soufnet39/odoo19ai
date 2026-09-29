@@ -212,7 +212,7 @@ class SmInvoice(models.Model):
             rec.invoice_lines_count = len(rec.invoice_lines)
 
     # ------------------------------------------------------------------
-    # Créer — assigne la séquence FACT/
+    # Créer — assigne la séquence FCT/
     # ------------------------------------------------------------------
     @api.model
     def create(self, vals_list):

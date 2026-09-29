@@ -64,6 +64,16 @@
                                 <span class="o_stat_text">Opérations</span>
                             </div>
                         </button>
+                        <button name="action_view_transfers"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-arrows-h"
+                                invisible="not id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">[<field name="transfer_count" class="d-inline"/>]</span>
+                                <span class="o_stat_text">Transferts</span>
+                            </div>
+                        </button>
                     </div>
                  <style>
                         .oe_indent {

@@ -2,3 +2,12 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_sm_stocks_stock_user,sm.stocks.stock.user,model_sm_stocks_stock,sm_stocks_user,1,0,0,0
 access_sm_stocks_stock_manager,sm.stocks.stock.manager,model_sm_stocks_stock,sm_stocks_manager,1,1,1,0
 access_sm_stocks_stock_admin,sm.stocks.stock.administrator,model_sm_stocks_stock,sm_stocks_admin,1,1,1,1
+access_sm_stocks_transfer_user,sm.stocks.transfer.user,model_sm_stocks_transfer,sm_stocks_user,1,0,0,0
+access_sm_stocks_transfer_manager,sm.stocks.transfer.manager,model_sm_stocks_transfer,sm_stocks_manager,1,1,1,0
+access_sm_stocks_transfer_admin,sm.stocks.transfer.admin,model_sm_stocks_transfer,sm_stocks_admin,1,1,1,1
+access_sm_stocks_transfer_line_user,sm.stocks.transfer.line.user,model_sm_stocks_transfer_line,sm_stocks_user,1,0,0,0
+access_sm_stocks_transfer_line_manager,sm.stocks.transfer.line.manager,model_sm_stocks_transfer_line,sm_stocks_manager,1,1,1,0
+access_sm_stocks_transfer_line_admin,sm.stocks.transfer.line.admin,model_sm_stocks_transfer_line,sm_stocks_admin,1,1,1,1
+access_sm_stocks_stock_movement_user,sm.stocks.stock.movement.user,model_sm_stocks_stock_movement,sm_stocks_user,1,0,0,0
+access_sm_stocks_stock_movement_manager,sm.stocks.stock.movement.manager,model_sm_stocks_stock_movement,sm_stocks_manager,1,0,0,0
+access_sm_stocks_stock_movement_admin,sm.stocks.stock.movement.admin,model_sm_stocks_stock_movement,sm_stocks_admin,1,0,0,0

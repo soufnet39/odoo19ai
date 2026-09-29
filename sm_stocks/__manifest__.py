@@ -18,12 +18,14 @@
         'security/rules.xml',
 
         #  "data/sm_boxes_config_data.xml",
+        'data/transfer_sequence.xml',
         'views/stocks_views.xml',
         'views/product_views.xml',
         'views/order_views.xml',
         'views/quotation_views.xml',
         'views/purchase_views.xml',
         'views/movement_views.xml',
+        'views/transfer_views.xml',
 
         'views/only_receipt_views.xml',
         'views/only_delivery_views.xml',
