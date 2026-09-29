@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sale Order: add # column + hide taxes column -->
+    <template id="report_saleorder_document_rank" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//th[@name='th_description']" position="before">
+            <th name="th_line_number" class="text-end text-nowrap" style="width:40px">#</th>
+        </xpath>
+        <xpath expr="//tr[@name='tr_product']/td[@name='td_product_name']" position="before">
+            <td name="td_line_number" class="text-end text-nowrap">
+                <span t-out="line.line_number"/>
+            </td>
+        </xpath>
+        <!-- Hide the per-line "Taxes" column -->
+        <xpath expr="//t[@t-set='hide_taxes_details']" position="attributes">
+            <attribute name="t-value">True</attribute>
+        </xpath>
+        <!-- Quantity: integer display, no UoM label, custom header -->
+        <xpath expr="//td[@name='td_product_quantity']" position="before">
+            <td name="td_default_code" class="text-end text-nowrap">
+                <t t-set="code_parts" t-value="(line.product_id.default_code or '').split(',')"/>
+                <t t-foreach="code_parts" t-as="code_part">
+                    <br t-if="not code_part_first"/>
+                    <t t-out="code_part.replace(' ', '')"/>
+                </t>
+            </td>
+            <td name="td_marque" class="text-end text-nowrap">
+                <span t-field="line.product_id.filter_marque"/>
+            </td>
+        </xpath>
+        <xpath expr="//td[@name='td_product_quantity']/span[@t-field='line.product_uom_qty']" position="attributes">
+            <attribute name="t-options">{"widget": "integer"}</attribute>
+        </xpath>
+        <xpath expr="//td[@name='td_product_quantity']/span[@t-field='line.product_uom_id']" position="replace"/>
+        <xpath expr="//td[@name='td_product_quantity']/span[@t-if]" position="replace"/>
+        <xpath expr="//th[@name='th_quantity']" position="before">
+            <th name="th_default_code" class="text-end text-nowrap">Réf.</th>
+            <th name="th_marque" class="text-end text-nowrap">Marque</th>
+        </xpath>
+        <xpath expr="//th[@name='th_quantity']" position="replace">
+            <th name="th_quantity" class="text-end text-nowrap">Qte.</th>
+        </xpath>
+        <xpath expr="//th[@name='th_priceunit']" position="replace">
+            <th name="th_priceunit" class="text-end text-nowrap">Prix.Unt.</th>
+        </xpath>
+        <xpath expr="//th[@name='th_description']/ancestor::table[1]" position="attributes">
+            <attribute name="style">font-size:0.75em;</attribute>
+        </xpath>
+    </template>
+
+    <!-- Sale Order totals: remove "Untaxed Amount" and "Tax X%" rows, keep grand Total -->
+    <template id="sale_document_tax_totals_no_breakdown" inherit_id="sale.document_tax_totals">
+        <xpath expr="//t[contains(@t-foreach, 'subtotals')]" position="replace"/>
+    </template>
+
+    <!-- Sale Order: reduce gap between header logo and client address block -->
+    <template id="report_saleorder_compact_header" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@class='page']" position="before">
+            <style>
+                .article .address.row { margin-top: -20px; }
+                .o_td_quantity { min-width: 3.5rem !important; max-width: 4.5rem !important; }
+            </style>
+        </xpath>
+    </template>
+
+    <!-- Sale Order: custom informations row — date left, salesperson right, no due date -->
+    <template id="report_saleorder_informations" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div class="row mb-4 justify-content-between" id="informations">
+                <div t-if="doc.date_order" class="col-auto" name="informations_date">
+                    <strong t-if="doc.state in ['draft', 'sent']">Date du Devis</strong>
+                    <strong t-else="">Date de Commande</strong>
+                    <div t-field="doc.date_order" t-options='{"widget": "date"}'/>
+                </div>
+                <div t-if="doc.user_id.name" class="col-auto text-end">
+                    <strong>Vendeur</strong>
+                    <div t-field="doc.user_id"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Sale Order: force French language -->
+    <template id="report_saleorder_raw_fr" inherit_id="sale.report_saleorder_raw">
+        <xpath expr="//t[@t-call='sale.report_saleorder_document']" position="attributes">
+            <attribute name="t-lang">'fr_FR'</attribute>
+        </xpath>
+    </template>
+
+    <!-- Purchase Order: add # column to print template -->
+    <template id="report_purchaseorder_document_rank" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//th[@name='th_description']" position="before">
+            <th name="th_line_number" class="text-end text-nowrap" style="width:40px">#</th>
+        </xpath>
+        <xpath expr="//td[@id='product']" position="before">
+            <td name="td_line_number" class="text-end text-nowrap">
+                <span t-out="line.line_number"/>
+            </td>
+        </xpath>
+    </template>
+
+</odoo>

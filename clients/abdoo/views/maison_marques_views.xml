@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="maison_marques_view_tree" model="ir.ui.view">
+        <field name="name">abdoo.maison.marques.view.tree</field>
+        <field name="model">abdoo.maison.marques</field>
+        <field name="arch" type="xml">
+            <list string="Marques Maison">
+                <field name="name"/>
+                <field name="zone"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="maison_marques_view_form" model="ir.ui.view">
+        <field name="name">abdoo.maison.marques.view.form</field>
+        <field name="model">abdoo.maison.marques</field>
+        <field name="arch" type="xml">
+            <form string="Marque Maison">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="zone"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_maison_marques" model="ir.actions.act_window">
+        <field name="name">Marques Maison</field>
+        <field name="res_model">abdoo.maison.marques</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

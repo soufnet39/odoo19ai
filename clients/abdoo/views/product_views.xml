@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vue liste produit héritée de sm_sales -->
+    <record id="abdoo_sm_sales_product_list_inherit" model="ir.ui.view">
+        <field name="name">abdoo.sm_sales.product.list.inherit</field>
+        <field name="model">sm_sales.product</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_product_list"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="reference_filter" optional="show"/>
+                <field name="filter_marque" optional="show"/>
+                <field name="filter_type" optional="hide"/>
+                <field name="maison" widget="many2many_tags" optional="show"/>
+                <field name="zone" optional="hide"/>
+                <field name="moteur" optional="hide"/>
+                <field name="moteur_type" optional="hide"/>
+                <field name="age" optional="hide"/>
+                <field name="carburant" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

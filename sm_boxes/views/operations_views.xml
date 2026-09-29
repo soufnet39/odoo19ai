@@ -32,9 +32,12 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                  <div class="h1 text-danger" invisible="operation != 'decaissement'"> Décaissement</div>
-                  <div class="h1 text-success" invisible="operation != 'encaissement'"> Encaissement</div>
-                    <div class="oe_title" style="margin-left: 25%;">
+                <div class="h1 ms-5">
+                  <span class="text-muted">Caisse / </span>
+                  <span class="text-danger" invisible="operation != 'decaissement'"> Décaissement</span>
+                  <span class="text-success" invisible="operation != 'encaissement'"> Encaissement</span>
+                </div>
+                    <div class="oe_title" style="margin-left: 25%;width:56% !important">
                         <h1>
                             <field name="name" placeholder="Motif"/>
                         </h1>
@@ -42,7 +45,7 @@
                     <group col="12">                        
                         <group colspan="4">
                         </group>    
-                        <group colspan="8">
+                        <group colspan="4">
                             <field name="operation" invisible="1"/>
                             <field name="sens" invisible="1"/>
                             <field name="boxe_id"/>
@@ -53,6 +56,8 @@
                             <field name="user_id" string="Opérateur" readonly="1" options="{'no_open': True}" />
                             <field name="reference"/>
                         </group>
+                        <group colspan="4">
+                        </group>  
                     </group>
                     <group string="Liens">
                         <group>

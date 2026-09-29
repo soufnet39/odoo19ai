@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_abdoo_zones_user,access_abdoo_zones_user,model_abdoo_zones,base.group_user,1,1,1,0
+access_abdoo_zones_manager,access_abdoo_zones_manager,model_abdoo_zones,base.group_system,1,1,1,1
+access_abdoo_maison_marques_user,access_abdoo_maison_marques_user,model_abdoo_maison_marques,base.group_user,1,1,1,0
+access_abdoo_maison_marques_manager,access_abdoo_maison_marques_manager,model_abdoo_maison_marques,base.group_system,1,1,1,1
+access_motors_user,access_motors_user,model_motors,base.group_user,1,1,1,0
+access_motors_manager,access_motors_manager,model_motors,base.group_system,1,1,1,1
+access_motor_types_user,access_motor_types_user,model_motor_types,base.group_user,1,1,1,0
+access_motor_types_manager,access_motor_types_manager,model_motor_types,base.group_system,1,1,1,1
+access_filter_marques_user,access_filter_marques_user,model_filter_marques,base.group_user,1,1,1,0
+access_filter_marques_manager,access_filter_marques_manager,model_filter_marques,base.group_system,1,1,1,1

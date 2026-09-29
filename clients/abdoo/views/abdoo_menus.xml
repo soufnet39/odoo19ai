@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Top-level menu -->
+    <menuitem
+        id="menu_abdoo_root"
+        name="Abdoo"
+        parent="shakliyat.menu_landing_page"
+        sequence="99"
+    />
+
+
+    <!-- Configuration items -->
+    <menuitem
+        id="menu_abdoo_zones"
+        name="Zones"
+        parent="menu_abdoo_root"
+        action="action_zones"
+        sequence="5"
+    />
+
+    <menuitem
+        id="menu_abdoo_maison_marques"
+        name="Marques Maison"
+        parent="menu_abdoo_root"
+        action="action_maison_marques"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_abdoo_motors"
+        name="Moteurs"
+        parent="menu_abdoo_root"
+        action="action_motors"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_abdoo_motor_types"
+        name="Types Moteur"
+        parent="menu_abdoo_root"
+        action="action_motor_types"
+        sequence="30"
+    />
+
+    <menuitem
+        id="menu_abdoo_filter_marques"
+        name="Marques de Filtre"
+        parent="menu_abdoo_root"
+        action="action_filter_marques"
+        sequence="40"
+    />
+
+</odoo>

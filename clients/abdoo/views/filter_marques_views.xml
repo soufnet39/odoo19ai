@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="filter_marques_view_tree" model="ir.ui.view">
+        <field name="name">filter.marques.view.tree</field>
+        <field name="model">filter.marques</field>
+        <field name="arch" type="xml">
+            <list string="Marques de Filtre">
+                <field name="name"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="filter_marques_view_form" model="ir.ui.view">
+        <field name="name">filter.marques.view.form</field>
+        <field name="model">filter.marques</field>
+        <field name="arch" type="xml">
+            <form string="Marque de Filtre">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_filter_marques" model="ir.actions.act_window">
+        <field name="name">Marques de Filtre</field>
+        <field name="res_model">filter.marques</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
