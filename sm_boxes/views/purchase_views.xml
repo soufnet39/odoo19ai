@@ -104,9 +104,16 @@
 				</page>
 			</xpath>
 			<xpath expr="//sheet/group/group[@id='totaux']" position="inside">				 
-					<field name="total_reglement" class="text-end" />
-					<field name="amount_rest" class="text-end" />
-			</xpath>	 
+					<field name='show_supplier_payment' invisible='1' />			 
+					<field invisible="not show_supplier_payment" name="total_reglement" class="text-end" />
+					<field invisible="not show_supplier_payment" name="amount_rest" class="text-end" />
+			</xpath>
+            <xpath expr="//sheet/notebook/page[@id='options']" position="inside">	
+                <group>
+                  <field name="show_supplier_payment" />
+                </group>
+                  <hr/>
+            </xpath>	 
 		</field>
 	</record>
 </odoo>

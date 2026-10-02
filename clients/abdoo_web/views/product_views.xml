@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vue liste produit héritée de sm_sales : ajout de is_published à la fin -->
+    <record id="abdoo_web_sm_sales_product_list_inherit" model="ir.ui.view">
+        <field name="name">abdoo_web.sm_sales.product.list.inherit</field>
+        <field name="model">sm_sales.product</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_product_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="is_published" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vue formulaire produit héritée de sm_sales : ajout de is_published -->
+    <record id="abdoo_web_sm_sales_product_form_inherit" model="ir.ui.view">
+        <field name="name">abdoo_web.sm_sales.product.form.inherit</field>
+        <field name="model">sm_sales.product</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_product_form"/>
+        <field name="arch" type="xml">
+            <field name="sale_ok" position="after">
+                <field name="is_published"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

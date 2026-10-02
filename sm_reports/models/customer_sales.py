@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 from odoo import api, fields, models
+from odoo.tools.float_utils import float_is_zero, float_compare
 
 
 class CustomerSalesReport(models.Model):
@@ -21,7 +21,7 @@ class CustomerSalesReport(models.Model):
     total_payment = fields.Float(string='Paiements', compute='_compute_payments_sum',
                                  digits='Product Price')
     balance = fields.Float(string='Restes', compute='_compute_balance',
-                           digits='Product Price', store=True)
+                           search='_search_balance', digits='Product Price')
 
     order_ids = fields.One2many('sm_sales.order', compute='_compute_orders',
                                 string='Commandes')
@@ -81,10 +81,39 @@ class CustomerSalesReport(models.Model):
             payments = self.env['sm_boxes.operations'].search(self._payment_domain(rec))
             rec.total_payment = sum(payments.mapped('amount_done'))
 
-    @api.depends('total_sales', 'total_payment')
+    @api.depends('partner_id', 'date_from', 'date_to', 'total_sales', 'total_payment')
     def _compute_balance(self):
         for rec in self:
             rec.balance = rec.total_sales - rec.total_payment
+
+    def _search_balance(self, operator, value):
+        records = self.search([])
+        if hasattr(value, '__iter__') and not isinstance(value, (str, bytes)):
+            target_values = [float(v) for v in value]
+        else:
+            target_values = [float(value)] if value is not False else [0.0]
+
+        if operator in ('=', 'in'):
+            matched = records.filtered(
+                lambda r: any(float_is_zero(r.balance - v, precision_digits=2) for v in target_values)
+            )
+        elif operator in ('!=', '<>', 'not in'):
+            matched = records.filtered(
+                lambda r: all(not float_is_zero(r.balance - v, precision_digits=2) for v in target_values)
+            )
+        else:
+            val = target_values[0] if target_values else 0.0
+            if operator == '>':
+                matched = records.filtered(lambda r: float_compare(r.balance, val, precision_digits=2) > 0)
+            elif operator == '>=':
+                matched = records.filtered(lambda r: float_compare(r.balance, val, precision_digits=2) >= 0)
+            elif operator == '<':
+                matched = records.filtered(lambda r: float_compare(r.balance, val, precision_digits=2) < 0)
+            elif operator == '<=':
+                matched = records.filtered(lambda r: float_compare(r.balance, val, precision_digits=2) <= 0)
+            else:
+                return []
+        return [('id', 'in', matched.ids)]
 
     @api.depends('partner_id', 'date_from', 'date_to')
     def _compute_orders(self):

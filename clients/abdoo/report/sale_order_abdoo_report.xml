@@ -1,129 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Paper format for 80mm thermal printer -->
-    <record id="paperformat_thermal_80mm" model="report.paperformat">
-        <field name="name">Thermal 80mm</field>
+    <!-- Paper format for 100mm (10cm) / 90mm narrow roll printer -->
+    <record id="paperformat_thermal_narrow" model="report.paperformat">
+        <field name="name">Ticket Étroit 10cm</field>
         <field name="format">custom</field>
-        <field name="page_width">80</field>
+        <field name="page_width">100</field>
         <field name="page_height">297</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">2</field>
-        <field name="margin_bottom">2</field>
+        <field name="margin_top">3</field>
+        <field name="margin_bottom">3</field>
         <field name="margin_left">2</field>
         <field name="margin_right">2</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">0</field>
-        <field name="dpi">90</field>
+        <field name="dpi">96</field>
     </record>
 
-    <!-- New Report Action for Abdoo Sale Order -->
+    <!-- Report Action for Abdoo Sale Order (Narrow Format) -->
     <record id="action_report_sale_order_abdoo" model="ir.actions.report">
-        <field name="name">Etiquette</field>
-        <field name="model">sale.order</field>
+        <field name="name">Ticket de Vente (10cm)</field>
+        <field name="model">sm_sales.order</field>
         <field name="report_type">qweb-html</field>
         <field name="report_name">abdoo.report_saleorder_abdoo</field>
         <field name="report_file">abdoo.report_saleorder_abdoo</field>
-        <field name="print_report_name">(object.state in ('draft', 'sent') and 'Devis - %s' % (object.name)) or 'Commande - %s' % (object.name)</field>
-        <field name="paperformat_id" ref="abdoo.paperformat_thermal_80mm"/>
-        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="print_report_name">'Ticket - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="abdoo.paperformat_thermal_narrow"/>
+        <field name="binding_model_id" ref="sm_sales.model_sm_sales_order"/>
         <field name="binding_type">report</field>
     </record>
 
-    <!-- Main report template -->
+    <!-- Main report container -->
     <template id="report_saleorder_abdoo">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="abdoo.report_saleorder_abdoo_document" t-lang="doc.partner_id.lang"/>
+                <t t-call="abdoo.report_saleorder_abdoo_document"/>
             </t>
         </t>
     </template>
 
-    <!-- Document template with special Abdoo format for small printers (10cm width) -->
+    <!-- Document template for narrow printers (9 - 10cm width) -->
     <template id="report_saleorder_abdoo_document">
         <t t-call="web.basic_layout">
-            <div class="page" style="font-family: monospace; font-size: 11px; width: 100%; max-width: 80mm; margin: 0 auto;">
-                <!-- Title -->
-                <div style="text-align:center">
-                   <span style="font-size: 22px; font-weight: bold;">GRAND SOUFFLE</span><br/>
-                   <span style="font-size: 18px;">Vente de tous types de filtres pour voitures et camions</span> <br/>
-                   <span style="font-size: 18px;">05.49.26.10.37</span> 
-                </div>
-                <div style="text-align: center; margin-bottom: 8px;">
-                    <strong style="font-size: 14px; border: 1px solid #000; padding: 3px 8px; display: inline-block;">BON DE COMMANDE</strong>
+            <style>
+                @page {
+                    size: 100mm auto;
+                    margin: 3mm 2mm;
+                }
+                .ticket-container {
+                    width: 100%;
+                    max-width: 95mm;
+                    margin: 0 auto;
+                    font-family: 'Courier New', Courier, monospace;
+                    font-size: 12px;
+                    line-height: 1.3;
+                    color: #000;
+                }
+                .ticket-header {
+                    text-align: center;
+                    margin-bottom: 8px;
+                }
+                .ticket-title {
+                    font-size: 19px;
+                    font-weight: bold;
+                    letter-spacing: 1px;
+                }
+                .ticket-subtitle {
+                    font-size: 12px;
+                    display: block;
+                    margin: 2px 0;
+                }
+                .ticket-badge {
+                    display: inline-block;
+                    margin-top: 6px;
+                    font-size: 13px;
+                    font-weight: bold;
+                    border: 1px solid #000;
+                    padding: 2px 8px;
+                }
+                .ticket-section {
+                    margin: 6px 0;
+                    font-size: 12px;
+                }
+                .ticket-separator {
+                    border-top: 1px dashed #000;
+                    margin: 6px 0;
+                }
+                .ticket-line {
+                    margin-bottom: 6px;
+                }
+                .ticket-line-details {
+                    font-size: 11px;
+                    color: #222;
+                }
+                .ticket-line-price {
+                    text-align: right;
+                    font-size: 12px;
+                    margin-top: 2px;
+                }
+                .ticket-totals {
+                    text-align: right;
+                    font-size: 13px;
+                    margin-top: 8px;
+                }
+                .ticket-total-main {
+                    font-size: 17px;
+                    font-weight: bold;
+                }
+                .ticket-footer {
+                    text-align: center;
+                    margin-top: 14px;
+                    font-size: 10px;
+                    color: #333;
+                }
+            </style>
+
+            <div class="page ticket-container">
+                <!-- Header / Logo Text -->
+                <div class="ticket-header">
+                    <div class="ticket-title">GRAND SOUFFLE</div>
+                    <span class="ticket-subtitle">Vente de tous types de filtres pour voitures et camions</span>
+                    <span class="ticket-subtitle">Tél: 05.49.26.10.37</span>
+                    <div>
+                        <span class="ticket-badge">BON DE COMMANDE</span>
+                    </div>
                 </div>
 
                 <!-- Order Info -->
-                <div style="margin-bottom: 8px; font-size: 16px;">
-                    <div>B.C.N°: <span t-field="doc.name"/></div>
-                    <div>Date: <span t-field="doc.date_order" t-options='{"widget": "date"}'/></div>
-                    <!-- <div>Vendeur: <span t-field="doc.user_id"/></div> -->
-                    <div t-if="doc.client_order_ref">Réf.Client: <span t-field="doc.client_order_ref"/></div>
-                </div> <br/>
-
-                <!-- Separator -->
-                <div style="border-top: 1px dashed #000; margin: 6px 0;"></div>
-
-                <!-- Client -->
-                <div style="margin-bottom: 8px; text-align: right;font-size: 16px;">
-                    <strong>Client:</strong> <span t-field="doc.partner_id.name"/><br/>
-                    <span t-if="doc.partner_id.street" t-field="doc.partner_id.street"/><br/>
-                    <span t-if="doc.partner_id.city" t-field="doc.partner_id.city"/>
-                    <span t-if="doc.partner_id.zip"> - <span t-field="doc.partner_id.zip"/></span><br/>
-                    <span t-if="doc.partner_id.phone">Tél: <span t-field="doc.partner_id.phone"/></span>
+                <div class="ticket-section">
+                    <div><strong>B.C. N°:</strong> <span t-field="doc.name"/></div>
+                    <div><strong>Date:</strong> <span t-field="doc.date" t-options='{"widget": "date"}'/></div>
+                    <div t-if="doc.user_id"><strong>Vendeur:</strong> <span t-field="doc.user_id.name"/></div>
                 </div>
 
-                <!-- Separator -->
-                <div style="border-top: 1px dashed #000; margin: 6px 0;"></div>
+                <div class="ticket-separator"></div>
 
-                <!-- Order Lines (no table, compact blocks) -->
-                <div t-foreach="doc.order_line" t-as="line" style="margin-bottom: 6px;">
-                    <div style="font-size: 14px;">
-                        <strong><span t-out="line.line_number"/></strong> - <span t-field="line.name"/>
-                    </div>
-                    <div style="font-size: 14px;">
-                        <span>
-                            Réf:
-                            <t t-set="code_parts" t-value="(line.product_id.default_code or '').split(',')"/>
-                            <t t-foreach="code_parts" t-as="code_part">
-                                <t t-if="not code_part_first">, </t>
-                                <t t-out="code_part.replace(' ', '')"/>
-                            </t>
-                        </span>, 
-                        <span t-if="line.product_id.filter_marque">
-                            Marque: <span t-field="line.product_id.filter_marque"/>
-                        </span>
-                    </div>
-                    <div style="text-align: right; margin-top: 2px;font-size: 13px;">
-                        <span>Qte: <span t-field="line.product_uom_qty" t-options='{"widget": "integer"}'/></span>, 
-                        <span>PU: <span t-field="line.price_unit"/></span>, 
-                        <span>PT: <strong><span t-field="line.price_subtotal"/></strong></span>
-                    </div>
-                    <div style="border-top: 1px dotted #aaa; margin-top: 4px;"></div>
+                <!-- Client Info -->
+                <div class="ticket-section" style="text-align: right;">
+                    <div><strong>Client:</strong> <span t-field="doc.partner_id.name"/></div>
+                    <div t-if="doc.partner_id.address"><span t-field="doc.partner_id.address"/></div>
+                    <div t-if="doc.partner_id.city"><span t-field="doc.partner_id.city"/></div>
+                    <div t-if="doc.partner_id.phone">Tél: <span t-field="doc.partner_id.phone"/></div>
+                    <div t-elif="doc.partner_id.mobile">Tél: <span t-field="doc.partner_id.mobile"/></div>
                 </div>
 
-                <!-- Totals -->
-                <div style="text-align: right; margin-top: 10px; font-size: 18px;">
-                    <strong>TOTAL:</strong>
-                    <strong><span t-field="doc.amount_total"/></strong>
+                <div class="ticket-separator"></div>
+
+                <!-- Order Lines -->
+                <div class="ticket-section">
+                    <div t-foreach="doc.order_lines" t-as="line" class="ticket-line">
+                        <div>
+                            <strong><span t-out="line_index + 1"/>.</strong>
+                            <strong><span t-field="line.name"/></strong>
+                        </div>
+                        <div class="ticket-line-details">
+                            <t t-set="ref_code" t-value="line.product_code or line.product_id.code or line.product_id.reference_filter"/>
+                            <span t-if="ref_code">
+                                Réf: <strong><span t-out="ref_code"/></strong>
+                            </span>
+                            <span t-if="line.product_id.filter_marque">
+                                <t t-if="ref_code"> | </t>
+                                Marque: <span t-field="line.product_id.filter_marque.name"/>
+                            </span>
+                        </div>
+                        <div class="ticket-line-price">
+                            <span>Qte: <strong><span t-field="line.qty" t-options='{"widget": "float", "precision": 0}'/></strong></span> | 
+                            <span>PU: <span t-field="line.unit_price"/></span> | 
+                            <span>PT: <strong><span t-field="line.price_total"/></strong></span>
+                        </div>
+                        <div style="border-top: 1px dotted #bbb; margin-top: 4px;"></div>
+                    </div>
                 </div>
 
-                <!-- Separator -->
-                <div style="border-top: 1px dashed #000; margin: 10px 0;"></div>
+                <!-- Totals Breakdown -->
+                <div class="ticket-totals">
+                    <div t-if="doc.tva_enabled">
+                        Montant HT: <span t-field="doc.amount_ht"/>
+                    </div>
+                    <div t-if="doc.remise_exist and doc.remise_valeur &gt; 0">
+                        Remise: -<span t-field="doc.remise_valeur"/>
+                    </div>
+                    <div t-if="doc.tva_enabled and doc.amount_tva &gt; 0">
+                        TVA (<span t-field="doc.tva_taux"/>%): <span t-field="doc.amount_tva"/>
+                    </div>
+                    <div class="ticket-total-main" style="margin-top: 4px;">
+                        TOTAL: <span t-field="doc.amount_ttc"/>
+                    </div>
+                </div>
 
-                <!-- Signature area -->
-                <!-- <div style="display: flex; justify-content: space-between; margin-top: 20px; text-align: center;">
-                    <div style="width: 45%;">
-                        <div style="border-top: 1px solid #000; padding-top: 3px;">Signature Client</div>
-                    </div>
-                    <div style="width: 45%;">
-                        <div style="border-top: 1px solid #000; padding-top: 3px;">Signature Vendeur</div>
-                    </div>
-                </div> -->
+                <div class="ticket-separator"></div>
 
                 <!-- Footer -->
-                <div style="text-align: center; margin-top: 15px; font-size: 9px; color: #555;">
-                    <span t-field="doc.company_id.name"/> - Merci pour votre confiance
+                <div class="ticket-footer">
+                    <div><span t-field="doc.company_id.name"/></div>
+                    <div>Merci pour votre confiance !</div>
                 </div>
             </div>
         </t>

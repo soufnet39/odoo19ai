@@ -3,7 +3,7 @@ from odoo import models, fields
 
 
 class Motors(models.Model):
-    _name = 'motors'
+    _name = 'abdoo.motors'
     _description = 'Moteur'
     _order = 'name'
 

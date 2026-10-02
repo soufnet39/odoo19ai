@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Groupe pour la visibilité des prix catalogue -->
+        <record id="group_catalog_prices" model="res.groups">
+            <field name="name">Voir les prix catalogue</field>
+            <field name="privilege_id" ref="abdoo.module_privilege_abdoo"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Permet de visualiser les prix des articles sur le catalogue web.</field>
+        </record>
+
+        <!-- Règle Multi-sociétés Pré-commandes -->
+        <record id="rule_abdoo_web_pre_order_company" model="ir.rule">
+            <field name="name">Pré-commandes : Multi-sociétés</field>
+            <field name="model_id" ref="model_abdoo_web_pre_order"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Règle Utilisateur Portail : uniquement ses propres pré-commandes -->
+        <record id="rule_abdoo_web_pre_order_portal" model="ir.rule">
+            <field name="name">Pré-commandes : Utilisateur Portail (ses propres commandes)</field>
+            <field name="model_id" ref="model_abdoo_web_pre_order"/>
+            <field name="domain_force">['|', ('user_id', '=', user.id), ('create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        </record>
+
+        <record id="rule_abdoo_web_pre_order_lines_portal" model="ir.rule">
+            <field name="name">Lignes Pré-commandes : Utilisateur Portail</field>
+            <field name="model_id" ref="model_abdoo_web_pre_order_lines"/>
+            <field name="domain_force">['|', ('pre_order_id.user_id', '=', user.id), ('pre_order_id.create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        </record>
+
+        <!-- Règle Utilisateur Interne Standard : uniquement ses propres pré-commandes -->
+        <record id="rule_abdoo_web_pre_order_user" model="ir.rule">
+            <field name="name">Pré-commandes : Utilisateur interne standard</field>
+            <field name="model_id" ref="model_abdoo_web_pre_order"/>
+            <field name="domain_force">['|', ('user_id', '=', user.id), ('create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_abdoo_web_pre_order_lines_user" model="ir.rule">
+            <field name="name">Lignes Pré-commandes : Utilisateur interne standard</field>
+            <field name="model_id" ref="model_abdoo_web_pre_order_lines"/>
+            <field name="domain_force">['|', ('pre_order_id.user_id', '=', user.id), ('pre_order_id.create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- Règle Gestionnaire Abdoo : accès à toutes les pré-commandes pour traitement -->
+        <record id="rule_abdoo_web_pre_order_manager" model="ir.rule">
+            <field name="name">Pré-commandes : Gestionnaire (toutes)</field>
+            <field name="model_id" ref="model_abdoo_web_pre_order"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('abdoo.abdoo_manager'))]"/>
+        </record>
+
+        <record id="rule_abdoo_web_pre_order_lines_manager" model="ir.rule">
+            <field name="name">Lignes Pré-commandes : Gestionnaire (toutes)</field>
+            <field name="model_id" ref="model_abdoo_web_pre_order_lines"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('abdoo.abdoo_manager'))]"/>
+        </record>
+    </data>
+</odoo>

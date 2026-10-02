@@ -89,7 +89,7 @@
                                 </form>
                             </field>
                         </page>
-                        <page string="Options" class="px-3">
+                        <page id='options' string="Options" class="px-3">
                                 <group>                               
                                     <field name="tva_enabled"/>
                                     <field name="tva_taux" invisible="not tva_enabled"/>

@@ -1,0 +1,216 @@
+/* ==========================================================================
+   Abdoo Web E-Commerce Styles & Aesthetics
+   ========================================================================== */
+
+:root {
+    --abdoo-primary: #1e40af;
+    --abdoo-primary-hover: #1d4ed8;
+    --abdoo-accent: #059669;
+    --abdoo-bg-subtle: #f8fafc;
+    --abdoo-card-bg: #ffffff;
+    --abdoo-border-color: #e2e8f0;
+    --abdoo-text-muted: #64748b;
+    --abdoo-radius: 16px;
+    --abdoo-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.abdoo-catalog-wrap {
+    background-color: var(--abdoo-bg-subtle);
+    min-height: 85vh;
+}
+
+/* Hero Banner */
+.abdoo-hero-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1e40af 100%);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.abdoo-hero-glow {
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Auth Badges */
+.abdoo-auth-badge {
+    background: rgba(255, 255, 255, 0.95);
+    color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+}
+
+/* Category Filter Bar */
+.abdoo-filter-bar {
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+.abdoo-categories-nav {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+}
+
+.abdoo-categories-nav::-webkit-scrollbar {
+    height: 4px;
+}
+
+.abdoo-categories-nav::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.abdoo-categories-nav .badge {
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: var(--abdoo-transition);
+}
+
+.abdoo-categories-nav .badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Section Bullet */
+.abdoo-category-bullet {
+    display: inline-block;
+    width: 6px;
+    height: 24px;
+    background: linear-gradient(to bottom, #1e40af, #3b82f6);
+    border-radius: 3px;
+}
+
+/* Product Cards */
+.abdoo-product-card {
+    transition: var(--abdoo-transition);
+    border: 1px solid var(--abdoo-border-color);
+    background: #ffffff;
+}
+
+.abdoo-product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.1) !important;
+    border-color: #cbd5e1;
+}
+
+.abdoo-product-img-wrapper {
+    height: 180px;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--abdoo-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.abdoo-product-img {
+    max-height: 150px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.abdoo-product-card:hover .abdoo-product-img {
+    transform: scale(1.05);
+}
+
+.abdoo-product-img-placeholder {
+    height: 100%;
+    width: 100%;
+}
+
+/* Quantity Picker */
+.abdoo-qty-picker input {
+    font-size: 0.85rem;
+    padding: 2px 4px;
+}
+
+.abdoo-qty-picker .btn {
+    padding: 0 8px;
+    font-weight: bold;
+}
+
+/* Cart Trigger Buttons */
+.abdoo-btn-cart-trigger {
+    transition: var(--abdoo-transition);
+}
+
+.abdoo-btn-cart-trigger:hover {
+    transform: scale(1.03);
+}
+
+/* Floating Cart Button for Mobile & Sticky */
+.abdoo-floating-cart-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    z-index: 1040;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--abdoo-transition);
+    border: none;
+    box-shadow: 0 8px 24px rgba(30, 64, 175, 0.35);
+}
+
+.abdoo-floating-cart-btn:hover {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.abdoo-floating-cart-btn .abdoo-cart-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    border: 2px solid #ffffff;
+}
+
+/* Offcanvas Cart Sidebar */
+.abdoo-cart-drawer {
+    width: 420px !important;
+    max-width: 95vw;
+    z-index: 1060 !important;
+    pointer-events: auto !important;
+}
+
+.offcanvas-backdrop {
+    z-index: 1050 !important;
+}
+
+.abdoo-cart-item {
+    background: #ffffff;
+    border: 1px solid var(--abdoo-border-color);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: var(--abdoo-transition);
+}
+
+.abdoo-cart-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.abdoo-cart-item-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #f1f5f9;
+}
+
+/* Pre-order Success Modal */
+.abdoo-success-icon-wrapper {
+    animation: abdooPulse 1.5s infinite;
+}
+
+@keyframes abdooPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}

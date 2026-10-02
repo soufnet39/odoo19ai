@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Page Catalogue E-Commerce -->
+    <template id="catalog_page" name="Catalogue E-Commerce Abdoo">
+        <t t-call="website.layout">
+            <div id="wrap" class="abdoo-catalog-wrap py-4">
+
+                <!-- Données JSON injectées pour JavaScript -->
+                <script type="application/json" id="abdoo-catalog-config">
+                    <t t-out="catalog_config_json"/>
+                </script>
+
+                <div class="container-fluid px-3 px-lg-5">
+
+                    <!-- Header & Hero Section -->
+                    <div class="abdoo-hero-banner mb-4 p-4 rounded-4 shadow-sm text-white position-relative overflow-hidden">
+                        <div class="row align-items-center position-relative" style="z-index: 2;">
+                            <div class="col-lg-8">
+                                <span class="badge bg-white bg-opacity-25 text-white mb-2 px-3 py-2 rounded-pill">
+                                    <i class="fa fa-cubes me-1"></i> E-Commerce &amp; Pièces Automobiles
+                                </span>
+                                <h1 class="display-6 fw-bold mb-2">Boutique &amp; Catalogue Abdoo</h1>
+                                <p class="lead mb-0 text-white-50">
+                                    Consultez nos articles par catégorie, préparez votre panier et enregistrez votre pré-commande en ligne.
+                                </p>
+                            </div>
+                            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                                <t t-if="can_see_prices">
+                                    <div class="abdoo-auth-badge authorized d-inline-flex align-items-center px-3 py-2 rounded-pill shadow-sm">
+                                        <i class="fa fa-check-circle me-2 text-success fs-5"></i>
+                                        <div class="text-start">
+                                            <div class="small fw-bold">Tarifs Pro Actifs</div>
+                                            <div class="small text-muted" style="font-size: 0.75rem;">Prix visibles</div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="abdoo-auth-badge unauthorized d-inline-flex align-items-center px-3 py-2 rounded-pill shadow-sm">
+                                        <i class="fa fa-lock me-2 text-warning fs-5"></i>
+                                        <div class="text-start">
+                                            <div class="small fw-bold">Mode Visiteur</div>
+                                            <div class="small text-muted" style="font-size: 0.75rem;">Prix réservés aux autorisés</div>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="is_logged_in">
+                                    <div class="mt-2">
+                                        <a href="/mes-precommandes" class="btn btn-outline-light rounded-pill px-3 py-2 shadow-sm d-inline-flex align-items-center">
+                                            <i class="fa fa-history me-1"></i> Mes Pré-commandes
+                                        </a>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="abdoo-hero-glow"></div>
+                    </div>
+
+                    <!-- Barre de Recherche et Catégories -->
+                    <div class="card border-0 shadow-sm rounded-4 mb-4 abdoo-filter-bar">
+                        <div class="card-body p-3">
+                            <div class="row g-2 align-items-center">
+                                <!-- Recherche rapide -->
+                                <div class="col-md-5 col-lg-4">
+                                    <form method="get" action="/boutique" class="d-flex position-relative">
+                                        <t t-if="selected_category_id">
+                                            <input type="hidden" name="category_id" t-att-value="selected_category_id"/>
+                                        </t>
+                                        <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                        <input type="text"
+                                               name="search"
+                                               id="abdoo-search-input"
+                                               class="form-control ps-5 rounded-pill border-light-subtle"
+                                               placeholder="Rechercher par nom, référence..."
+                                               t-att-value="search_term"/>
+                                        <t t-if="search_term">
+                                            <a href="/boutique" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 text-muted">
+                                                <i class="fa fa-times-circle"></i>
+                                            </a>
+                                        </t>
+                                    </form>
+                                </div>
+
+                                <!-- Filtres Catégories (Pills) -->
+                                <div class="col-md-7 col-lg-8">
+                                    <div class="d-flex flex-wrap gap-2 align-items-center abdoo-categories-nav">
+                                        <a href="/boutique"
+                                           t-attf-class="badge rounded-pill text-decoration-none px-3 py-2 #{'bg-primary text-white shadow-sm' if not selected_category_id else 'bg-light text-dark border'}">
+                                            Toutes les catégories
+                                        </a>
+                                        <t t-foreach="categories" t-as="categ">
+                                            <a t-attf-href="/boutique/category/#{categ.id}#{('?search=' + search_term) if search_term else ''}"
+                                               t-attf-class="badge rounded-pill text-decoration-none px-3 py-2 #{'bg-primary text-white shadow-sm' if selected_category_id == categ.id else 'bg-light text-dark border'}">
+                                                <t t-out="categ.name"/>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- En-tête des résultats -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0 text-dark">
+                            <span t-out="products_count"/> article(s) disponible(s)
+                        </h5>
+                        <button type="button" class="btn btn-primary rounded-pill px-4 shadow-sm position-relative abdoo-btn-cart-trigger" id="btn-open-cart">
+                            <i class="fa fa-shopping-basket me-2"></i> Mon Panier
+                            <span class="badge bg-danger rounded-pill ms-1 abdoo-cart-count" id="cart-badge-count">0</span>
+                        </button>
+                    </div>
+
+                    <!-- Liste des produits groupés par catégorie -->
+                    <t t-if="not grouped_products">
+                        <div class="text-center py-5 bg-white rounded-4 shadow-sm my-4">
+                            <i class="fa fa-search fa-3x text-muted mb-3"></i>
+                            <h4 class="text-dark">Aucun article trouvé</h4>
+                            <p class="text-muted">Essayez de modifier vos critères de recherche ou sélectionnez une autre catégorie.</p>
+                            <a href="/boutique" class="btn btn-outline-primary rounded-pill px-4 mt-2">
+                                Réinitialiser les filtres
+                            </a>
+                        </div>
+                    </t>
+
+                    <t t-foreach="grouped_products.items()" t-as="group">
+                        <t t-set="categ_tuple" t-value="group[0]"/>
+                        <t t-set="categ_id" t-value="categ_tuple[0]"/>
+                        <t t-set="categ_name" t-value="categ_tuple[1]"/>
+                        <t t-set="prods" t-value="group[1]"/>
+
+                        <div class="abdoo-category-section mb-5" t-att-id="'categ-section-' + str(categ_id)">
+                            <!-- Titre de catégorie -->
+                            <div class="d-flex align-items-center mb-3 border-bottom pb-2">
+                                <span class="abdoo-category-bullet me-2"></span>
+                                <h3 class="h4 fw-bold mb-0 text-primary">
+                                    <t t-out="categ_name"/>
+                                </h3>
+                                <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill ms-2">
+                                    <t t-out="len(prods)"/>
+                                </span>
+                            </div>
+
+                            <!-- Grille de produits -->
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
+                                <t t-foreach="prods" t-as="product">
+                                    <div class="col">
+                                        <div class="card h-100 border-0 shadow-sm rounded-4 abdoo-product-card overflow-hidden">
+                                            <!-- Image -->
+                                            <div class="abdoo-product-img-wrapper position-relative text-center p-3 bg-light">
+                                                <t t-if="product.image_512">
+                                                    <img t-attf-src="/web/image/sm_sales.product/#{product.id}/image_512"
+                                                         class="img-fluid abdoo-product-img"
+                                                         t-att-alt="product.name"
+                                                         loading="lazy"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="abdoo-product-img-placeholder d-flex align-items-center justify-content-center">
+                                                        <i class="fa fa-cubes fa-3x text-secondary opacity-50"></i>
+                                                    </div>
+                                                </t>
+
+                                                <!-- Badge référence -->
+                                                <t t-if="product.code">
+                                                    <span class="badge bg-dark bg-opacity-75 text-white position-absolute top-0 start-0 m-2 rounded-pill px-2 py-1" style="font-size: 0.75rem;">
+                                                        Réf: <t t-out="product.code"/>
+                                                    </span>
+                                                </t>
+                                            </div>
+
+                                            <!-- Contenu de la fiche -->
+                                            <div class="card-body d-flex flex-column p-3">
+                                                <!-- Tags Abdoo (filtre, marques, carburant) -->
+                                                <div class="mb-2 d-flex flex-wrap gap-1">
+                                                    <t t-if="'reference_filter' in product._fields and product.reference_filter">
+                                                        <span class="badge bg-info-subtle text-info-emphasis rounded-pill" style="font-size: 0.7rem;">
+                                                            <i class="fa fa-filter me-1"></i><t t-out="product.reference_filter"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-if="'filter_marque' in product._fields and product.filter_marque">
+                                                        <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill" style="font-size: 0.7rem;">
+                                                            <t t-out="product.filter_marque.name"/>
+                                                        </span>
+                                                    </t>
+                                                </div>
+
+                                                <h5 class="card-title fw-bold text-dark fs-6 mb-1" t-out="product.name"/>
+
+                                                <t t-if="product.description">
+                                                    <p class="card-text text-muted small mb-3 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" t-out="product.description"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="flex-grow-1"></div>
+                                                </t>
+
+                                                <!-- Prix -->
+                                                <div class="abdoo-price-container my-2 pt-2 border-top">
+                                                    <t t-if="can_see_prices">
+                                                        <div class="d-flex align-items-baseline">
+                                                            <span class="fs-5 fw-bold text-primary">
+                                                                <t t-out="'%.2f' % product.default_price"/>
+                                                            </span>
+                                                        </div>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div class="text-muted small d-flex align-items-center">
+                                                            <i class="fa fa-lock text-warning me-1"></i>
+                                                            <span class="badge bg-light text-muted border rounded-pill">Prix réservé</span>
+                                                        </div>
+                                                    </t>
+                                                </div>
+
+                                                <!-- Action Ajouter au Panier -->
+                                                <div class="mt-2 pt-2 border-top d-flex align-items-center gap-2">
+                                                    <div class="input-group input-group-sm abdoo-qty-picker" style="max-width: 100px;">
+                                                        <button class="btn btn-outline-secondary btn-qty-minus" type="button">-</button>
+                                                        <input type="number"
+                                                               class="form-control text-center input-product-qty"
+                                                               value="1"
+                                                               min="1"
+                                                               max="999"/>
+                                                        <button class="btn btn-outline-secondary btn-qty-plus" type="button">+</button>
+                                                    </div>
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-sm flex-grow-1 rounded-pill btn-add-to-cart"
+                                                            t-att-data-product-id="product.id"
+                                                            t-att-data-product-name="product.name"
+                                                            t-att-data-product-code="product.code or ''"
+                                                            t-att-data-product-price="product.default_price if can_see_prices else 0.0"
+                                                            t-attf-data-product-img="/web/image/sm_sales.product/#{product.id}/image_128">
+                                                        <i class="fa fa-cart-plus me-1"></i> Ajouter
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+
+                </div>
+
+                <!-- Panier Tiroir (Offcanvas Cart Sidebar) -->
+                <div class="offcanvas offcanvas-end abdoo-cart-drawer shadow-lg border-0" tabindex="-1" id="abdooCartOffcanvas" aria-labelledby="abdooCartLabel">
+                    <div class="offcanvas-header bg-primary text-white p-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-shopping-basket fs-4 me-2"></i>
+                            <h5 class="offcanvas-title fw-bold mb-0" id="abdooCartLabel">Mon Panier</h5>
+                            <span class="badge bg-white text-primary rounded-pill ms-2" id="cart-drawer-count">0</span>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fermer"></button>
+                    </div>
+
+                    <div class="offcanvas-body d-flex flex-column p-3">
+                        <!-- Liste des articles dans le panier -->
+                        <div class="abdoo-cart-items-container flex-grow-1 overflow-auto pe-1" id="cart-items-list">
+                            <!-- Rempli dynamiquement en JS -->
+                        </div>
+
+                        <!-- Résumé et Formulaire de finalisation -->
+                        <div class="abdoo-cart-footer pt-3 border-top mt-auto" id="cart-footer-section">
+                            <!-- Sous-total si prix visibles -->
+                            <t t-if="can_see_prices">
+                                <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded-3">
+                                    <span class="fw-bold text-dark">Total estimé :</span>
+                                    <span class="fs-5 fw-bold text-primary" id="cart-total-amount">0.00</span>
+                                </div>
+                            </t>
+
+                            <!-- Coordonnées du visiteur / client -->
+                            <div class="abdoo-customer-checkout-form mb-3">
+                                <h6 class="fw-bold mb-2 text-dark small text-uppercase">Vos coordonnées :</h6>
+                                <div class="row g-2">
+                                    <div class="col-12">
+                                        <input type="text"
+                                               id="order-customer-name"
+                                               class="form-control form-control-sm rounded-3"
+                                               placeholder="Nom complet ou Société *"
+                                               t-att-value="customer_info.get('name') or customer_info.get('company') or ''"
+                                               required="required"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="tel"
+                                               id="order-customer-phone"
+                                               class="form-control form-control-sm rounded-3"
+                                               placeholder="Téléphone *"
+                                               t-att-value="customer_info.get('phone') or ''"
+                                               required="required"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="email"
+                                               id="order-customer-email"
+                                               class="form-control form-control-sm rounded-3"
+                                               placeholder="Email (requis si envoi)"
+                                               t-att-value="customer_info.get('email') or ''"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text"
+                                               id="order-customer-company"
+                                               class="form-control form-control-sm rounded-3"
+                                               placeholder="Entreprise / Activité"
+                                               t-att-value="customer_info.get('company') or ''"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea id="order-customer-notes"
+                                                  class="form-control form-control-sm rounded-3"
+                                                  rows="2"
+                                                  placeholder="Notes ou instructions supplémentaires..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Boutons d'action -->
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-primary rounded-pill fw-bold py-2 shadow-sm" id="btn-save-preorder">
+                                    <i class="fa fa-save me-1"></i> Sauvegarder en pré-commande
+                                </button>
+                                <button type="button" class="btn btn-outline-success rounded-pill fw-bold py-2" id="btn-email-preorder">
+                                    <i class="fa fa-paper-plane me-1"></i> Envoyer par email
+                                </button>
+                                <button type="button" class="btn btn-link btn-sm text-danger text-decoration-none mt-1" id="btn-clear-cart">
+                                    <i class="fa fa-trash me-1"></i> Vider le panier
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Modal de Confirmation de commande -->
+                <div class="modal fade" id="abdooOrderSuccessModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content rounded-4 border-0 shadow">
+                            <div class="modal-body text-center p-4">
+                                <div class="abdoo-success-icon-wrapper mb-3 text-success">
+                                    <i class="fa fa-check-circle fa-4x animate__animated animate__bounceIn"></i>
+                                </div>
+                                <h4 class="fw-bold mb-2">Pré-commande enregistrée !</h4>
+                                <p class="text-muted mb-3" id="success-modal-message">
+                                    Votre demande a été traitée avec succès.
+                                </p>
+                                <div class="bg-light p-3 rounded-3 mb-3">
+                                    <div class="small text-muted">Numéro de référence :</div>
+                                    <div class="fs-4 fw-bold text-primary" id="success-modal-ref">PRE/2026/00001</div>
+                                </div>
+                                <p class="small text-muted mb-4">
+                                    Notre équipe commerciale prendra contact avec vous rapidement pour finaliser les détails.
+                                </p>
+                                <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">
+                                    Continuer mes achats
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bouton Flottant Panier Mobile -->
+                <button type="button" class="btn btn-primary rounded-circle shadow-lg abdoo-floating-cart-btn" id="btn-floating-cart">
+                    <i class="fa fa-shopping-basket fs-5"></i>
+                    <span class="badge bg-danger rounded-pill abdoo-cart-count" id="floating-badge-count">0</span>
+                </button>
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

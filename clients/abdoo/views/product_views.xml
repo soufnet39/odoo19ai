@@ -7,17 +7,80 @@
         <field name="model">sm_sales.product</field>
         <field name="inherit_id" ref="sm_sales.sm_sales_product_list"/>
         <field name="arch" type="xml">
+            <field name="code" position="attributes">
+                <attribute name="string">Ref. Originale</attribute>
+            </field>
+            
+            <field name="name" position="before">
+                <field name="maison" widget="many2many_tags" optional="show"/>
+            </field>
+            <field name="name" position="replace">
+                <field name="display_name" string="Name" />
+            </field>
             <field name="code" position="after">
+                <field name="zone" optional="hide"/>
                 <field name="reference_filter" optional="show"/>
                 <field name="filter_marque" optional="show"/>
                 <field name="filter_type" optional="hide"/>
-                <field name="maison" widget="many2many_tags" optional="show"/>
-                <field name="zone" optional="hide"/>
                 <field name="moteur" optional="hide"/>
                 <field name="moteur_type" optional="hide"/>
                 <field name="age" optional="hide"/>
                 <field name="carburant" optional="hide"/>
             </field>
+        </field>
+    </record>
+
+    <!-- Vue formulaire produit héritée de sm_sales -->
+    <record id="abdoo_sm_sales_product_form_inherit" model="ir.ui.view">
+        <field name="name">abdoo.sm_sales.product.form.inherit</field>
+        <field name="model">sm_sales.product</field>
+        <field name="inherit_id" ref="sm_sales.sm_sales_product_form"/>
+        <field name="arch" type="xml">
+            <!-- Masquer la référence dans le sous-titre pour la placer dans le bloc FILTRE -->
+            <xpath expr="//div[hasclass('oe_title')]//h3" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//group[@id='sales_info']" position="before">
+                <!-- Section MOTEUR -->
+                <div class="card mb-3 border">
+                    <div class="card-header py-1 px-3 bg-light fw-bold text-purple text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.05em;">
+                        MOTEUR
+                    </div>
+                    <div class="card-body p-2">
+                        <group>
+                            <group>
+                                <field name="maison" widget="many2many_tags"/>
+                                <field name="moteur"/>
+                                <field name="moteur_type"/>
+                            </group>
+                            <group>
+                                <field name="age"/>
+                                <field name="carburant"/>
+                            </group>
+                        </group>
+                    </div>
+                </div>
+
+                <!-- Section FILTRE -->
+                <div class="card mb-3 border">
+                    <div class="card-header py-1 px-3 bg-light fw-bold text-purple text-uppercase" style="font-size: 0.85rem; letter-spacing: 0.05em;">
+                        FILTRE
+                    </div>
+                    <div class="card-body p-2">
+                        <group>
+                            <group>
+                                <field name="code" string="Ref. Originale"/>
+                                <field name="reference_filter"/>
+                            </group>
+                            <group>
+                                <field name="filter_marque"/>
+                                <field name="filter_type"/>
+                            </group>
+                        </group>
+                    </div>
+                </div>
+            </xpath>
         </field>
     </record>
 

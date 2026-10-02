@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Entrée dans le Portail Client /my -->
+    <template id="portal_my_home_pre_orders" name="Mes Pré-commandes" inherit_id="portal.portal_my_home" priority="30">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Pré-commandes</t>
+                <t t-set="url" t-value="'/mes-precommandes'"/>
+                <t t-set="text">Consultez l'historique et le statut de vos pré-commandes</t>
+                <t t-set="placeholder_count" t-value="'pre_order_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <!-- Fil d'Ariane (Breadcrumbs) -->
+    <template id="portal_my_home_menu_pre_order" name="Fil d'Ariane Pré-commandes" inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'pre_orders' or page_name == 'pre_order_detail'" class="breadcrumb-item">
+                <a t-if="page_name == 'pre_order_detail'" href="/mes-precommandes">Pré-commandes</a>
+                <t t-else="">Pré-commandes</t>
+            </li>
+            <li t-if="page_name == 'pre_order_detail'" class="breadcrumb-item active">
+                <t t-out="pre_order.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- Page Historique des Pré-commandes (/mes-precommandes) -->
+    <template id="portal_my_pre_orders" name="Historique de mes Pré-commandes">
+        <t t-call="portal.portal_layout">
+            <t t-set="my_details" t-value="False"/>
+            <div class="container py-4">
+                
+                <!-- En-tête -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <h2 class="fw-bold mb-1 text-primary">
+                            <i class="fa fa-shopping-basket me-2"></i>Mes Pré-commandes
+                        </h2>
+                        <p class="text-muted mb-0 small">
+                            Retrouvez l'historique de l'ensemble de vos demandes et pré-commandes en ligne.
+                        </p>
+                    </div>
+                    <div class="mt-2 mt-sm-0">
+                        <a href="/boutique" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                            <i class="fa fa-plus-circle me-1"></i> Nouvelle commande
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Liste ou état vide -->
+                <t t-if="not pre_orders">
+                    <div class="card border-0 shadow-sm rounded-4 text-center py-5 my-4 bg-light">
+                        <div class="card-body">
+                            <i class="fa fa-folder-open-o fa-4x text-muted mb-3 opacity-50"></i>
+                            <h4 class="fw-bold text-dark">Aucune pré-commande trouvée</h4>
+                            <p class="text-muted mb-4">
+                                Vous n'avez pas encore enregistré de pré-commande sur notre boutique.
+                            </p>
+                            <a href="/boutique" class="btn btn-primary rounded-pill px-4">
+                                Explorer le catalogue
+                            </a>
+                        </div>
+                    </div>
+                </t>
+
+                <t t-else="">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light text-uppercase small text-muted">
+                                    <tr>
+                                        <th class="ps-4">Référence</th>
+                                        <th>Date</th>
+                                        <th class="text-center">Articles</th>
+                                        <t t-if="can_see_prices">
+                                            <th class="text-end">Montant Total</th>
+                                        </t>
+                                        <th class="text-center">Statut</th>
+                                        <th class="text-end pe-4">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="pre_orders" t-as="order">
+                                        <tr>
+                                            <td class="ps-4 fw-bold text-primary">
+                                                <a t-attf-href="/mes-precommandes/#{order.id}" class="text-decoration-none">
+                                                    <t t-out="order.name"/>
+                                                </a>
+                                            </td>
+                                            <td class="text-muted small">
+                                                <t t-out="order.date" t-options="{'widget': 'datetime', 'format': 'dd/MM/yyyy HH:mm'}"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill px-2 py-1">
+                                                    <t t-out="order.lines_count"/> article(s)
+                                                </span>
+                                            </td>
+                                            <t t-if="can_see_prices">
+                                                <td class="text-end fw-bold text-dark">
+                                                    <t t-out="'%.2f' % order.amount_total"/>
+                                                </td>
+                                            </t>
+                                            <td class="text-center">
+                                                <t t-if="order.state == 'draft'">
+                                                    <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill px-3 py-1">En attente</span>
+                                                </t>
+                                                <t t-elif="order.state == 'sent'">
+                                                    <span class="badge bg-info-subtle text-info-emphasis rounded-pill px-3 py-1">Envoyé</span>
+                                                </t>
+                                                <t t-elif="order.state == 'confirmed'">
+                                                    <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill px-3 py-1">Confirmé</span>
+                                                </t>
+                                                <t t-elif="order.state == 'converted'">
+                                                    <span class="badge bg-success-subtle text-success-emphasis rounded-pill px-3 py-1">Converti en vente</span>
+                                                </t>
+                                                <t t-elif="order.state == 'cancelled'">
+                                                    <span class="badge bg-danger-subtle text-danger-emphasis rounded-pill px-3 py-1">Annulé</span>
+                                                </t>
+                                            </td>
+                                            <td class="text-end pe-4">
+                                                <a t-attf-href="/mes-precommandes/#{order.id}" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                                    <i class="fa fa-eye me-1"></i> Détails
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+
+            </div>
+        </t>
+    </template>
+
+    <!-- Page Détail d'une Pré-commande (/mes-precommandes/<id>) -->
+    <template id="portal_my_pre_order_detail" name="Détails de ma Pré-commande">
+        <t t-call="portal.portal_layout">
+            <t t-set="my_details" t-value="False"/>
+            <div class="container py-4">
+
+                <!-- En-tête avec bouton retour -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <a href="/mes-precommandes" class="btn btn-outline-secondary rounded-circle me-3" style="width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <div>
+                            <h2 class="fw-bold mb-0 text-primary">
+                                Pré-commande <t t-out="pre_order.name"/>
+                            </h2>
+                            <span class="text-muted small">
+                                Enregistrée le <t t-out="pre_order.date" t-options="{'widget': 'datetime', 'format': 'dd/MM/yyyy à HH:mm'}"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-2 mt-sm-0">
+                        <t t-if="pre_order.state == 'draft'">
+                            <span class="badge bg-warning-subtle text-warning-emphasis fs-6 rounded-pill px-3 py-2">En attente</span>
+                        </t>
+                        <t t-elif="pre_order.state == 'sent'">
+                            <span class="badge bg-info-subtle text-info-emphasis fs-6 rounded-pill px-3 py-2">Envoyé par email</span>
+                        </t>
+                        <t t-elif="pre_order.state == 'confirmed'">
+                            <span class="badge bg-primary-subtle text-primary-emphasis fs-6 rounded-pill px-3 py-2">Confirmé</span>
+                        </t>
+                        <t t-elif="pre_order.state == 'converted'">
+                            <span class="badge bg-success-subtle text-success-emphasis fs-6 rounded-pill px-3 py-2">Converti en commande</span>
+                        </t>
+                        <t t-elif="pre_order.state == 'cancelled'">
+                            <span class="badge bg-danger-subtle text-danger-emphasis fs-6 rounded-pill px-3 py-2">Annulé</span>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Informations Client & Commande -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-light">
+                            <h6 class="fw-bold text-muted small text-uppercase mb-2">Coordonnées de livraison / contact</h6>
+                            <div class="fw-bold text-dark"><t t-out="pre_order.customer_name"/></div>
+                            <div class="small text-muted" t-if="pre_order.customer_phone">
+                                <i class="fa fa-phone me-1"></i><t t-out="pre_order.customer_phone"/>
+                            </div>
+                            <div class="small text-muted" t-if="pre_order.customer_email">
+                                <i class="fa fa-envelope me-1"></i><t t-out="pre_order.customer_email"/>
+                            </div>
+                            <div class="small text-muted" t-if="pre_order.customer_company">
+                                <i class="fa fa-building me-1"></i><t t-out="pre_order.customer_company"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 p-3 bg-light">
+                            <h6 class="fw-bold text-muted small text-uppercase mb-2">Notes &amp; Instructions</h6>
+                            <t t-if="pre_order.notes">
+                                <p class="small text-dark mb-0" style="white-space: pre-wrap;"><t t-out="pre_order.notes"/></p>
+                            </t>
+                            <t t-else="">
+                                <p class="small text-muted mb-0 fst-italic">Aucune note additionnelle spécifiée.</p>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tableau des articles commandés -->
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                    <div class="card-header bg-white py-3 border-0">
+                        <h5 class="fw-bold mb-0 text-dark">Articles commandés</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead class="table-light small text-muted text-uppercase">
+                                <tr>
+                                    <th class="ps-4">Article</th>
+                                    <th>Réf.</th>
+                                    <th class="text-center">Quantité</th>
+                                    <t t-if="can_see_prices">
+                                        <th class="text-end">Prix Unitaire</th>
+                                        <th class="text-end pe-4">Sous-total</th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="pre_order.line_ids" t-as="line">
+                                    <tr>
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <t t-if="line.product_id.image_128">
+                                                    <img t-attf-src="/web/image/sm_sales.product/#{line.product_id.id}/image_128"
+                                                         class="rounded me-3"
+                                                         style="width: 44px; height: 44px; object-fit: contain; background: #f8fafc; padding: 2px;"
+                                                         t-att-alt="line.product_id.name"/>
+                                                </t>
+                                                <div>
+                                                    <div class="fw-bold text-dark"><t t-out="line.product_id.name"/></div>
+                                                    <div class="small text-muted" t-if="line.description and line.description != line.product_id.name">
+                                                        <t t-out="line.description"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-muted small">
+                                            <t t-out="line.product_code or '-'"/>
+                                        </td>
+                                        <td class="text-center fw-bold">
+                                            <t t-out="'%g' % line.quantity"/>
+                                        </td>
+                                        <t t-if="can_see_prices">
+                                            <td class="text-end">
+                                                <t t-out="'%.2f' % line.price_unit"/>
+                                            </td>
+                                            <td class="text-end pe-4 fw-bold text-primary">
+                                                <t t-out="'%.2f' % line.price_subtotal"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <t t-if="can_see_prices">
+                                <tfoot class="table-light">
+                                    <tr>
+                                        <td colspan="4" class="text-end fw-bold py-3">Total estimé :</td>
+                                        <td class="text-end pe-4 py-3 fs-5 fw-bold text-primary">
+                                            <t t-out="'%.2f' % pre_order.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </t>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Footer Navigation -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="/mes-precommandes" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="fa fa-arrow-left me-1"></i> Retour à la liste
+                    </a>
+                    <a href="/boutique" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                        <i class="fa fa-shopping-basket me-1"></i> Continuer mes achats
+                    </a>
+                </div>
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

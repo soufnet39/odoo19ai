@@ -39,17 +39,17 @@ class ProductTemplate(models.Model):
     )
 
     moteur = fields.Many2one(
-        'motors',
+        'abdoo.motors',
         string='Moteur',
     )
 
     moteur_type = fields.Many2one(
-        'motor.types',
+        'abdoo.motor.types',
         string='Type Moteur',
     )
 
     filter_marque = fields.Many2one(
-        'filter.marques',
+        'abdoo.filter.marques',
         string='Marque de Filtre',
     )
 
@@ -65,9 +65,6 @@ class ProductTemplate(models.Model):
     )
 
    
-
-    _rec_names_search = ['name', 'code']
-
     # -------------------------------------------------------
     # Custom display_name
     # -------------------------------------------------------
@@ -75,16 +72,19 @@ class ProductTemplate(models.Model):
         string='Nom affiché',
         compute='_compute_display_name',
         store=True,
+        index=True,
     )
 
-    @api.depends('name', 'filter_marque.name', 'filter_type', 'age', 'carburant', 'moteur.name', 'moteur_type.name', 'code')
+    @api.depends('name', 'reference_filter', 'filter_marque.name', 'filter_type', 'age', 'carburant', 'moteur.name', 'moteur_type.name', 'code')
     def _compute_display_name(self):
         filter_type_labels = dict(self._fields['filter_type'].selection)
         age_labels = dict(self._fields['age'].selection)
         carburant_labels = dict(self._fields['carburant'].selection)
 
         for rec in self:
-            parts = [rec.name or '']           
+            parts = [rec.name or '']
+            if rec.reference_filter:
+                parts.append(rec.reference_filter)
             if rec.filter_marque:
                 parts.append(rec.filter_marque.name)
             if rec.filter_type:
@@ -108,119 +108,34 @@ class ProductTemplate(models.Model):
             self, data={'visible_columns': visible_columns or default}
         )
 
-    def _search_display_name(self, operator, value):
-        """Extend display_name search to cover all fields that compose it.
-        When the search phrase contains spaces, each word is required to appear
-        in display_name (AND logic). Example: "1.5 dci" → display_name contains
-        "1.5" AND display_name contains "dci".
-        """
-        positive_ops = ('ilike', 'like', '=', '=ilike', '=like')
+    # -------------------------------------------------------
+    # Custom Search (multi-word AND search on display_name)
+    # -------------------------------------------------------
+    @api.model
+    def name_search(self, name='', domain=None, operator='ilike', limit=100, **kwargs):
+        if name and operator in ('ilike', 'like', '=ilike', '=like'):
+            words = name.split()
+            if words:
+                name_domain = Domain.AND([Domain('display_name', 'ilike', word) for word in words])
+                full_domain = name_domain & Domain(domain or Domain.TRUE)
+                records = self.search_fetch(full_domain, ['display_name'], limit=limit)
+                return [(record.id, record.display_name) for record in records.sudo()]
+        return super().name_search(name=name, domain=domain, operator=operator, limit=limit, **kwargs)
 
-        # Multi-word AND search: split on spaces and require every chunk to match
-        if value and operator in positive_ops and isinstance(value, str) and ' ' in value:
-            chunks = value.split()
-            combined = Domain.TRUE
-            for chunk in chunks:
-                combined = combined & Domain(self._search_display_name(operator, chunk))
-            return combined
+    @api.model
+    def _search(self, domain, offset=0, limit=None, order=None, **kwargs):
+        domain = Domain(domain)
 
-        # Use name and code directly as the base domain instead of super()
-        # to avoid infinite recursion since sm_sales.product has _rec_name = 'display_name'
-        domain = Domain(['|', ('name', operator, value), ('code', operator, value)])
-        if value and operator in positive_ops:
-            # Char: direct search
-            domain = domain | Domain('reference_filter', operator, value)
+        def _split_conditions(c):
+            if (
+                c.field_expr in ('display_name', 'name')
+                and c.operator in ('ilike', 'like', '=ilike', '=like')
+                and isinstance(c.value, str)
+            ):
+                words = c.value.split()
+                if len(words) > 1:
+                    return Domain.AND([Domain('display_name', 'ilike', word) for word in words])
+            return c
 
-            # Many2one / Many2many: search by related record name
-            domain = domain | Domain('filter_marque.name', operator, value) \
-                            | Domain('moteur.name', operator, value) \
-                            | Domain('moteur_type.name', operator, value) \
-                            | Domain('maison.name', operator, value) \
-                            | Domain('maison.zone.name', operator, value)
-
-            # Selection: match against human-readable labels
-            val_lower = value.lower()
-            for sel_field in ('filter_type', 'age', 'carburant'):
-                labels = dict(self._fields[sel_field].selection)
-                if operator in ('ilike', '=ilike'):
-                    keys = [k for k, v in labels.items() if val_lower in v.lower()]
-                elif operator in ('like', '=like'):
-                    keys = [k for k, v in labels.items() if value in v]
-                else:  # '='
-                    keys = [k for k, v in labels.items() if v == value]
-                if keys:
-                    domain = domain | Domain(sel_field, 'in', keys)
-        return domain
-
-
-# class ProductProduct(models.Model):
-#     _inherit = 'product.product'
-
-#     @api.depends('product_tmpl_id.display_name')
-#     def _compute_display_name(self):
-#         for product in self:
-#             product.display_name = product.product_tmpl_id.display_name or product.name
-
-#     def name_search(self, name='', domain=None, operator='ilike', limit=100):
-#         """Extend product.product search to include abdoo extra fields."""
-#         results = super().name_search(name, domain, operator, limit)
-#         positive_ops = ('ilike', 'like', '=', '=ilike', '=like')
-#         if name and operator in positive_ops:
-#             existing_ids = {r[0] for r in results}
-#             base_domain = Domain(domain or Domain.TRUE)
-
-#             # Build AND domain across space-separated chunks
-#             if isinstance(name, str) and ' ' in name:
-#                 chunks = name.split()
-#                 name_domain = Domain.TRUE
-#                 for chunk in chunks:
-#                     name_domain = name_domain & Domain('display_name', operator, chunk)
-#             else:
-#                 name_domain = Domain('display_name', operator, name)
-
-#             extra = self.search_fetch(
-#                 base_domain & name_domain,
-#                 ['display_name'],
-#                 limit=limit,
-#             )
-#             extra_pairs = [(p.id, p.display_name) for p in extra if p.id not in existing_ids]
-#             results = (results + extra_pairs)[:limit] if limit else results + extra_pairs
-#         return results
-
-#     def _search_display_name(self, operator, value):
-#         """Mirror ProductTemplate._search_display_name for product.product searches.
-
-#         When the search phrase contains spaces, each word is required to appear
-#         in display_name (AND logic).
-#         """
-#         positive_ops = ('ilike', 'like', '=', '=ilike', '=like')
-
-#         # Multi-word AND search: split on spaces and require every chunk to match
-#         if value and operator in positive_ops and isinstance(value, str) and ' ' in value:
-#             chunks = value.split()
-#             combined = Domain.TRUE
-#             for chunk in chunks:
-#                 combined = combined & Domain(self._search_display_name(operator, chunk))
-#             return combined
-
-#         domain = Domain(super()._search_display_name(operator, value))
-#         if value and operator in positive_ops:
-#             domain = domain | Domain('product_tmpl_id.reference_filter', operator, value)
-
-#             domain = domain | Domain('filter_marque.display_name', operator, value) \
-#                             | Domain('moteur.display_name', operator, value) \
-#                             | Domain('moteur_type.display_name', operator, value) \
-#                             | Domain('product_tmpl_id.maison.zone.name', operator, value)
-
-#             val_lower = value.lower()
-#             for sel_field in ('filter_type', 'age', 'carburant'):
-#                 labels = dict(self.env['product.template']._fields[sel_field].selection)
-#                 if operator in ('ilike', '=ilike'):
-#                     keys = [k for k, v in labels.items() if val_lower in v.lower()]
-#                 elif operator in ('like', '=like'):
-#                     keys = [k for k, v in labels.items() if value in v]
-#                 else:  # '='
-#                     keys = [k for k, v in labels.items() if v == value]
-#                 if keys:
-#                     domain = domain | Domain(sel_field, 'in', keys)
-#         return domain
+        domain = domain.map_conditions(_split_conditions)
+        return super()._search(domain, offset=offset, limit=limit, order=order, **kwargs)

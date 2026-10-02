@@ -15,7 +15,7 @@
                 <field name="purchase_count"/>
                 <field name="total_purchase" sum="Total"/>
                 <field name="total_payment" sum="Total"/>
-                <field name="balance" sum="Total"/>
+                <field name="balance" sum="Total"  decoration-success="balance == 0" decoration-danger="balance != 0"/>
             </list>
         </field>
     </record>

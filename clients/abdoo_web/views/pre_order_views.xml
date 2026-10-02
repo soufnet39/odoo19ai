@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Recherche / Filtres pré-commandes -->
+    <record id="view_abdoo_web_pre_order_search" model="ir.ui.view">
+        <field name="name">abdoo_web.pre_order.search</field>
+        <field name="model">abdoo_web.pre_order</field>
+        <field name="arch" type="xml">
+            <search string="Recherche Pré-commandes">
+                <field name="name" string="Référence"/>
+                <field name="customer_name" string="Client"/>
+                <field name="customer_email" string="Email"/>
+                <field name="customer_phone" string="Téléphone"/>
+                <filter name="my_pre_orders" string="Mes Pré-commandes" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="filter_draft" string="En attente" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_sent" string="Envoyés par email" domain="[('state', '=', 'sent')]"/>
+                <filter name="filter_confirmed" string="Confirmés" domain="[('state', '=', 'confirmed')]"/>
+                <filter name="filter_converted" string="Convertis en vente" domain="[('state', '=', 'converted')]"/>
+                <separator/>
+                <filter string="État" name="group_by_state" context="{'group_by': 'state'}"/>
+                <filter string="Date" name="group_by_date" context="{'group_by': 'date:day'}"/>
+                <filter string="Client" name="group_by_customer" context="{'group_by': 'partner_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Vue liste pré-commandes -->
+    <record id="view_abdoo_web_pre_order_list" model="ir.ui.view">
+        <field name="name">abdoo_web.pre_order.list</field>
+        <field name="model">abdoo_web.pre_order</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancelled'"
+                  decoration-info="state == 'sent'"
+                  decoration-warning="state == 'draft'"
+                  decoration-success="state in ('confirmed', 'converted')">
+                <field name="name" string="Référence"/>
+                <field name="date"/>
+                <field name="customer_name"/>
+                <field name="customer_phone"/>
+                <field name="customer_company" optional="show"/>
+                <field name="lines_count"/>
+                <field name="amount_total" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'sent'"
+                       decoration-warning="state == 'draft'"
+                       decoration-success="state in ('confirmed', 'converted')"
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue formulaire pré-commande -->
+    <record id="view_abdoo_web_pre_order_form" model="ir.ui.view">
+        <field name="name">abdoo_web.pre_order.form</field>
+        <field name="model">abdoo_web.pre_order</field>
+        <field name="arch" type="xml">
+            <form string="Pré-commande Web">
+                <header>
+                    <button name="action_send_email"
+                            type="object"
+                            string="Envoyer par email"
+                            class="btn-primary"
+                            invisible="state in ('converted', 'cancelled')"/>
+                    <button name="action_confirm"
+                            type="object"
+                            string="Confirmer"
+                            class="btn-secondary"
+                            invisible="state not in ('draft', 'sent')"/>
+                    <button name="action_create_sale_order"
+                            type="object"
+                            string="Convertir en commande vente"
+                            class="btn-success"
+                            invisible="state in ('converted', 'cancelled')"/>
+                    <button name="action_cancel"
+                            type="object"
+                            string="Annuler"
+                            invisible="state in ('converted', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed,converted"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label">Pré-commande Web</span>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Coordonnées Client">
+                            <field name="partner_id"/>
+                            <field name="customer_name"/>
+                            <field name="customer_phone"/>
+                            <field name="customer_email"/>
+                            <field name="customer_company"/>
+                        </group>
+                        <group string="Détails Pré-commande">
+                            <field name="date"/>
+                            <field name="user_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="has_prices" invisible="1"/>
+                            <field name="sale_order_id" invisible="not sale_order_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Articles commandés" name="order_lines">
+                            <field name="line_ids" mode="list,kanban">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="product_code"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="price_subtotal"/>
+                                </list>
+                            </field>
+                            <group col="6" class="mt-2 mt-md-0">
+                                <group colspan="4">
+                                    <field name="notes" placeholder="Remarques additionnelles ou notes du client..."/>
+                                </group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="pre_order_total" invisible="not has_prices">
+                                    <field name="amount_total"/>
+                                </group>
+                                <div class="clearfix"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action de fenêtre -->
+    <record id="action_abdoo_web_pre_order" model="ir.actions.act_window">
+        <field name="name">Pré-commandes Web</field>
+        <field name="res_model">abdoo_web.pre_order</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_abdoo_web_pre_order_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucune pré-commande enregistrée pour le moment.
+            </p>
+            <p>
+                Les commandes passées par les visiteurs et clients depuis le catalogue e-commerce apparaîtront ici.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem
+        id="menu_abdoo_web_pre_order_abdoo"
+        name="Pré-commandes Web"
+        parent="abdoo.menu_abdoo_root"
+        action="action_abdoo_web_pre_order"
+        sequence="2"
+    />
+
+    <menuitem
+        id="menu_abdoo_web_pre_order_sales"
+        name="Pré-commandes Web"
+        parent="sm_sales.menu_sm_sales_root"
+        action="action_abdoo_web_pre_order"
+        sequence="9"
+    />
+
+</odoo>

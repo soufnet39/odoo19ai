@@ -5,6 +5,5 @@ from . import motors
 from . import motor_types
 from . import filter_marques
 from . import product
-# from . import sale_order
-# from . import purchase_order
-# from . import stock_picking
+from . import order
+from . import report_sale_order_abdoo

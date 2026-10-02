@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_abdoo_web_pre_order_user,abdoo_web.pre_order.user,model_abdoo_web_pre_order,base.group_user,1,1,1,1
+access_abdoo_web_pre_order_portal,abdoo_web.pre_order.portal,model_abdoo_web_pre_order,base.group_portal,1,0,1,0
+access_abdoo_web_pre_order_public,abdoo_web.pre_order.public,model_abdoo_web_pre_order,base.group_public,0,0,1,0
+access_abdoo_web_pre_order_lines_user,abdoo_web.pre_order.lines.user,model_abdoo_web_pre_order_lines,base.group_user,1,1,1,1
+access_abdoo_web_pre_order_lines_portal,abdoo_web.pre_order.lines.portal,model_abdoo_web_pre_order_lines,base.group_portal,1,0,1,0
+access_abdoo_web_pre_order_lines_public,abdoo_web.pre_order.lines.public,model_abdoo_web_pre_order_lines,base.group_public,0,0,1,0

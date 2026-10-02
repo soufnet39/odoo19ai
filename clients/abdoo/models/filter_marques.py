@@ -3,7 +3,7 @@ from odoo import models, fields
 
 
 class FilterMarques(models.Model):
-    _name = 'filter.marques'
+    _name = 'abdoo.filter.marques'
     _description = 'Marque de Filtre'
     _order = 'name'
 

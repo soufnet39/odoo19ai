@@ -38,6 +38,7 @@
        
     ],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/zones_views.xml',
         'views/maison_marques_views.xml',
@@ -45,12 +46,11 @@
         'views/motor_types_views.xml',
         'views/filter_marques_views.xml',
         'views/product_views.xml',
-        # 'views/order_line_rank_views.xml',
-        # 'views/purchase_views.xml',
         'views/abdoo_menus.xml',
+        'views/sale_order_views.xml',
+        'report/sale_order_abdoo_report.xml',
         # 'views/listing.xml',
         # 'report/order_line_rank_report.xml',
-        # 'report/sale_order_abdoo_report.xml',
     ],
     'assets': {
         'web.assets_backend': [
